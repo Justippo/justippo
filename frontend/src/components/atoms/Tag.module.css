@@ -1,0 +1,49 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--stitch-unit);
+  padding: 2px var(--stitch-spacing-xs);
+  font-size: var(--stitch-text-sm);
+  line-height: var(--leading-label-sm);
+  border-radius: var(--stitch-radius-full);
+  white-space: nowrap;
+}
+
+.default {
+  background-color: var(--stitch-surface-container);
+  color: var(--stitch-on-surface);
+}
+
+.primary {
+  background-color: var(--stitch-primary-fixed);
+  color: var(--stitch-primary);
+}
+
+.success {
+  background-color: var(--stitch-success);
+  color: var(--stitch-on-primary);
+}
+
+.error {
+  background-color: var(--stitch-error-container);
+  color: var(--stitch-on-error-container);
+}
+
+.removeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: var(--stitch-text-base);
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.removeButton:hover {
+  opacity: 1;
+}

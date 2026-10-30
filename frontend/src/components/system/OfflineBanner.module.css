@@ -1,0 +1,8 @@
+.banner {
+  padding: var(--stitch-spacing-sm) var(--stitch-spacing-md);
+  background-color: var(--stitch-warning);
+  color: var(--stitch-on-primary);
+  border-radius: var(--stitch-radius-xl);
+  font-size: var(--stitch-text-sm);
+  margin-bottom: var(--stitch-spacing-md);
+}

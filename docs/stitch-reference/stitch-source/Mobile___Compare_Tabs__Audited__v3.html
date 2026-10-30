@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU | Document Comparison</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;800&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#efeeed",
+                    "on-surface": "#1a1c1c",
+                    "on-secondary-fixed-variant": "#464747",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "surface": "#faf9f8",
+                    "secondary-fixed": "#e4e2e1",
+                    "surface-container-high": "#e9e8e7",
+                    "background": "#faf9f8",
+                    "on-secondary-container": "#626262",
+                    "warning": "#F47738",
+                    "surface-container-low": "#f4f3f2",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "secondary": "#5e5e5e",
+                    "success": "#00703C",
+                    "primary-fixed-dim": "#a0caff",
+                    "inverse-surface": "#2f3130",
+                    "focus": "#FFDD00",
+                    "outline": "#717782",
+                    "on-primary": "#ffffff",
+                    "primary": "#005796",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#0061a6",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#1d70b8",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface-container-highest": "#e3e2e1",
+                    "secondary-container": "#e1dfdf",
+                    "tertiary": "#824600",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "error": "#D4351C",
+                    "border-subtle": "#B1B4B6",
+                    "surface-bright": "#faf9f8",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#a0caff",
+                    "on-surface-variant": "#414751",
+                    "surface-dim": "#dadad9",
+                    "on-primary-container": "#e9f1ff",
+                    "outline-variant": "#c1c7d2",
+                    "on-background": "#1a1c1c",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-tertiary-container": "#ffede2",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#a55a00",
+                    "on-primary-fixed-variant": "#00497e",
+                    "on-primary-fixed": "#001c37",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e3e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #faf9f8;
+            color: #1a1c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .diff-added {
+            background-color: #e7f3ec;
+            border-left: 4px solid #00703C;
+        }
+        .diff-removed {
+            background-color: #fbebed;
+            border-left: 4px solid #D4351C;
+        }
+        .sticky-top-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #B1B4B6;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface border-b border-border-subtle flex items-center justify-between px-md py-sm z-50">
+<div class="flex items-center gap-md">
+<button class="transition-colors duration-200 active:bg-surface-container-high p-xs rounded-lg">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary">EvidenceEU</h1>
+</div>
+<div class="flex items-center gap-sm">
+<button class="transition-colors duration-200 active:bg-surface-container-high p-xs rounded-lg">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</button>
+</div>
+</header>
+<main class="flex-grow pb-24">
+<!-- Sticky Stats Panel -->
+<section class="sticky top-[56px] z-30 bg-surface shadow-sm border-b border-border-subtle px-md py-sm">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-on-surface-variant">Comparison ID: EU-2024-882</span>
+<h2 class="font-headline-md text-headline-md">v1.2 vs v1.4 Final</h2>
+</div>
+<div class="bg-primary-container text-on-primary-container px-sm py-xs rounded-xl flex items-center gap-xs"><span class="font-label-sm border-r border-on-primary-container/30 pr-xs mr-xs">EU-2024-882</span>
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm font-bold">94% Match</span>
+</div>
+</div>
+<div class="flex gap-md mt-md overflow-x-auto no-scrollbar"><div class="flex items-center gap-xs whitespace-nowrap"><span class="w-3 h-3 rounded-full bg-outline-variant"></span><span class="font-label-sm">Same: <span class="font-bold">12</span></span></div><div class="flex items-center gap-xs whitespace-nowrap"><span class="w-3 h-3 rounded-full" style="background-color: #14532d"></span><span class="font-label-sm">[ADDED] Added: <span class="font-bold" style="color: #14532d">3</span></span></div><div class="flex items-center gap-xs whitespace-nowrap"><span class="w-3 h-3 rounded-full" style="background-color: #7f1d1d"></span><span class="font-label-sm">[REMOVED] Removed: <span class="font-bold" style="color: #7f1d1d">1</span></span></div><div class="flex items-center gap-xs whitespace-nowrap"><span class="w-3 h-3 rounded-full" style="background-color: #F47738"></span><span class="font-label-sm">[CHANGED] Modified: <span class="font-bold" style="color: #F47738">2</span></span></div></div>
+</section>
+<!-- Tabbed Navigation -->
+<nav class="flex border-b border-border-subtle bg-surface-container-low px-md overflow-x-auto no-scrollbar"><button class="flex-1 py-md text-center font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors border-b-4 border-transparent focus-visible:ring-3 focus-visible:ring-[#1d70b8] focus-visible:outline-none">Side by Side</button><button class="flex-1 py-md text-center font-label-md text-[#1d4ed8] border-b-4 border-[#1d4ed8] bg-white shadow-inner focus-visible:ring-3 focus-visible:ring-[#1d70b8] focus-visible:outline-none">Inline Diff</button><button class="flex-1 py-md text-center font-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors border-b-4 border-transparent focus-visible:ring-3 focus-visible:ring-[#1d70b8] focus-visible:outline-none">Source Only</button></nav>
+<!-- Diff Content Area -->
+<article class="p-md space-y-md">
+<!-- Context Block -->
+<div class="bg-white border border-border-subtle p-md rounded-lg">
+<div class="flex items-center gap-sm mb-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">article</span>
+<span class="font-label-sm uppercase tracking-wider font-bold">Clause 4.1: Jurisdiction</span>
+</div>
+<p class="font-body-md text-on-surface leading-relaxed">
+                    The parties hereby irrevocably submit to the exclusive jurisdiction of the European Court of Justice for the resolution of any dispute.
+                </p>
+</div>
+<!-- Inline Diff Block: Added/Removed -->
+<table aria-label="Clause 5.3: Data Sovereignty Comparison" class="w-full bg-white border border-border-subtle rounded-lg overflow-hidden border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-border-subtle">
+<th class="px-md py-xs text-left font-label-sm font-bold text-on-secondary-fixed-variant" colspan="2">Clause 5.3: Data Sovereignty</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr>
+<td class="p-md font-body-md text-on-surface" colspan="2">All collected data within the scope of this agreement must be stored in data centers located physically within the European Economic Area (EEA).</td>
+</tr>
+<tr aria-label="[REMOVED] Original content (v1.2)" style="background-color: #fef2f2; border-left: 4px solid #7f1d1d"><td class="p-md"><div class="flex items-center gap-xs mb-xs"><span class="text-[10px] px-1 font-bold rounded" style="background-color: #991b1b; color: white;">REMOVED</span><span class="font-label-sm font-bold" style="color: #7f1d1d">v1.2 Original</span></div><p class="font-body-md text-on-surface line-through decoration-error/50">[REMOVED] Storage facilities in associate member states may be utilized upon prior written notification to the Commission Oversight Board.</p></td></tr>
+<tr aria-label="[ADDED] Updated content (v1.4)" style="background-color: #dcfce7; border-left: 4px solid #14532d"><td class="p-md"><div class="flex items-center gap-xs mb-xs"><span class="text-[10px] px-1 font-bold rounded" style="background-color: #065f46; color: white;">ADDED</span><span class="font-label-sm font-bold" style="color: #14532d">v1.4 Update</span></div><p class="font-body-md text-on-surface">[ADDED] Storage is strictly prohibited in non-EU territories, including associate states, unless a bilateral equivalence treaty is formally ratified. <span class="font-bold underline">No exceptions for metadata.</span></p></td></tr>
+<tr>
+<td class="p-md font-body-md text-on-surface" colspan="2">The Node Administrator shall provide quarterly audit logs confirming physical site addresses.</td>
+</tr>
+</tbody>
+</table>
+<!-- Bento Card Style: Metadata -->
+<div class="grid grid-cols-2 gap-sm">
+<div class="bg-white border border-border-subtle p-md rounded-lg flex flex-col justify-between">
+<span class="font-label-sm text-on-surface-variant block mb-sm">Last Modified</span>
+<div>
+<span class="material-symbols-outlined text-primary mb-xs">event</span>
+<p class="font-label-md text-on-surface">24 Oct 2023</p>
+</div>
+</div>
+<div class="bg-white border border-border-subtle p-md rounded-lg flex flex-col justify-between">
+<span class="font-label-sm text-on-surface-variant block mb-sm">Signatory Status</span>
+<div>
+<span class="material-symbols-outlined text-success mb-xs">check_circle</span>
+<p class="font-label-md text-on-surface">3 of 4 Pending</p>
+</div>
+</div>
+</div>
+<!-- Another Diff Example -->
+<div class="bg-white border border-border-subtle rounded-lg overflow-hidden">
+<div class="bg-surface-container px-md py-xs border-b border-border-subtle">
+<span class="font-label-sm font-bold text-on-secondary-fixed-variant">Clause 8.1: Termination</span>
+</div>
+<div class="p-md">
+<p class="font-body-md text-on-surface">Termination requires <span aria-label="[REMOVED] Original text: 30 days" class="px-1 line-through" style="background-color: #fef2f2; color: #7f1d1d">[REMOVED: 30 days]</span> <span aria-label="[ADDED] Updated text: 90 days" class="font-bold px-1" style="background-color: #dcfce7; color: #14532d">[ADDED: 90 days]</span> notice period.</p>
+</div>
+</div>
+</article>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-container border-t border-border-subtle flex justify-around items-center w-full h-16 pb-safe px-sm">
+<a class="flex flex-col items-center justify-center text-on-secondary-container transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-sm text-label-sm">Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-sm py-xs transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-sm text-label-sm">Documents</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">manage_search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">g_translate</span>
+<span class="font-label-sm text-label-sm">Translate</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-secondary-container transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('nav button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Simplistic toggle logic for demo
+                document.querySelectorAll('nav button').forEach(b => {
+                    b.classList.remove('text-primary', 'border-b-4', 'border-primary', 'bg-white', 'shadow-inner');
+                    b.classList.add('text-on-surface-variant');
+                });
+                this.classList.remove('text-on-surface-variant');
+                this.classList.add('text-primary', 'border-b-4', 'border-primary', 'bg-white', 'shadow-inner');
+            });
+        });
+
+        // Add visual feedback on clicks
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) {
+                btn.classList.add('opacity-70');
+                setTimeout(() => btn.classList.remove('opacity-70'), 150);
+            }
+        });
+    </script>
+</body></html>

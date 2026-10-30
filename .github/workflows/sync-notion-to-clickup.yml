@@ -1,0 +1,256 @@
+name: Sync Notion → ClickUp
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: notion-to-clickup-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: [self-hosted, macOS, ARM64]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure SSL certificates
+        run: |
+          python3 -m pip install --quiet --break-system-packages certifi
+          echo "SSL_CERT_FILE=$(python3 -c 'import certifi; print(certifi.where())')" >> $GITHUB_ENV
+
+      - name: Sync Notion → ClickUp
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          CLICKUP_API_TOKEN: ${{ secrets.CLICKUP_API_TOKEN }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import re
+          import sys
+          import time
+          import urllib.request
+          import urllib.error
+
+          # ── Config ───────────────────────────────────────────────────────
+          NOTION_TOKEN = os.environ["NOTION_TOKEN"]
+          CLICKUP_TOKEN = os.environ["CLICKUP_API_TOKEN"]
+          NOTION_DB_ID = "38cbf1cf330681b484d0c68d7fc9505c"
+          CLICKUP_FOLDER_ID = "901211405830"
+
+          NOTION_TO_CLICKUP_STATUS = {
+              "Done": "complete",
+              "In Progress": "in progress",
+              "To Do": "to do",
+          }
+
+          NOTION_TO_CLICKUP_PRIORITY = {
+              "Critical": 1,
+              "High": 2,
+              "Medium": 3,
+              "Low": 4,
+          }
+
+          # ── API helpers ──────────────────────────────────────────────────
+
+          def notion_request(method, path, body=None):
+              data = json.dumps(body).encode() if body else None
+              headers = {
+                  "Authorization": f"Bearer {NOTION_TOKEN}",
+                  "Notion-Version": "2022-06-28",
+              }
+              if data:
+                  headers["Content-Type"] = "application/json"
+              req = urllib.request.Request(
+                  f"https://api.notion.com{path}",
+                  data=data,
+                  method=method,
+                  headers=headers,
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      raw = resp.read().decode("utf-8")
+                      return json.loads(raw) if raw else {}
+              except urllib.error.HTTPError as exc:
+                  raw = exc.read().decode("utf-8", errors="replace")
+                  print(f"Notion {method} {path} failed HTTP {exc.code}: {raw[:500]}")
+                  raise
+
+          def notion_query_all(filter_obj=None):
+              pages = []
+              start_cursor = None
+              while True:
+                  body = {"page_size": 100}
+                  if filter_obj:
+                      body["filter"] = filter_obj
+                  if start_cursor:
+                      body["start_cursor"] = start_cursor
+                  resp = notion_request("POST", f"/v1/databases/{NOTION_DB_ID}/query", body)
+                  pages.extend(resp.get("results", []))
+                  if not resp.get("has_more"):
+                      break
+                  start_cursor = resp.get("next_cursor")
+                  time.sleep(0.35)
+              return pages
+
+          def clickup_request(method, path, body=None):
+              data = json.dumps(body).encode() if body else None
+              headers = {
+                  "Authorization": CLICKUP_TOKEN,
+              }
+              if data:
+                  headers["Content-Type"] = "application/json"
+              req = urllib.request.Request(
+                  f"https://api.clickup.com/api/v2{path}",
+                  data=data,
+                  method=method,
+                  headers=headers,
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      raw = resp.read().decode("utf-8")
+                      return json.loads(raw) if raw else {}
+              except urllib.error.HTTPError as exc:
+                  raw = exc.read().decode("utf-8", errors="replace")
+                  print(f"ClickUp {method} {path} failed HTTP {exc.code}: {raw[:500]}")
+                  raise
+
+          def fetch_clickup_tasks():
+              tasks = []
+              page = 0
+              while True:
+                  resp = clickup_request(
+                      "GET",
+                      f"/team/90121672895/task?include_closed=true&page={page}",
+                  )
+                  batch = resp.get("tasks", [])
+                  tasks.extend(batch)
+                  if len(batch) < 100:
+                      break
+                  page += 1
+              return tasks
+
+          # ── Matching helpers ─────────────────────────────────────────────
+
+          _EMOJI_RE = re.compile(
+              r"[\u2600-\u27BF\u2702-\u27B0\uFE00-\uFE0F\U0001F000-\U0001FFFF]+",
+              re.UNICODE,
+          )
+          _PREFIX_RE = re.compile(
+              r"^(?:us-\d+:|evaluate\s+|team\s+decision:?)\s*", re.I
+          )
+
+          def normalize_name(name):
+              name = _EMOJI_RE.sub("", name)
+              name = _PREFIX_RE.sub("", name)
+              return " ".join(name.lower().split())
+
+          def extract_github_refs(text):
+              return re.findall(r"#(\d+)", text)
+
+          def get_notion_field(page, field_name, field_type):
+              prop = page.get("properties", {}).get(field_name, {})
+              if field_type == "title":
+                  parts = prop.get("title", [])
+                  return "".join(p.get("plain_text", "") for p in parts)
+              elif field_type == "rich_text":
+                  parts = prop.get("rich_text", [])
+                  return "".join(p.get("plain_text", "") for p in parts)
+              elif field_type == "status":
+                  return prop.get("status", {}).get("name", "To Do")
+              elif field_type == "select":
+                  sel = prop.get("select")
+                  return sel.get("name") if sel else None
+              return None
+
+          def build_indices(clickup_tasks):
+              by_ref = {}
+              by_name = {}
+              for t in clickup_tasks:
+                  combined = t["name"] + " " + (t.get("description") or "")
+                  for ref in extract_github_refs(combined):
+                      by_ref[ref] = t
+                  by_name[normalize_name(t["name"])] = t
+              return by_ref, by_name
+
+          def match_task(notion_page, by_ref, by_name):
+              gh_text = get_notion_field(notion_page, "GitHub", "rich_text")
+              for ref in extract_github_refs(gh_text):
+                  if ref in by_ref:
+                      return by_ref[ref]
+              notion_name = get_notion_field(notion_page, "Name", "title")
+              norm = normalize_name(notion_name)
+              if norm in by_name:
+                  return by_name[norm]
+              return None
+
+          # ── Main ─────────────────────────────────────────────────────────
+
+          def main():
+              print("Fetching Notion pages...")
+              notion_pages = notion_query_all()
+              print(f"  Notion pages: {len(notion_pages)}")
+
+              print("Fetching ClickUp tasks...")
+              all_cu = fetch_clickup_tasks()
+              clickup_tasks = [
+                  t for t in all_cu
+                  if t.get("folder", {}).get("id") == CLICKUP_FOLDER_ID
+              ]
+              print(f"  ClickUp tasks (EvidenceEU): {len(clickup_tasks)}")
+
+              by_ref, by_name = build_indices(clickup_tasks)
+              print(f"  ClickUp index: {len(by_ref)} refs, {len(by_name)} names")
+
+              updated = skipped = unmatched = 0
+              unmatched_names = []
+
+              for page in notion_pages:
+                  cu_task = match_task(page, by_ref, by_name)
+                  if not cu_task:
+                      unmatched += 1
+                      unmatched_names.append(
+                          get_notion_field(page, "Name", "title")
+                      )
+                      continue
+
+                  notion_status = get_notion_field(page, "Task Status", "status")
+                  notion_priority = get_notion_field(page, "Priority", "select")
+                  notion_desc = get_notion_field(page, "Description", "rich_text")
+
+                  new_status = NOTION_TO_CLICKUP_STATUS.get(notion_status)
+                  new_priority = NOTION_TO_CLICKUP_PRIORITY.get(notion_priority)
+                  cur_status = cu_task.get("status", {}).get("status", "")
+                  cur_priority = cu_task.get("priority", {}).get("id") if cu_task.get("priority") else None
+                  cur_desc = cu_task.get("description", "") or ""
+
+                  body = {}
+                  if new_status and new_status != cur_status:
+                      body["status"] = new_status
+                  if new_priority is not None and str(new_priority) != str(cur_priority or ""):
+                      body["priority"] = new_priority
+                  if notion_desc != cur_desc:
+                      body["description"] = notion_desc
+
+                  if body:
+                      clickup_request("PUT", f"/task/{cu_task['id']}", body)
+                      updated += 1
+                      changed = ", ".join(body.keys())
+                      print(f"  UPDATED: {cu_task['name'][:50]} ({changed})")
+                      time.sleep(0.65)
+                  else:
+                      skipped += 1
+
+              print(f"\nSummary: updated={updated} skipped={skipped} unmatched={unmatched}")
+              if unmatched_names:
+                  print("Unmatched Notion pages:")
+                  for n in unmatched_names:
+                      print(f"  - {n}")
+
+          main()
+          PY

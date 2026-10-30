@@ -1,0 +1,104 @@
+name: Hide Empty Board Groups (Manual)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: notion-hide-empty
+  cancel-in-progress: false
+
+jobs:
+  hide:
+    runs-on: [self-hosted, macOS, ARM64]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure SSL certificates
+        run: |
+          python3 -m pip install --quiet --break-system-packages certifi
+          echo "SSL_CERT_FILE=$(python3 -c 'import certifi; print(certifi.where())')" >> $GITHUB_ENV
+
+      - name: Hide empty groups on board views
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          python3 <<'PY'
+          import json, os, sys, time, urllib.request, urllib.error
+
+          sys.path.insert(0, "scripts")
+          from notion_helpers import notion_request
+
+          DB_ID = os.environ.get("NOTION_DATABASE_ID", "38cbf1cf330681b484d0c68d7fc9505c")
+
+          # Step 1: Fetch the database block to find collection_view blocks
+          print("=== Fetching database children ===")
+          _, resp = notion_request("GET", f"/blocks/{DB_ID}/children?page_size=100")
+          blocks = resp.get("results", [])
+          print(f"Found {len(blocks)} child blocks")
+
+          # Find collection_view blocks (these are the views)
+          view_blocks = [b for b in blocks if b.get("type") == "collection_view"]
+          print(f"Found {len(view_blocks)} collection_view blocks")
+
+          for vb in view_blocks:
+              vb_id = vb["id"]
+              view_map = vb.get("collection_view", {}).get("view", {})
+              print(f"\n  Block {vb_id}:")
+              for vid, vconfig in view_map.items():
+                  vtype = vconfig.get("type", "?")
+                  vname = vconfig.get("name", "?")
+                  print(f"    View '{vname}' (type={vtype}, id={vid})")
+
+                  if vtype != "board":
+                      continue
+
+                  # Get the board config
+                  board_config = vconfig.get("board", {})
+                  group_by = board_config.get("group_by", {})
+
+                  if not group_by:
+                      print(f"      No group_by — skipping")
+                      continue
+
+                  print(f"      Current group_by: {json.dumps(group_by)[:200]}")
+                  group_by["hide_empty_groups"] = True
+
+                  # Update the view via block PATCH
+                  updated_view_config = dict(vconfig)
+                  updated_board = dict(board_config)
+                  updated_board["group_by"] = group_by
+                  updated_view_config["board"] = updated_board
+
+                  try:
+                      notion_request("PATCH", f"/blocks/{vb_id}", {
+                          "collection_view": {
+                              "view": {
+                                  vid: updated_view_config
+                              }
+                          }
+                      })
+                      print(f"      ✅ hide_empty_groups set to true")
+                  except Exception as e:
+                      print(f"      ❌ Failed: {e}")
+                      # Try alternative: update the view directly
+                      try:
+                          print(f"      Trying direct view update...")
+                          notion_request("PATCH", f"/blocks/{vb_id}", {
+                              "view": {
+                                  vid: {
+                                      "type": "board",
+                                      "board": updated_board
+                                  }
+                              }
+                          })
+                          print(f"      ✅ hide_empty_groups set to true (alt)")
+                      except Exception as e2:
+                          print(f"      ❌ Alt also failed: {e2}")
+
+                  time.sleep(0.35)
+
+          print("\nDone!")
+          PY

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Legal Translation Workbench</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#717782",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#001c37",
+                    "surface-bright": "#faf9f8",
+                    "tertiary-container": "#a55a00",
+                    "on-background": "#1a1c1c",
+                    "warning": "#F47738",
+                    "on-tertiary-fixed": "#2e1500",
+                    "surface-container-high": "#e9e8e7",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "surface-tint": "#0061a6",
+                    "surface-dim": "#dadad9",
+                    "inverse-on-surface": "#f1f0ef",
+                    "success": "#00703C",
+                    "tertiary": "#824600",
+                    "border-subtle": "#B1B4B6",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1d70b8",
+                    "background": "#faf9f8",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "on-primary-fixed-variant": "#00497e",
+                    "surface-container-low": "#f4f3f2",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-container": "#efeeed",
+                    "on-tertiary-container": "#ffede2",
+                    "surface-container-highest": "#e3e2e1",
+                    "error-container": "#ffdad6",
+                    "focus": "#FFDD00",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#e1dfdf",
+                    "on-surface-variant": "#414751",
+                    "outline-variant": "#c1c7d2",
+                    "secondary": "#5e5e5e",
+                    "on-secondary-fixed-variant": "#464747",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface": "#faf9f8",
+                    "on-surface": "#1a1c1c",
+                    "inverse-primary": "#a0caff",
+                    "on-primary-container": "#e9f1ff",
+                    "primary": "#005796",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "on-secondary-container": "#626262",
+                    "inverse-surface": "#2f3130",
+                    "surface-variant": "#e3e2e1",
+                    "primary-fixed-dim": "#a0caff",
+                    "error": "#D4351C"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "lg": "24px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-md": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "label-md": ["Public Sans"]
+            },
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { background-color: #F3F2F1; }
+        .document-canvas {
+            min-height: calc(100vh - 128px);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #B1B4B6; border-radius: 10px; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopNavBar Shell -->
+<nav class="flex justify-between items-center w-full px-lg h-16 bg-surface border-b border-border-subtle fixed top-0 z-50">
+<div class="flex items-center gap-lg">
+<span class="font-headline-md text-headline-md font-bold text-primary">EvidenceEU</span>
+<div class="hidden md:flex gap-md ml-lg">
+<a class="text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors px-md py-xs rounded">Dashboard</a>
+<a class="text-primary border-b-2 border-primary font-label-md text-label-md px-md py-xs">Cases</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors px-md py-xs rounded">Library</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs px-sm py-xs bg-surface-container-high rounded text-label-sm font-label-sm text-on-surface">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Auth: Logged in</span>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant p-xs hover:bg-surface-container-low rounded cursor-pointer transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant p-xs hover:bg-surface-container-low rounded cursor-pointer transition-colors" data-icon="help_outline">help_outline</button>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center border border-border-subtle">
+<span class="text-on-primary-fixed font-bold text-label-sm">JS</span>
+</div>
+</div>
+</nav>
+<div class="flex pt-16 h-screen overflow-hidden">
+<!-- SideNavBar Shell -->
+<aside class="flex flex-col h-full w-64 bg-surface-container-low border-r border-border-subtle py-md space-y-2 hidden md:flex">
+<div class="px-md mb-lg">
+<p class="font-label-md text-label-md font-black text-primary">LEGAL TRANSLATION</p>
+<p class="text-label-sm text-on-surface-variant">Active Case: FR-2024-082</p>
+</div>
+<nav class="flex-1 px-sm space-y-1">
+<button class="w-full flex items-center gap-md px-md py-md rounded text-on-surface-variant font-label-md text-label-md hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+                    Home
+                </button>
+<button class="w-full flex items-center gap-md px-md py-md rounded text-on-surface-variant font-label-md text-label-md hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+                    Chat
+                </button>
+<button class="w-full flex items-center gap-md px-md py-md rounded text-on-surface-variant font-label-md text-label-md hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+                    Library
+                </button>
+<button class="w-full flex items-center gap-md px-md py-md rounded text-primary font-bold bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="work">work</span>
+                    Cases
+                </button>
+<button class="w-full flex items-center gap-md px-md py-md rounded text-on-surface-variant font-label-md text-label-md hover:bg-secondary-container transition-all">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </button>
+</nav>
+<div class="mt-auto px-md py-md mx-md bg-warning/10 border border-warning/20 rounded-lg">
+<p class="text-[12px] font-bold text-warning uppercase tracking-wider mb-1">Status Notification</p>
+<p class="text-[13px] text-on-surface-variant leading-tight italic">"Reached from chat: 'Translate this section to DE'"</p>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background p-lg custom-scrollbar">
+<!-- Breadcrumbs & Utility Row -->
+<div class="flex justify-between items-center mb-lg">
+<div class="flex items-center gap-sm text-label-sm">
+<span class="text-on-surface-variant">Cases</span>
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+<span class="text-on-surface-variant">FR-2024-082</span>
+<span class="material-symbols-outlined text-[16px] text-outline">chevron_right</span>
+<span class="text-on-surface font-bold">Document Workbench</span>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-xs border-2 border-primary text-primary font-label-md rounded hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-[18px]">file_download</span>
+                        Export
+                    </button>
+<button class="flex items-center gap-xs px-md py-xs bg-primary-container text-on-primary font-label-md rounded shadow-sm hover:brightness-110 transition-all">
+<span class="material-symbols-outlined text-[18px]">publish</span>
+                        Commit Version
+                    </button>
+</div>
+</div>
+<!-- Bento Layout Workbench -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter document-canvas">
+<!-- Left Panel: EN Source -->
+<div class="flex flex-col bg-surface-container-lowest border border-border-subtle rounded-lg shadow-sm">
+<div class="flex items-center justify-between p-md border-b border-border-subtle bg-surface-container-low rounded-t-lg">
+<div class="flex items-center gap-sm">
+<span class="bg-primary/10 text-primary px-sm py-1 rounded text-[12px] font-black">EN</span>
+<h2 class="font-label-md text-label-md">Source Document</h2>
+</div>
+<div class="flex gap-sm">
+<button class="material-symbols-outlined text-outline hover:text-on-surface" data-icon="search">search</button>
+<button class="material-symbols-outlined text-outline hover:text-on-surface" data-icon="more_vert">more_vert</button>
+</div>
+</div>
+<div class="p-xl flex-1 font-body-md text-on-surface leading-relaxed">
+<h1 class="font-headline-lg text-headline-lg mb-lg border-b border-border-subtle pb-sm">Residence Permit</h1>
+<p class="mb-md">This residence permit authorizes its holder to engage in salaried activity under the current immigration regulations of the European Union member state.</p>
+<p class="mb-md">The holder is required to inform the competent authorities of any change in professional status or residential address within 15 working days.</p>
+<div class="mt-xl p-md bg-surface-container-low border-l-4 border-primary rounded-r">
+<p class="text-label-sm font-label-sm text-primary mb-xs">Legal Citation</p>
+<p class="italic text-on-surface-variant">Directive 2014/66/EU — entry and residence of third-country nationals.</p>
+</div>
+<div class="mt-xl h-64 w-full rounded border border-border-subtle overflow-hidden relative group">
+<div class="w-full h-full bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A high-resolution scanning of a formal European Union legal document with official stamps, guilloche patterns, and security watermarks. The lighting is bright and professional, emphasizing the texture of the security paper and the crispness of the black typography in a government administrative setting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBd0GLV1Db149PxWqSs3-UznIXbQXWJutOTx1e2_Ohnj-k9zHz8J33QSdslhMBPExw-sb2fmMRmCIqjpuYaexKmSpll5JMXT7FOjMILIi9EXP4Wvwp9a3QE2riC0XNaMG_96ZHJfcfFdY8i1GLuH2mb4a5PCvmATAJgRhVYvTkpkex0yzRYcNHhQ85suHJ9DUaXuh3jCaKkOk3XyhvPw0Vk9AuX4z9tuFXkTXL5jprb6E0O25cfpvwjgTW6JqyKBb7lpYxVTqKZQgyh')"></div>
+<div class="absolute inset-0 bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="bg-white/90 px-md py-sm rounded-full font-label-md text-primary flex items-center gap-xs">
+<span class="material-symbols-outlined">zoom_in</span> View Original Scan
+                                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Panel: FR Translation -->
+<div class="flex flex-col bg-surface-container-lowest border border-border-subtle rounded-lg shadow-sm">
+<div class="flex items-center justify-between p-md border-b border-border-subtle bg-surface-container-low rounded-t-lg">
+<div class="flex items-center gap-sm">
+<span class="bg-success/10 text-success px-sm py-1 rounded text-[12px] font-black">FR</span>
+<h2 class="font-label-md text-label-md">Target Translation</h2>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs text-[12px] text-success font-bold">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                98% Confident
+                            </div>
+<button class="material-symbols-outlined text-outline hover:text-on-surface" data-icon="edit">edit</button>
+</div>
+</div>
+<div class="p-xl flex-1 font-body-md text-on-surface leading-relaxed">
+<h1 class="font-headline-lg text-headline-lg mb-lg border-b border-border-subtle pb-sm">Titre de séjour</h1>
+<p class="mb-md bg-focus/10 p-1 rounded transition-all hover:bg-focus/20 cursor-help" title="Validated by AI Lexicon">Ce titre de séjour autorise son titulaire à exercer une activité salariée conformément aux réglementations d'immigration en vigueur de l'État membre de l'Union européenne.</p>
+<p class="mb-md">Le titulaire est tenu d'informer les autorités compétentes de tout changement de situation professionnelle ou d'adresse de résidence dans un délai de 15 jours ouvrables.</p>
+<div class="mt-xl p-md bg-success/5 border-l-4 border-success rounded-r">
+<p class="text-label-sm font-label-sm text-success mb-xs">Référence Légale</p>
+<p class="italic text-on-surface-variant">Directive 2014/66/UE — entrée et séjour des ressortissants de pays tiers.</p>
+</div>
+<div class="mt-xl border border-border-subtle rounded-lg p-md bg-surface-container-low">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase text-[12px] tracking-widest">Translation Notes</h3>
+<button class="text-primary text-[12px] font-bold">Add Note</button>
+</div>
+<div class="space-y-md">
+<div class="flex gap-sm">
+<div class="w-6 h-6 rounded bg-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+</div>
+<p class="text-[13px] text-on-surface-variant">
+<span class="font-bold">System:</span> Applied official EU terminology for "Salaried activity".
+                                    </p>
+</div>
+<div class="flex gap-sm">
+<div class="w-6 h-6 rounded bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="text-[10px] font-bold text-on-primary-fixed">JS</span>
+</div>
+<p class="text-[13px] text-on-surface-variant">
+<span class="font-bold">You:</span> Verified with French Ministry of Interior glossary.
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Context Bar (Bottom) -->
+<div class="mt-lg grid grid-cols-3 gap-md">
+<div class="p-md bg-surface-container rounded-lg border border-border-subtle flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" data-icon="history">history</span>
+<div>
+<p class="text-[12px] text-on-surface-variant">Last saved</p>
+<p class="text-label-sm font-bold">2 minutes ago</p>
+</div>
+</div>
+<div class="p-md bg-surface-container rounded-lg border border-border-subtle flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+<div>
+<p class="text-[12px] text-on-surface-variant">Words Translated</p>
+<p class="text-label-sm font-bold">428 / 1,200</p>
+</div>
+</div>
+<div class="p-md bg-surface-container rounded-lg border border-border-subtle flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" data-icon="speed">speed</span>
+<div>
+<p class="text-[12px] text-on-surface-variant">Estimated Efficiency</p>
+<p class="text-label-sm font-bold">+15% over manual</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button: Contextual Chat -->
+<button class="fixed bottom-lg right-lg w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-105 transition-transform group">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<div class="absolute right-16 bg-inverse-surface text-inverse-on-surface px-md py-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap text-label-sm">
+            Resume "Translate to DE" request
+        </div>
+</button>
+<script>
+        // Simple micro-interaction for panel highlights
+        document.querySelectorAll('.document-canvas > div').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.classList.add('border-primary/50');
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.classList.remove('border-primary/50');
+            });
+        });
+
+        // Simulating the transition logic for the language selection
+        console.log("App loaded. Reached from chat trigger detected: 'Translate this section to DE'");
+    </script>
+</body></html>

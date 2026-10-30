@@ -1,0 +1,118 @@
+.container {
+  background: var(--stitch-surface-container-lowest);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  padding: var(--stitch-spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-sm);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-sm);
+}
+
+.headerIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--stitch-primary);
+}
+
+.title {
+  font-size: var(--stitch-text-lg);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+  margin: 0;
+}
+
+.headline {
+  font-size: var(--stitch-text-md);
+  color: var(--stitch-on-surface-variant);
+  margin: 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--stitch-text-sm);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: var(--stitch-spacing-xs) var(--stitch-spacing-sm);
+  border-bottom: 1px solid var(--stitch-outline-variant);
+}
+
+.table th {
+  font-weight: var(--stitch-weight-medium);
+  color: var(--stitch-on-surface-variant);
+}
+
+.table tbody th {
+  font-weight: var(--stitch-weight-normal);
+}
+
+.caption {
+  text-align: left;
+  font-size: var(--stitch-text-xs);
+  color: var(--stitch-on-surface-variant);
+  margin-bottom: var(--stitch-spacing-xs);
+}
+
+.attribution {
+  font-size: var(--stitch-text-xs);
+  color: var(--stitch-on-surface-variant);
+  margin: 0;
+}
+
+.sourceLink {
+  color: var(--stitch-primary);
+  text-decoration: none;
+}
+
+.sourceLink:hover {
+  text-decoration: underline;
+}
+
+.errorState {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-sm);
+  align-items: flex-start;
+}
+
+.errorText {
+  color: var(--stitch-error);
+  font-size: var(--stitch-text-sm);
+  margin: 0;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-sm);
+  align-items: center;
+  text-align: center;
+  padding: var(--stitch-spacing-lg);
+}
+
+.emptyIcon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--stitch-outline);
+}
+
+.emptyText {
+  color: var(--stitch-on-surface-variant);
+  font-size: var(--stitch-text-sm);
+  margin: 0;
+}
+
+.skeletonLayout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-sm);
+}

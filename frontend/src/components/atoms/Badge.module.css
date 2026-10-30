@@ -1,0 +1,35 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--stitch-spacing-xs);
+  font-size: var(--text-label-sm);
+  line-height: var(--leading-label-sm);
+  font-weight: var(--stitch-weight-medium);
+  border-radius: var(--stitch-radius-full);
+  white-space: nowrap;
+}
+
+.default {
+  background-color: var(--stitch-surface-container-high);
+  color: var(--stitch-on-surface);
+}
+
+.success {
+  background-color: var(--stitch-success);
+  color: var(--stitch-on-primary);
+}
+
+.error {
+  background-color: var(--stitch-error-container);
+  color: var(--stitch-on-error-container);
+}
+
+.warning {
+  background-color: var(--stitch-warning);
+  color: var(--stitch-on-primary);
+}
+
+.info {
+  background-color: var(--color-info-container);
+  color: var(--color-on-info-container);
+}

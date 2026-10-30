@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Legal Document Comparison</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&family=Courier+Prime&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .diff-added { background-color: #e7f4e4; border-bottom: 2px solid #00703C; }
+        .diff-removed { background-color: #fbebed; text-decoration: line-through; border-bottom: 2px solid #D4351C; }
+        .diff-changed { background-color: #fff9e6; border-bottom: 2px solid #F47738; }
+        
+        /* Custom scrollbar for enterprise look */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #B1B4B6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #717782; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#717782",
+                      "on-error-container": "#93000a",
+                      "on-primary-fixed": "#001c37",
+                      "surface-bright": "#faf9f8",
+                      "tertiary-container": "#a55a00",
+                      "on-background": "#1a1c1c",
+                      "warning": "#F47738",
+                      "surface-container-high": "#e9e8e7",
+                      "secondary-fixed-dim": "#c7c6c6",
+                      "surface-tint": "#0061a6",
+                      "on-tertiary-fixed": "#2e1500",
+                      "surface-dim": "#dadad9",
+                      "success": "#00703C",
+                      "inverse-on-surface": "#f1f0ef",
+                      "tertiary": "#824600",
+                      "border-subtle": "#B1B4B6",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#6d3a00",
+                      "on-primary-fixed-variant": "#00497e",
+                      "primary-container": "#1d70b8",
+                      "background": "#faf9f8",
+                      "surface-container-low": "#f4f3f2",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#d2e4ff",
+                      "secondary-fixed": "#e4e2e1",
+                      "surface-container": "#efeeed",
+                      "on-tertiary-container": "#ffede2",
+                      "surface-container-highest": "#e3e2e1",
+                      "error-container": "#ffdad6",
+                      "focus": "#FFDD00",
+                      "on-error": "#ffffff",
+                      "secondary-container": "#e1dfdf",
+                      "on-surface-variant": "#414751",
+                      "outline-variant": "#c1c7d2",
+                      "tertiary-fixed-dim": "#ffb77b",
+                      "secondary": "#5e5e5e",
+                      "on-secondary-fixed-variant": "#464747",
+                      "tertiary-fixed": "#ffdcc2",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#faf9f8",
+                      "on-surface": "#1a1c1c",
+                      "inverse-primary": "#a0caff",
+                      "on-primary-container": "#e9f1ff",
+                      "primary": "#005796",
+                      "on-secondary-fixed": "#1b1c1c",
+                      "on-secondary-container": "#626262",
+                      "inverse-surface": "#2f3130",
+                      "surface-variant": "#e3e2e1",
+                      "primary-fixed-dim": "#a0caff",
+                      "error": "#D4351C"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "gutter": "24px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "unit": "4px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "body-md": ["Public Sans"],
+                      "label-sm": ["Public Sans"],
+                      "headline-lg": ["Public Sans"],
+                      "body-lg": ["Public Sans"],
+                      "label-md": ["Public Sans"],
+                      "headline-xl": ["Public Sans"],
+                      "code": ["Courier Prime"],
+                      "headline-md": ["Public Sans"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                      "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                      "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-surface flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-border-subtle flex justify-between items-center w-full px-gutter h-16 z-50 fixed top-0">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">EvidenceEU</span>
+<div class="hidden md:flex ml-lg gap-sm">
+<button class="px-sm py-1 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200">Library</button>
+<button class="px-sm py-1 font-label-md text-label-md text-primary border-b-2 border-primary transition-colors duration-200">Cases</button>
+<button class="px-sm py-1 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200">Search</button>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant">help</span>
+<div class="flex items-center gap-xs ml-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold text-xs">JD</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">John Doe (Auth: Logged in)</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-16 h-full overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-md w-64 bg-surface-container border-r border-border-subtle flex-shrink-0">
+<div class="px-md mb-lg">
+<div class="flex items-center gap-sm mb-xs">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="font-label-md text-label-md text-on-surface">Case #4492-DE</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Immigration Review</p>
+</div>
+<div class="flex flex-col gap-xs px-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-md text-label-md">Chat</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-label-md text-label-md">Library</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg bg-primary-container text-on-primary-container font-bold border-l-4 border-primary shadow-sm" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-md text-label-md">Cases</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<div class="mt-auto border-t border-outline-variant pt-md px-sm flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined">rate_review</span>
+<span class="font-label-md text-label-md">Feedback</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex flex-col overflow-hidden bg-background">
+<!-- Context Header -->
+<div class="bg-surface px-gutter py-md flex items-center justify-between border-b border-border-subtle">
+<div class="flex items-center gap-sm">
+<button class="p-1 hover:bg-surface-container rounded-full transition-colors">
+<span class="material-symbols-outlined text-outline">arrow_back</span>
+</button>
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface">Source: DE_Aufenthaltstitel_2023_v2.pdf</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" style="font-size: 16px;">forum</span>
+                            Reached from chat: "Compare this with the DE version"
+                        </p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="bg-surface-container-high flex p-1 rounded-lg">
+<button class="px-md py-1.5 font-label-sm text-label-sm rounded text-on-surface-variant hover:text-on-surface">Side by Side</button>
+<button class="px-md py-1.5 font-label-sm text-label-sm rounded text-on-surface-variant hover:text-on-surface">Inline Diff</button>
+<button class="px-md py-1.5 font-label-sm text-label-sm rounded bg-white shadow-sm text-primary font-bold">Source Only</button>
+</div>
+<button class="flex items-center gap-xs px-md py-1.5 bg-primary text-on-primary rounded font-label-md text-label-md hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">download</span>
+                        Export DE
+                    </button>
+</div>
+</div>
+<!-- Statistics Ribbon -->
+<div class="bg-surface-container-lowest px-gutter py-xs flex gap-xl border-b border-border-subtle overflow-x-auto">
+<div class="flex items-center gap-sm py-1">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Same: <span class="font-bold text-on-surface">12</span></span>
+</div>
+<div class="flex items-center gap-sm py-1">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Added: <span class="font-bold text-success">3</span></span>
+</div>
+<div class="flex items-center gap-sm py-1">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Removed: <span class="font-bold text-error">2</span></span>
+</div>
+<div class="flex items-center gap-sm py-1">
+<span class="w-2 h-2 rounded-full bg-warning"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Changed: <span class="font-bold text-warning">1</span></span>
+</div>
+</div>
+<!-- Document Canvas -->
+<div class="flex-1 overflow-y-auto p-gutter bg-surface-dim flex justify-center">
+<!-- A4 Simulation -->
+<div class="bg-white w-full max-w-[800px] shadow-sm border border-border-subtle p-xl min-h-[1100px] font-body-md text-on-surface relative leading-relaxed">
+<div class="border-b-2 border-on-surface pb-md mb-xl flex justify-between items-end">
+<div>
+<p class="font-bold uppercase tracking-widest text-xs">Bundesrepublik Deutschland</p>
+<h2 class="font-headline-lg text-headline-lg mt-xs">Aufenthaltstitel</h2>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-label-sm">Dokument-Nr: DE-992384-LX</p>
+<p class="font-label-sm text-label-sm">Datum: 14. Oktober 2023</p>
+</div>
+</div>
+<div class="space-y-lg">
+<section>
+<h3 class="font-bold border-l-4 border-primary pl-md mb-sm">§ 1 Allgemeiner Geltungsbereich</h3>
+<p>
+                                (1) Dieser Aufenthaltstitel berechtigt den Inhaber zum Aufenthalt im Hoheitsgebiet der Bundesrepublik Deutschland nach Maßgabe des Aufenthaltsgesetzes (AufenthG).
+                                <span class="diff-added px-1">Die Gültigkeit erstreckt sich zudem auf kurzfristige Aufenthalte im Schengen-Raum von bis zu 90 Tagen.</span>
+</p>
+</section>
+<section>
+<h3 class="font-bold border-l-4 border-primary pl-md mb-sm">§ 2 Erwerbstätigkeit</h3>
+<p>
+                                Die Ausübung einer Erwerbstätigkeit ist <span class="diff-changed px-1">nur nach vorheriger Genehmigung</span> der zuständigen Ausländerbehörde gestattet. 
+                                <span class="diff-removed px-1">Ausnahmen gelten für wissenschaftliches Personal an Hochschulen.</span>
+                                Eine selbstständige Tätigkeit bedarf einer gesonderten Prüfung gemäß § 21 AufenthG.
+                            </p>
+</section>
+<section>
+<h3 class="font-bold border-l-4 border-primary pl-md mb-sm">§ 3 Wohnsitznahme und Meldepflicht</h3>
+<p>
+                                Der Inhaber ist verpflichtet, jeden Wohnungswechsel innerhalb von zwei Wochen der zuständigen Meldebehörde anzuzeigen. <span class="diff-added px-1">Elektronische Meldungen via Bundesportal werden ab 2024 bevorzugt behandelt.</span>
+</p>
+</section>
+<!-- Legal Fine Print Placeholder -->
+<div class="pt-xl mt-xl border-t border-border-subtle grid grid-cols-2 gap-lg">
+<div class="space-y-sm">
+<p class="text-xs font-bold uppercase text-outline">Unterschrift Behörde</p>
+<div class="h-16 border border-dashed border-border-subtle bg-surface-container flex items-center justify-center italic text-on-surface-variant text-sm">
+                                    Digital signiert am 14.10.2023
+                                </div>
+</div>
+<div class="space-y-sm">
+<p class="text-xs font-bold uppercase text-outline">Dienstsiegel</p>
+<div class="w-16 h-16 border border-dashed border-border-subtle bg-surface-container rounded-full mx-auto flex items-center justify-center opacity-30">
+<span class="material-symbols-outlined" style="font-size: 40px;">account_balance</span>
+</div>
+</div>
+</div>
+<!-- Diff Annotations on Sidebar-like positioning -->
+<div class="absolute right-[-280px] top-48 w-64 hidden xl:block space-y-md">
+<div class="bg-white p-md border-l-4 border-success shadow-sm rounded-r-lg">
+<p class="font-bold text-xs text-success mb-xs uppercase">Hinzugefügt</p>
+<p class="text-sm">Ergänzung der Schengen-Klausel für verbesserte Mobilität.</p>
+</div>
+<div class="bg-white p-md border-l-4 border-error shadow-sm rounded-r-lg">
+<p class="font-bold text-xs text-error mb-xs uppercase">Entfernt</p>
+<p class="text-sm">Sonderregelung für Hochschulpersonal wurde in § 5 verschoben.</p>
+</div>
+<div class="bg-white p-md border-l-4 border-warning shadow-sm rounded-r-lg">
+<p class="font-bold text-xs text-warning mb-xs uppercase">Geändert</p>
+<p class="text-sm">Präzisierung der Genehmigungspflicht für Erwerbstätigkeit.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button - Legal Context -->
+<div class="fixed bottom-lg right-lg flex flex-col gap-md items-end">
+<div class="bg-white p-md rounded-xl shadow-lg border border-border-subtle max-w-xs animate-in slide-in-from-right duration-500">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-sm">AI Assistant Analysis</p>
+<p class="text-sm leading-relaxed">I've highlighted 6 critical differences from the previous version. The addition of electronic reporting in § 3 is most relevant to your current case profile.</p>
+</div>
+<button class="w-14 h-14 bg-primary text-on-primary rounded-full shadow-xl flex items-center justify-center hover:scale-105 transition-transform active:scale-95 group relative">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<!-- Tooltip -->
+<span class="absolute right-full mr-md px-md py-1 bg-inverse-surface text-inverse-on-surface text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Legal Analysis</span>
+</button>
+</div>
+</main>
+</div>
+<!-- Mobile Navigation Bar (hidden on desktop) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-border-subtle flex justify-around py-sm z-50">
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span class="text-[10px]">Cases</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined">chat</span>
+<span class="text-[10px]">Chat</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px]">Settings</span>
+</button>
+</nav>
+<script>
+        // Simple interaction for tab switching
+        const tabs = document.querySelectorAll('.bg-surface-container-high button');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('bg-white', 'shadow-sm', 'text-primary', 'font-bold');
+                    t.classList.add('text-on-surface-variant');
+                });
+                tab.classList.add('bg-white', 'shadow-sm', 'text-primary', 'font-bold');
+                tab.classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Hover effect for document regions
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+            section.addEventListener('mouseenter', () => {
+                section.classList.add('bg-surface-container-low');
+            });
+            section.addEventListener('mouseleave', () => {
+                section.classList.remove('bg-surface-container-low');
+            });
+        });
+    </script>
+</body></html>

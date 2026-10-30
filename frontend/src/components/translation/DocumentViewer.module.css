@@ -1,0 +1,183 @@
+.container {
+}
+
+.centerState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--stitch-spacing-md);
+  padding: var(--stitch-spacing-xl);
+  text-align: center;
+}
+
+.heading {
+  font-size: var(--stitch-text-xl);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+  margin: 0;
+}
+
+.stateText {
+  color: var(--stitch-on-surface-variant);
+}
+
+.errorText {
+  color: var(--stitch-error);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--stitch-spacing-md);
+  padding: var(--stitch-spacing-md) 0;
+  border-bottom: 1px solid var(--stitch-outline-variant);
+  margin-bottom: var(--stitch-spacing-lg);
+}
+
+.toolbarStart {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--stitch-spacing-md);
+}
+
+.toolbarEnd {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--stitch-spacing-sm);
+}
+
+.viewToggle {
+  display: inline-flex;
+  padding: var(--stitch-spacing-xs);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  background-color: var(--stitch-surface-container-low);
+}
+
+.viewToggleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+  padding: var(--stitch-spacing-xs) var(--stitch-spacing-sm);
+  border: 0;
+  border-radius: var(--stitch-radius-lg);
+  background: transparent;
+  color: var(--stitch-on-surface-variant);
+  font: inherit;
+  font-size: var(--stitch-text-sm);
+  cursor: pointer;
+}
+
+.viewToggleButton:hover {
+  color: var(--stitch-primary);
+}
+
+.viewToggleButton:focus-visible {
+  outline: 3px solid var(--stitch-focus);
+  outline-offset: 2px;
+}
+
+.viewToggleButtonActive {
+  background-color: var(--stitch-surface-container-lowest);
+  color: var(--stitch-primary);
+  font-weight: var(--stitch-weight-semibold);
+}
+
+.title {
+  font-size: var(--stitch-text-lg);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+  margin: 0;
+}
+
+.filename {
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface-variant);
+  background: var(--stitch-surface-container);
+  padding: var(--stitch-spacing-xs) var(--stitch-spacing-sm);
+  border-radius: var(--stitch-radius-md);
+}
+
+.toolbar select {
+  padding: var(--stitch-spacing-xs) var(--stitch-spacing-sm);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  background: var(--stitch-surface-container-lowest);
+  color: var(--stitch-on-surface);
+  font-size: var(--stitch-text-sm);
+  font-family: var(--stitch-font-sans);
+  cursor: pointer;
+  transition: border-color var(--stitch-transition-fast);
+}
+
+.toolbar select:focus {
+  border-color: var(--stitch-primary);
+  outline: 3px solid var(--stitch-focus);
+  outline-offset: 2px;
+}
+
+.truncationBanner {
+  padding: var(--stitch-spacing-sm) var(--stitch-spacing-md);
+  background-color: var(--stitch-warning);
+  color: var(--stitch-on-primary);
+  border-radius: var(--stitch-radius-xl);
+  font-size: var(--stitch-text-sm);
+  margin-bottom: var(--stitch-spacing-lg);
+}
+
+.partialBanner {
+  padding: var(--stitch-spacing-sm) var(--stitch-spacing-md);
+  background-color: var(--stitch-surface-container-lowest);
+  color: var(--stitch-on-surface);
+  border: 1px solid var(--stitch-warning);
+  border-radius: var(--stitch-radius-xl);
+  font-size: var(--stitch-text-sm);
+  margin-bottom: var(--stitch-spacing-lg);
+}
+
+.sideBySide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-lg);
+}
+
+.pageRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--stitch-spacing-md);
+}
+
+.translationOnlyRow {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.translationPanel {
+  max-width: var(--stitch-container-lg);
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  .pageRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  padding: var(--stitch-spacing-md);
+  background-color: var(--stitch-surface-container-lowest);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+}
+
+.pageText {
+  font-size: var(--stitch-text-sm);
+  line-height: 1.5;
+  color: var(--stitch-on-surface);
+  margin: var(--stitch-spacing-sm) 0 0;
+  white-space: pre-wrap;
+}

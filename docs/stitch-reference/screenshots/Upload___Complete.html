@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Upload Complete</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#ffede2",
+                    "inverse-surface": "#2f3130",
+                    "surface-dim": "#dadad9",
+                    "on-surface-variant": "#414751",
+                    "primary-container": "#1d70b8",
+                    "surface-container-low": "#f4f3f2",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f1f0ef",
+                    "primary": "#005796",
+                    "error": "#D4351C",
+                    "focus": "#FFDD00",
+                    "outline-variant": "#c1c7d2",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-primary-fixed": "#001c37",
+                    "warning": "#F47738",
+                    "surface-container": "#efeeed",
+                    "on-surface": "#1a1c1c",
+                    "surface-variant": "#e3e2e1",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "surface-container-high": "#e9e8e7",
+                    "tertiary": "#824600",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "tertiary-fixed": "#ffdcc2",
+                    "secondary-fixed": "#e4e2e1",
+                    "primary-fixed": "#d2e4ff",
+                    "inverse-primary": "#a0caff",
+                    "surface-bright": "#faf9f8",
+                    "on-primary-fixed-variant": "#00497e",
+                    "background": "#faf9f8",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#626262",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "secondary": "#5e5e5e",
+                    "success": "#00703C",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface": "#faf9f8",
+                    "tertiary-container": "#a55a00",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "border-subtle": "#B1B4B6",
+                    "on-secondary-fixed-variant": "#464747",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#e3e2e1",
+                    "surface-tint": "#0061a6",
+                    "secondary-container": "#e1dfdf",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "outline": "#717782",
+                    "on-background": "#1a1c1c",
+                    "on-primary-container": "#e9f1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-lg": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F3F2F1;
+            font-family: 'Public Sans', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F3F2F1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #B1B4B6;
+            border-radius: 4px;
+        }
+        .focus-ring:focus {
+            outline: 3px solid #FFDD00;
+            outline-offset: 1px;
+        }
+    </style>
+</head>
+<body class="text-on-background">
+<div class="flex h-screen w-full">
+<!-- SideNavBar Anchor -->
+<aside class="flex flex-col h-full w-64 bg-surface-container-low border-r border-border-subtle p-md gap-sm z-30">
+<div class="flex items-center gap-sm mb-lg px-xs">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-on-primary" data-icon="gavel">gavel</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md text-primary">EvidenceEU</h1>
+<p class="text-label-sm opacity-70">Legal Workspace</p>
+</div>
+</div>
+<button class="flex items-center justify-center gap-sm bg-primary text-on-primary py-sm px-md rounded font-label-md mb-md scale-95 active:scale-90 transition-transform cursor-pointer focus-ring">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Case
+            </button>
+<nav class="flex flex-col gap-xs flex-grow">
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container-high rounded-lg transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary" data-icon="home">home</span>
+<span class="font-body-md">Home</span>
+</a>
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container-high rounded-lg transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary" data-icon="chat">chat</span>
+<span class="font-body-md">Chat</span>
+</a>
+<a class="flex items-center gap-md p-sm bg-primary-container text-on-primary-container font-bold rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="font-body-md">Library</span>
+</a>
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container-high rounded-lg transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary" data-icon="gavel">gavel</span>
+<span class="font-body-md">Cases</span>
+</a>
+<div class="mt-auto">
+<a class="flex items-center gap-md p-sm text-secondary hover:bg-surface-container-high rounded-lg transition-all duration-150 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</div>
+</nav>
+</aside>
+<div class="flex-grow flex flex-col min-w-0">
+<!-- TopNavBar Anchor -->
+<header class="flex justify-between items-center w-full px-lg h-16 bg-surface border-b border-border-subtle z-50">
+<div class="flex items-center gap-xl">
+<div class="flex items-center gap-md">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-border-subtle rounded w-64 focus:border-primary focus:ring-0 focus-ring" placeholder="Search documents..." type="text"/>
+</div>
+</div>
+<nav class="hidden lg:flex items-center gap-lg">
+<a class="text-label-md font-label-md text-secondary hover:text-on-surface transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-label-md font-label-md text-primary border-b-2 border-primary pb-1" href="#">Documents</a>
+<a class="text-label-md font-label-md text-secondary hover:text-on-surface transition-colors duration-200" href="#">Workflows</a>
+<a class="text-label-md font-label-md text-secondary hover:text-on-surface transition-colors duration-200" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm text-secondary hover:bg-surface-container-highest transition-colors rounded-full cursor-pointer focus-ring">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-sm text-secondary hover:bg-surface-container-highest transition-colors rounded-full cursor-pointer focus-ring">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle ml-xs">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a corporate professional for a user profile avatar. The subject is a woman with a friendly, confident expression, wearing professional attire. The lighting is bright and clean with a soft neutral grey background, following a modern enterprise aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwlWwuE6zi1Pwx4Au4XZUKhP6Ix6-8X7Im3dxHxyjYBEIP_uojBemymg3hR2xd4B9l2tWnw3hYlxLxoh_Qh-Ui4jx6qS6IETsyDZove7FSvJieaxNYwJypwZhfLMxAPYn9qflNwKyhxkhPjtgi-VXaXybGeJ_lrFSzoxzUt5N_qOZ4lBbNwE9iuOp2idOzK4Efx6fZBstkFXAPoHpjiYB7bUyjCMYhtFZG37ivkm9xyUJDnKN-WeN-IGYWWWqZPcYxTtbyWmzpp_SR"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow overflow-y-auto custom-scrollbar p-lg">
+<div class="max-w-4xl mx-auto space-y-lg">
+<!-- Contextual Badges -->
+<div class="flex flex-wrap gap-sm">
+<div class="flex items-center gap-xs px-sm py-1 bg-surface-container-high border border-border-subtle rounded text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]" data-icon="info">info</span>
+                            Let me upload a document to ask about
+                        </div>
+<div class="flex items-center gap-xs px-sm py-1 bg-success/10 border border-success/30 rounded text-label-sm text-success">
+<span class="material-symbols-outlined text-[18px]" data-icon="lock" style="font-variation-settings: 'FILL' 1;">lock</span>
+                            Logged in: personal corpus enabled
+                        </div>
+</div>
+<!-- Success State Panel (Bento-inspired Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
+<!-- Main Header & Status Card -->
+<div class="md:col-span-8 bg-surface border border-border-subtle p-xl flex flex-col items-center text-center space-y-md">
+<div class="w-20 h-20 bg-success flex items-center justify-center rounded-full mb-md shadow-lg shadow-success/20">
+<span class="material-symbols-outlined text-on-primary text-[48px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="text-headline-xl font-headline-xl text-on-surface">Upload Complete</h2>
+<p class="text-body-lg text-secondary max-w-md">Your document has been securely processed and indexed into your personal legal workspace.</p>
+<!-- Primary/Secondary Actions -->
+<div class="flex gap-md pt-lg">
+<button class="bg-primary text-on-primary px-xl py-sm rounded font-label-md hover:opacity-90 transition-all focus-ring flex items-center gap-sm">
+                                    Go to Chat
+                                    <span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="border-2 border-primary text-primary px-xl py-sm rounded font-label-md hover:bg-primary/5 transition-all focus-ring">
+                                    View in Library
+                                </button>
+</div>
+</div>
+<!-- Metrics Side Grid -->
+<div class="md:col-span-4 flex flex-col gap-lg">
+<!-- Metric: Confidence -->
+<div class="bg-surface border border-border-subtle p-md flex flex-col">
+<span class="text-label-sm text-secondary uppercase tracking-wider mb-xs">Processing Precision</span>
+<div class="flex items-end justify-between">
+<span class="text-headline-lg font-headline-lg text-success">94%</span>
+<span class="text-label-sm text-success font-bold mb-1">High Confidence</span>
+</div>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-sm overflow-hidden">
+<div class="bg-success h-full" style="width: 94%;"></div>
+</div>
+</div>
+<!-- Metric: Page Count -->
+<div class="bg-surface border border-border-subtle p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container-high flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+</div>
+<div>
+<span class="text-label-sm text-secondary block">Volume</span>
+<span class="text-headline-md font-headline-md">1 page</span>
+</div>
+</div>
+</div>
+<!-- Document Preview Section -->
+<div class="md:col-span-12">
+<div class="bg-surface border border-border-subtle overflow-hidden">
+<div class="bg-surface-container-low px-md py-sm border-b border-border-subtle flex justify-between items-center">
+<span class="text-label-md font-label-md text-secondary flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]" data-icon="article">article</span>
+                                        OCR Preview (Extract)
+                                    </span>
+<span class="text-label-sm bg-warning/10 text-warning px-2 py-0.5 rounded border border-warning/20">German (DE)</span>
+</div>
+<div class="p-lg bg-surface-container-lowest min-h-[160px] relative">
+<div class="font-code text-code text-on-surface-variant leading-relaxed">
+<p class="mb-sm">Aufenthaltstitel</p>
+<p>Dieser Aufenthaltstitel berechtigt den Inhaber zur Ausübung einer Erwerbstätigkeit. Die Gültigkeit dieses Dokuments entspricht der Dauer des beigefügten Zusatzblattes...</p>
+<p class="mt-md text-secondary italic opacity-50">[End of extracted text segment]</p>
+</div>
+<!-- Atmospheric corner accent -->
+<div class="absolute bottom-4 right-4 opacity-10">
+<span class="material-symbols-outlined text-[80px]" data-icon="verified_user">verified_user</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+<!-- Micro-interaction script -->
+<script>
+        // Subtle hover effects for cards
+        document.querySelectorAll('.bg-surface.border').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.borderColor = '#1D70B8';
+                card.style.transition = 'border-color 0.2s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.borderColor = '#B1B4B6';
+            });
+        });
+    </script>
+</body></html>

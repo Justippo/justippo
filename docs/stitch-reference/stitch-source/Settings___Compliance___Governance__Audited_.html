@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Compliance &amp; Governance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700;800&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadad9",
+                        "on-primary-container": "#e9f1ff",
+                        "success": "#00703C",
+                        "warning": "#F47738",
+                        "on-background": "#1a1c1c",
+                        "primary-container": "#1d70b8",
+                        "error-container": "#ffdad6",
+                        "background": "#faf9f8",
+                        "surface": "#faf9f8",
+                        "tertiary-fixed": "#ffdcc2",
+                        "on-primary-fixed-variant": "#00497e",
+                        "surface-tint": "#0061a6",
+                        "on-primary-fixed": "#001c37",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f1f0ef",
+                        "on-error": "#ffffff",
+                        "focus": "#FFDD00",
+                        "surface-container-low": "#f4f3f2",
+                        "primary-fixed-dim": "#a0caff",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "inverse-surface": "#2f3130",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-container": "#626262",
+                        "outline-variant": "#c1c7d2",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efeeed",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "outline": "#717782",
+                        "inverse-primary": "#a0caff",
+                        "surface-container-high": "#e9e8e7",
+                        "error": "#D4351C",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-surface-variant": "#414751",
+                        "tertiary-container": "#a55a00",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e3e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ffede2",
+                        "border-subtle": "#B1B4B6",
+                        "surface-variant": "#e3e2e1",
+                        "primary": "#005796",
+                        "on-tertiary-fixed": "#2e1500",
+                        "secondary": "#5e5e5e",
+                        "secondary-fixed": "#e4e2e1",
+                        "secondary-container": "#e1dfdf",
+                        "tertiary": "#824600",
+                        "primary-fixed": "#d2e4ff",
+                        "surface-bright": "#faf9f8",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Public Sans"],
+                        "headline-xl-mobile": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "label-sm": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "code": ["Courier Prime"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .focus-visible:focus {
+            outline: 3px solid #FFDD00;
+            outline-offset: 2px;
+        }
+        .legal-hold-active .hold-indicator {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f0ef;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #B1B4B6;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-hidden">
+<!-- TopNavBar Shell -->
+<header class="bg-surface border-b border-border-subtle fixed top-0 left-0 w-full z-50 h-16">
+<div class="flex justify-between items-center w-full px-lg h-16 max-w-container-max mx-auto">
+<div class="flex items-center gap-xl">
+<span class="text-headline-md font-headline-xl text-primary">EvidenceEU</span>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-200" href="#">Workspaces</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-200" href="#">Directory</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container-low border border-border-subtle rounded px-10 py-1.5 focus:outline-none focus:ring-2 focus:ring-primary w-64" placeholder="Search logs..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button aria-label="Notifications" class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="Help" class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button aria-label="Settings" class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden ml-2 border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a senior system administrator in a clean-lit corporate office. The lighting is soft and natural, emphasizing competence and clarity. The color scheme is dominated by neutral professional tones, blues, and crisp whites, aligning with the enterprise software aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbv7tTJWZpnpRvbJBng4_iq6T8NSsfhd3soAOJicvVwsOvzNSaCZxODVLn2hgwOPJtUZB3Z2ZX-i1MQbm8YjHSe9jZ8MW-7H_g5lLt1GwM-vfkM7xsMLSza49P6-jk5hu-lYcVLrBV9ktsft9qRRVDmXsebmbzyWJdoStEQuXmv0pkKLt7Gsy9PmGzG315jf_NRDUQD25uav36GYzT8eZQ6aVJgbGk2MeurRXkBc0p-qo3Mi1N18HfCA"/>
+</div>
+</div>
+</div>
+</header>
+<!-- SideNavBar Shell -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 py-lg border-r bg-surface-container-low w-64 pt-20 z-40">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-sm px-2 mb-2">
+<div class="w-10 h-10 bg-on-surface-variant rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-surface" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+<div>
+<h2 class="font-headline-md text-on-surface text-[16px] leading-tight">Enterprise Settings</h2>
+<p class="text-on-surface-variant font-body-sm text-[12px]">Admin Console</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-sm">
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="shield_person">shield_person</span>
+<span>Profile &amp; Security</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span>Data Mapping</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 bg-primary-container text-on-primary-container font-bold font-label-md text-label-md rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="gavel" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<span>Compliance</span>
+</a>
+<a class="flex items-center gap-md px-md py-3 text-on-surface-variant hover:bg-surface-container-high transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="accessibility_new">accessibility_new</span>
+<span>Accessibility</span>
+</a>
+</nav>
+<div class="mt-auto px-sm pt-md border-t border-border-subtle">
+<div class="px-md py-2 mb-2 text-success font-label-md text-label-sm flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+                System Status: Active
+            </div>
+<a class="flex items-center gap-md px-md py-2 text-on-surface-variant hover:bg-surface-container-high transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-2 text-error hover:bg-error-container transition-all font-label-md text-label-md rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 mt-16 p-lg h-[calc(100vh-64px)] overflow-y-auto custom-scrollbar">
+<div class="max-w-6xl mx-auto space-y-lg">
+<!-- Warning Banner (Conditional for Active Judicial Hold) -->
+<div class="bg-error-container border-l-8 border-error p-md flex items-start gap-md hidden" id="judicial-hold-banner" style="background-color: #fef3c7; color: #92400e; border-left-color: #92400e;">
+<span class="material-symbols-outlined text-error text-[32px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div class="flex-1">
+<h3 class="font-headline-md text-error">ACTIVE JUDICIAL HOLD OVERRIDE</h3>
+<p class="text-on-error-container font-body-md">All data deletion, purging, and automated retention policies are currently suspended by legal directive. Attempting to force-delete records will trigger an immediate compliance incident report.</p>
+</div>
+<div class="text-right">
+<span class="text-error font-label-md block">Authored by: Legal Dept</span>
+<span class="text-on-error-container font-label-sm">Updated 2h ago</span>
+</div>
+</div>
+<!-- Header Section -->
+<div class="flex justify-between items-end border-b border-border-subtle pb-md">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Compliance &amp; Governance</h1>
+<p class="text-on-surface-variant max-w-2xl">Manage regulatory adherence, legal holds, and statutory retention rules. Ensure data integrity through cryptographic audit verification.</p>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm font-label-md flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all focus-visible focus:ring-2 focus:ring-focus">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                    Export Compliance Report
+                </button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Section 1: Legal Hold Overrides -->
+<section class="col-span-12 lg:col-span-5 bg-surface border border-border-subtle p-lg flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary">gavel</span>
+<h2 class="font-headline-md text-on-surface">Legal Hold Overrides</h2>
+</div>
+<p class="text-on-surface-variant font-body-md mb-xl">Globally freeze all deletion activities. This override bypasses individual record settings and system-wide automated purging rules.</p>
+</div>
+<div class="bg-surface-container-low p-md border border-border-subtle">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-md text-on-surface">Active Judicial Hold</span>
+<span class="text-on-surface-variant text-[12px]" id="hold-status-text">Status: INACTIVE</span>
+</div>
+<!-- Custom Toggle -->
+<button aria-pressed="false" class="relative inline-flex h-8 w-14 items-center rounded-full bg-secondary transition-colors focus-visible" id="hold-toggle">
+<span class="inline-block h-6 w-6 translate-x-1 transform rounded-full bg-white transition-transform" id="toggle-circle"></span>
+</button>
+</div>
+</div>
+<div class="mt-md flex items-center gap-sm text-secondary">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<p class="text-[14px]">Last toggled by <span class="font-bold">admin_04</span> on 2023-11-12.</p>
+</div>
+</section>
+<!-- Section 2: Archiving Rules -->
+<section class="col-span-12 lg:col-span-7 bg-surface border border-border-subtle p-lg">
+<div class="flex items-center gap-sm mb-md">
+<span class="material-symbols-outlined text-primary">archive</span>
+<h2 class="font-headline-md text-on-surface">Archiving Rules</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg mt-md">
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface flex items-center gap-1" for="statutory-period">
+                                Statutory Limitation Period
+                                <span class="material-symbols-outlined text-[16px] text-on-surface-variant cursor-help" title="Readability Score: 82/100 (High Clarity)">help_outline</span>
+</label>
+<select class="w-full bg-surface-container-lowest border border-border-subtle px-md py-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all" id="statutory-period">
+<option>5 Years</option>
+<option>7 Years</option>
+<option selected="">10 Years (Default)</option>
+<option>25 Years</option>
+<option>Indefinite</option>
+</select>
+<p class="text-[12px] text-on-surface-variant italic">Refers to EU Article 17 (Right to Erasure) exemptions.</p>
+</div>
+<div class="space-y-sm">
+<label class="font-label-md text-on-surface">Encryption at Rest</label>
+<div class="bg-success/10 text-success border border-success/20 p-sm px-md flex items-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-sm">FIPS 140-2 Validated</span>
+</div>
+</div>
+</div>
+<div class="mt-xl p-md border border-border-subtle bg-surface-container-highest flex items-center justify-between">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-tertiary-fixed flex items-center justify-center text-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined">auto_delete</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Auto-Purge Strategy</p>
+<p class="text-[14px] text-on-surface-variant">Active for 4.2M records annually</p>
+</div>
+</div>
+<button class="border-2 border-primary text-primary px-md py-1.5 font-label-md hover:bg-primary/5 transition-all focus-visible">Configure Policies</button>
+</div>
+</section>
+<!-- Section 3: Audit Logs -->
+<section class="col-span-12 bg-surface border border-border-subtle p-lg">
+<div class="p-lg border-b border-border-subtle flex justify-between items-center bg-surface-container-low">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">history_edu</span>
+<h2 class="font-headline-md text-on-surface">Administrative Audit Logs</h2>
+</div>
+<div class="flex items-center gap-md">
+<span class="text-on-surface-variant font-label-sm">Real-time verification: <span class="text-success">ON</span></span>
+<div class="h-6 w-[1px] bg-border-subtle"></div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">filter_list</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse" role="table">
+<thead>
+<tr class="bg-surface-container-highest border-b border-border-subtle">
+<th class="px-lg py-md font-label-md text-on-surface text-sm uppercase tracking-wider" scope="col">Timestamp</th>
+<th class="px-lg py-md font-label-md text-on-surface text-sm uppercase tracking-wider" scope="col">Administrator</th>
+<th class="px-lg py-md font-label-md text-on-surface text-sm uppercase tracking-wider" scope="col">Action Description</th>
+<th class="px-lg py-md font-label-md text-on-surface text-sm uppercase tracking-wider" scope="col">Resource</th>
+<th class="px-lg py-md font-label-md text-on-surface text-sm uppercase tracking-wider" scope="col">Verification Status</th>
+<th class="px-lg py-md font-label-md text-on-surface text-sm uppercase tracking-wider text-right" scope="col">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md font-code text-on-surface-variant">2023-11-14 09:42:11</td>
+<td class="px-lg py-md flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold">A4</div>
+                                        admin_04
+                                    </td>
+<td class="px-lg py-md font-medium text-on-surface">Retention Policy Update</td>
+<td class="px-lg py-md"><span class="bg-secondary-container px-2 py-0.5 rounded text-[12px]">SYSTEM_CONF</span></td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-1 text-success">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm">Hash Match (SHA-256)</span>
+</div>
+</td>
+<td class="px-lg py-md text-right">
+<button aria-label="Verify hash for log entry 88291" class="text-primary hover:underline font-label-sm">Details</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-surface-container-low/30 hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md font-code text-on-surface-variant">2023-11-14 08:15:04</td>
+<td class="px-lg py-md flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-tertiary-container/20 text-tertiary-container flex items-center justify-center text-[10px] font-bold">L1</div>
+                                        legal_lead
+                                    </td>
+<td class="px-lg py-md font-medium text-on-surface">Judicial Hold Enabled</td>
+<td class="px-lg py-md"><span class="bg-secondary-container px-2 py-0.5 rounded text-[12px]">GLOBAL_OVERRIDE</span></td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-1 text-success">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm">Hash Match (SHA-256)</span>
+</div>
+</td>
+<td class="px-lg py-md text-right">
+<button aria-label="Verify hash for log entry 88290" class="text-primary hover:underline font-label-sm">Details</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="px-lg py-md font-code text-on-surface-variant">2023-11-13 14:22:59</td>
+<td class="px-lg py-md flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary/20 text-primary flex items-center justify-center text-[10px] font-bold">A4</div>
+                                        admin_04
+                                    </td>
+<td class="px-lg py-md font-medium text-on-surface">Export of Evidence Log #442</td>
+<td class="px-lg py-md"><span class="bg-secondary-container px-2 py-0.5 rounded text-[12px]">LOG_REPOSITORY</span></td>
+<td class="px-lg py-md">
+<div class="flex items-center gap-1 text-warning">
+<span class="material-symbols-outlined text-[18px]">lock_reset</span>
+<span class="font-label-sm">Verification Pending</span>
+</div>
+</td>
+<td class="px-lg py-md text-right">
+<button aria-label="Verify hash for log entry 88289" class="text-primary hover:underline font-label-sm">Verify Now</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md flex justify-between items-center bg-surface-container-low border-t border-border-subtle">
+<span class="text-on-surface-variant font-label-sm">Showing 1-3 of 2,491 entries</span>
+<div class="flex gap-2">
+<button class="border border-border-subtle px-md py-1 bg-surface font-label-sm disabled:opacity-50" disabled="">Previous</button>
+<button class="border border-border-subtle px-md py-1 bg-surface font-label-sm hover:bg-surface-container-high transition-colors">Next</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<script>
+        const holdToggle = document.getElementById('hold-toggle');
+        const toggleCircle = document.getElementById('toggle-circle');
+        const holdBanner = document.getElementById('judicial-hold-banner');
+        const holdStatusText = document.getElementById('hold-status-text');
+        let isHoldActive = false;
+
+        holdToggle.addEventListener('click', () => {
+            isHoldActive = !isHoldActive;
+            
+            if (isHoldActive) {
+                holdToggle.setAttribute('aria-pressed', 'true');
+                holdToggle.classList.remove('bg-secondary');
+                holdToggle.classList.add('bg-error');
+                toggleCircle.classList.add('translate-x-7');
+                holdBanner.classList.remove('hidden');
+                holdBanner.classList.add('flex');
+                holdStatusText.innerText = 'Status: ACTIVE (Override Engaged)';
+                holdStatusText.classList.remove('text-on-surface-variant');
+                holdStatusText.classList.add('text-error', 'font-bold');
+                document.body.classList.add('legal-hold-active');
+            } else {
+                holdToggle.setAttribute('aria-pressed', 'false');
+                holdToggle.classList.add('bg-secondary');
+                holdToggle.classList.remove('bg-error');
+                toggleCircle.classList.remove('translate-x-7');
+                holdBanner.classList.add('hidden');
+                holdBanner.classList.remove('flex');
+                holdStatusText.innerText = 'Status: INACTIVE';
+                holdStatusText.classList.add('text-on-surface-variant');
+                holdStatusText.classList.remove('text-error', 'font-bold');
+                document.body.classList.remove('legal-hold-active');
+            }
+        });
+
+        // Simulating hash verification animation
+        const detailButtons = document.querySelectorAll('[aria-label^="Verify hash"]');
+        detailButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const originalText = this.innerText;
+                this.innerHTML = '<span class="material-symbols-outlined text-[16px] animate-spin">refresh</span> Verifying...';
+                this.disabled = true;
+                setTimeout(() => {
+                    this.innerHTML = '<span class="material-symbols-outlined text-[16px] text-success">check_circle</span> Verified';
+                    const parentCell = this.closest('tr').querySelector('.text-warning');
+                    if (parentCell) {
+                        parentCell.className = 'flex items-center gap-1 text-success';
+                        parentCell.innerHTML = '<span class="material-symbols-outlined text-[18px]">verified</span><span class="font-label-sm">Hash Match (SHA-256)</span>';
+                    }
+                }, 1500);
+            });
+        });
+    </script>
+</body></html>

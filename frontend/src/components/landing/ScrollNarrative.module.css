@@ -1,0 +1,62 @@
+.narrative {
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.panels {
+  min-width: 0;
+}
+
+.panel {
+  scroll-margin-top: var(--space-2xl);
+  padding: var(--space-xl) 0;
+}
+
+@media (min-width: 900px) {
+  .panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-margin-top: var(--space-xl);
+    padding: var(--space-xl) 0;
+  }
+
+  .panel > :not(.panelLabel) {
+    width: 100%;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (min-width: 900px) {
+    .panel {
+      animation: narrativePanel linear both;
+      animation-timeline: view(block);
+      animation-range: entry 5% cover 45%;
+    }
+  }
+}
+
+@keyframes narrativePanel {
+  from {
+    transform: translateY(2rem) scale(0.985);
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .rail {
+    background: var(--color-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+    transform: none;
+  }
+}

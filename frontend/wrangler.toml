@@ -1,0 +1,10 @@
+name = "evidence-eu-frontend"
+compatibility_date = "2024-05-02"
+compatibility_flags = ["nodejs_compat"]
+
+pages_build_output_dir = ".vercel/output/static"
+
+# Fallback configurations / environment variables for the frontend
+[vars]
+APP_ENV = "production"
+API_URL = "https://evidence-eu-api.mc146.workers.dev"

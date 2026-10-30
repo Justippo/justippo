@@ -1,0 +1,2682 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "EvidenceEU API",
+    "description": "Multilingual Document Intelligence for Cross-Border Europe",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health/": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health Check",
+        "description": "Liveness probe \u2014 returns 200 if the app is running.",
+        "operationId": "health_check_api_v1_health__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LivenessStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health/ready": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Readiness Check",
+        "description": "Readiness probe \u2014 checks all downstream dependencies.\nReturns 200 only if vector DB, LLM gateway, and database are reachable.",
+        "operationId": "readiness_check_api_v1_health_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health/pipeline": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Pipeline Status",
+        "description": "Pipeline health \u2014 lightweight ping of each demo component.\n\nUsed by the demo dry-run to confirm the full pipeline is live\nbefore presenting. Each check is a no-op import/config validation,\nNOT a full request to the downstream service.",
+        "operationId": "pipeline_status_api_v1_health_pipeline_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/search/": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search Stream",
+        "description": "SSE streaming search \u2014 yields typed events as results arrive from HindsightRAGService.\n\nUses the httpx-based Hindsight REST client (Pyodide/Workers-safe).\nDelegates to HindsightRAGService.query() for 4-way hybrid search (dense + BM25 +\nsemantic reranking + graph).\n\nEvent types:\n  result  \u2014 one RAG chunk with selected provenance fields:\n            {\"id\", \"text\", \"type\", \"chunk_id\", \"entities\", \"rank\",\n             \"document_id\", \"source_url\", \"source_title\", \"source_language\"}\n  error   \u2014 upstream failure: {\"message\": \"<str>\"}\n  done    \u2014 end-of-stream sentinel: \"[DONE]\"",
+        "operationId": "search_stream_api_v1_search__get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Natural-language query in any supported EU language",
+              "title": "Q"
+            },
+            "description": "Natural-language query in any supported EU language"
+          },
+          {
+            "name": "top_k",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "description": "Maximum number of results to return",
+              "default": 5,
+              "title": "Top K"
+            },
+            "description": "Maximum number of results to return"
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Query language (ISO 639-1: en, de, fr)",
+              "default": "en",
+              "title": "Language"
+            },
+            "description": "Query language (ISO 639-1: en, de, fr)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search Documents",
+        "description": "Non-streaming document search. Returns answer + citations.\n\nDelegates to the same RAG pipeline as the streaming endpoint\nbut collects all results before returning (DRY).",
+        "operationId": "search_documents_api_v1_search__post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/search/stream": {
+      "get": {
+        "tags": [
+          "search"
+        ],
+        "summary": "Search Documents Stream",
+        "description": "Legacy SSE streaming search endpoint \u2014 kept for backward compatibility.\nPrefer GET / with q= param for new clients.",
+        "operationId": "search_documents_stream_api_v1_search_stream_get",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Natural language search query",
+              "title": "Query"
+            },
+            "description": "Natural language search query"
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Query language (ISO 639-1)",
+              "default": "en",
+              "title": "Language"
+            },
+            "description": "Query language (ISO 639-1)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/chat/": {
+      "post": {
+        "tags": [
+          "chat"
+        ],
+        "summary": "Chat Stream",
+        "description": "Stream grounded results, runtime model metadata, answer chunks, and `done`.",
+        "operationId": "chat_stream_api_v1_chat__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "text/event-stream": {}
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/": {
+      "post": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Upload Document",
+        "description": "Accept a document upload, run OCR extraction, and return structured page results.\n\n- Validates content type; rejects anything other than PDF/DOCX/PNG with HTTP 422.\n- Reads the file entirely into memory; no disk writes occur (EPHEMERAL guarantee).\n- Passes bytes to OCRService (Mistral OCR primary, Tesseract fallback).\n- Returns per-page OCR text and confidence scores.\n- target_lang is accepted for downstream translation by TranslationService.",
+        "operationId": "upload_document_api_v1_documents__post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_document_api_v1_documents__post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentUploadResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{document_id}": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Get Document",
+        "description": "Retrieve metadata and processing status for an uploaded document.",
+        "operationId": "get_document_api_v1_documents__document_id__get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentMetadata"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{document_id}/classification": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Get Document Classification",
+        "description": "Retrieve classification metadata for an uploaded document.\n\nThe current implementation uses an in-memory metadata seam until D1-backed\ndocument persistence lands. Missing IDs return 404 rather than fabricating data.",
+        "operationId": "get_document_classification_api_v1_documents__document_id__classification_get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocumentClassification"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{document_id}/download": {
+      "get": {
+        "tags": [
+          "documents"
+        ],
+        "summary": "Download Translated Document",
+        "description": "Download the layout-preserved translated version of a document.",
+        "operationId": "download_translated_document_api_v1_documents__document_id__download_get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "en",
+              "title": "Language"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Download Translated Document Api V1 Documents  Document Id  Download Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/translate/pdf-reference": {
+      "post": {
+        "tags": [
+          "translate"
+        ],
+        "summary": "Translate Pdf Reference Document",
+        "description": "Translate and explain a PDF without retaining or modifying the original.",
+        "operationId": "translate_pdf_reference_document_api_v1_translate_pdf_reference_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_translate_pdf_reference_document_api_v1_translate_pdf_reference_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PDFReferenceTranslationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/translate/": {
+      "post": {
+        "tags": [
+          "translate"
+        ],
+        "summary": "Translate Document",
+        "description": "Translate a document's extracted text to the target language.\n\nUses Cloudflare Workers AI @cf/meta/m2m100-1.2b (EN/DE/FR).\nPass `pages` from a prior OCR call; omit to run in stub mode (empty result).",
+        "operationId": "translate_document_api_v1_translate__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranslationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranslationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/translate/status/{job_id}": {
+      "get": {
+        "tags": [
+          "translate"
+        ],
+        "summary": "Get Translation Status",
+        "description": "Poll translation job status by job_id.",
+        "operationId": "get_translation_status_api_v1_translate_status__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranslationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/translate/languages": {
+      "get": {
+        "tags": [
+          "translate"
+        ],
+        "summary": "List Supported Languages",
+        "description": "Return all supported source\u2192target language pairs.",
+        "operationId": "list_supported_languages_api_v1_translate_languages_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LanguagePairsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/glossary/": {
+      "get": {
+        "tags": [
+          "glossary"
+        ],
+        "summary": "Lookup Glossary",
+        "operationId": "lookup_glossary_api_v1_glossary__get",
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Glossary domain; only 'legal' is supported in MVP",
+              "default": "legal",
+              "title": "Domain"
+            },
+            "description": "Glossary domain; only 'legal' is supported in MVP"
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional source language filter (en, de, fr)",
+              "title": "Source"
+            },
+            "description": "Optional source language filter (en, de, fr)"
+          },
+          {
+            "name": "target",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional target language hint (en, de, fr)",
+              "title": "Target"
+            },
+            "description": "Optional target language hint (en, de, fr)"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional search query",
+              "title": "Q"
+            },
+            "description": "Optional search query"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "description": "Maximum number of terms to return",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Maximum number of terms to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryLookupResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/glossary/search": {
+      "get": {
+        "tags": [
+          "glossary"
+        ],
+        "summary": "Search Glossary",
+        "operationId": "search_glossary_api_v1_glossary_search_get",
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "Glossary domain; only 'legal' is supported in MVP",
+              "default": "legal",
+              "title": "Domain"
+            },
+            "description": "Glossary domain; only 'legal' is supported in MVP"
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional source language filter (en, de, fr)",
+              "title": "Source"
+            },
+            "description": "Optional source language filter (en, de, fr)"
+          },
+          {
+            "name": "target",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional target language hint (en, de, fr)",
+              "title": "Target"
+            },
+            "description": "Optional target language hint (en, de, fr)"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Search query",
+              "title": "Q"
+            },
+            "description": "Search query"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "description": "Maximum number of terms to return",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Maximum number of terms to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryLookupResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/glossary/extract": {
+      "post": {
+        "tags": [
+          "glossary"
+        ],
+        "summary": "Extract Glossary Terms",
+        "operationId": "extract_glossary_terms_api_v1_glossary_extract_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GlossaryExtractRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlossaryExtractResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/exchange/send": {
+      "post": {
+        "tags": [
+          "exchange"
+        ],
+        "summary": "Send Document",
+        "description": "Send a document to a Matrix room.\n\nValidates feature flag (403 if off). Uploads file to Matrix homeserver\nand sends file event to the specified room. Deletes file bytes reference\nbefore returning (GDPR NFR-04).\n\nReturns {\"event_id\": str, \"room_id\": str, \"ephemeral\": true}.",
+        "operationId": "send_document_api_v1_exchange_send_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_send_document_api_v1_exchange_send_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Send Document Api V1 Exchange Send Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/exchange/rooms": {
+      "post": {
+        "tags": [
+          "exchange"
+        ],
+        "summary": "Create Room",
+        "description": "Create a secure Matrix room and invite participants.\n\nValidates all participant IDs as Matrix user IDs (@user:domain.tld).\nReturns {\"room_id\": str}.",
+        "operationId": "create_room_api_v1_exchange_rooms_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Create Room Api V1 Exchange Rooms Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/exchange/rooms/{room_id}/events": {
+      "get": {
+        "tags": [
+          "exchange"
+        ],
+        "summary": "Get Room Events",
+        "description": "Retrieve recent events from a Matrix room.\n\nStrips any content.body fields containing raw document bytes.",
+        "operationId": "get_room_events_api_v1_exchange_rooms__room_id__events_get",
+        "parameters": [
+          {
+            "name": "room_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Room Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "title": "Response Get Room Events Api V1 Exchange Rooms  Room Id  Events Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/matrix/status": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Auth Status",
+        "operationId": "auth_status_api_v1_auth_matrix_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatrixAuthStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/matrix/login": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Matrix Login",
+        "operationId": "matrix_login_api_v1_auth_matrix_login_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/matrix/callback": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Matrix Callback",
+        "operationId": "matrix_callback_api_v1_auth_matrix_callback_get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Code"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "State"
+            }
+          },
+          {
+            "name": "error",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Error"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/matrix/session": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Session Status",
+        "operationId": "session_status_api_v1_auth_matrix_session_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MatrixSessionStatus"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/matrix/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout",
+        "operationId": "logout_api_v1_auth_matrix_logout_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Basic liveness probe \u2014 returns 200 if the app is running.",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Check Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_send_document_api_v1_exchange_send_post": {
+        "properties": {
+          "room_id": {
+            "type": "string",
+            "title": "Room Id"
+          },
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "room_id",
+          "file"
+        ],
+        "title": "Body_send_document_api_v1_exchange_send_post"
+      },
+      "Body_translate_pdf_reference_document_api_v1_translate_pdf_reference_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "description": "PDF to translate as a reference copy"
+          },
+          "source_language": {
+            "type": "string",
+            "title": "Source Language",
+            "description": "Source language: en | de | fr"
+          },
+          "target_language": {
+            "type": "string",
+            "title": "Target Language",
+            "description": "Target language: en | de | fr"
+          },
+          "expected_page_count": {
+            "type": "integer",
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Expected Page Count",
+            "description": "Page count returned by the preceding upload analysis"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file",
+          "source_language",
+          "target_language",
+          "expected_page_count"
+        ],
+        "title": "Body_translate_pdf_reference_document_api_v1_translate_pdf_reference_post"
+      },
+      "Body_upload_document_api_v1_documents__post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "description": "Document to process (PDF, DOCX, PNG)"
+          },
+          "target_lang": {
+            "type": "string",
+            "enum": [
+              "en",
+              "de",
+              "fr"
+            ],
+            "title": "Target Lang",
+            "description": "Target translation language (ISO 639-1)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file",
+          "target_lang"
+        ],
+        "title": "Body_upload_document_api_v1_documents__post"
+      },
+      "ChatRequest": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "en",
+              "de",
+              "fr"
+            ],
+            "title": "Language",
+            "default": "en"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/ChatTurn"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "title": "History"
+          },
+          "top_k": {
+            "type": "integer",
+            "maximum": 10.0,
+            "minimum": 1.0,
+            "title": "Top K",
+            "default": 5
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "ChatRequest",
+        "description": "A stateless chat request; conversation history is never persisted."
+      },
+      "ChatTurn": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "user",
+              "assistant"
+            ],
+            "title": "Role"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "ChatTurn",
+        "description": "A bounded prior turn supplied from browser memory."
+      },
+      "ComponentStatus": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "last_check_ms": {
+            "type": "integer",
+            "title": "Last Check Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "last_check_ms"
+        ],
+        "title": "ComponentStatus"
+      },
+      "DocumentClassification": {
+        "properties": {
+          "document_type": {
+            "type": "string",
+            "title": "Document Type",
+            "default": "unknown"
+          },
+          "language_code": {
+            "type": "string",
+            "title": "Language Code",
+            "default": "und"
+          },
+          "quality_score": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Quality Score",
+            "default": 0.5
+          },
+          "geographic_relevance": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Geographic Relevance"
+          },
+          "safety_flags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Safety Flags"
+          },
+          "confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "DocumentClassification",
+        "description": "EvidenceEU subset of propella-1 annotations used by upload/RAG metadata."
+      },
+      "DocumentExplanation": {
+        "properties": {
+          "document_type": {
+            "type": "string",
+            "title": "Document Type"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language"
+          },
+          "requirements": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentRequirement"
+            },
+            "type": "array",
+            "title": "Requirements"
+          },
+          "explanation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Explanation"
+          },
+          "legal_context_status": {
+            "type": "string",
+            "enum": [
+              "grounded",
+              "sources_only",
+              "not_found",
+              "unavailable"
+            ],
+            "title": "Legal Context Status"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/components/schemas/EULawCitation"
+            },
+            "type": "array",
+            "title": "Citations"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "document_type",
+          "language",
+          "requirements",
+          "legal_context_status",
+          "citations"
+        ],
+        "title": "DocumentExplanation",
+        "description": "Reference-only explanation; never represents legal validation or advice."
+      },
+      "DocumentMetadata": {
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "title": "Document Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "detected_language": {
+            "type": "string",
+            "title": "Detected Language"
+          },
+          "page_count": {
+            "type": "integer",
+            "title": "Page Count"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "translations": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Translations"
+          },
+          "classification": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DocumentClassification"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "document_id",
+          "filename",
+          "status",
+          "detected_language",
+          "page_count",
+          "created_at",
+          "translations"
+        ],
+        "title": "DocumentMetadata"
+      },
+      "DocumentRequirement": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "field",
+              "instruction"
+            ],
+            "title": "Kind"
+          },
+          "page_number": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Number"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "kind"
+        ],
+        "title": "DocumentRequirement",
+        "description": "One requirement stated by the uploaded document."
+      },
+      "DocumentUploadResponse": {
+        "properties": {
+          "doc_id": {
+            "type": "string",
+            "title": "Doc Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "ephemeral": {
+            "type": "boolean",
+            "title": "Ephemeral"
+          },
+          "page_count": {
+            "type": "integer",
+            "title": "Page Count"
+          },
+          "pages": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Pages"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/DocumentClassification"
+          },
+          "target_language": {
+            "type": "string",
+            "enum": [
+              "en",
+              "de",
+              "fr"
+            ],
+            "title": "Target Language"
+          },
+          "pdf_processing": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PDFProcessingProfile"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "document_explanation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DocumentExplanation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "doc_id",
+          "status",
+          "ephemeral",
+          "page_count",
+          "pages",
+          "classification",
+          "target_language"
+        ],
+        "title": "DocumentUploadResponse"
+      },
+      "EULawCitation": {
+        "properties": {
+          "source_number": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Source Number"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "excerpt": {
+            "type": "string",
+            "title": "Excerpt"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language"
+          },
+          "document_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Document Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_number",
+          "title",
+          "url",
+          "excerpt",
+          "language"
+        ],
+        "title": "EULawCitation",
+        "description": "Verified official source supporting generated EU-law context."
+      },
+      "GlossaryExtractRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "source_lang": {
+            "type": "string",
+            "title": "Source Lang"
+          },
+          "doc_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Doc Id"
+          },
+          "persist": {
+            "type": "boolean",
+            "title": "Persist",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "source_lang"
+        ],
+        "title": "GlossaryExtractRequest"
+      },
+      "GlossaryExtractResponse": {
+        "properties": {
+          "source_lang": {
+            "type": "string",
+            "title": "Source Lang"
+          },
+          "extracted_count": {
+            "type": "integer",
+            "title": "Extracted Count"
+          },
+          "persisted_count": {
+            "type": "integer",
+            "title": "Persisted Count"
+          },
+          "terms": {
+            "items": {
+              "$ref": "#/components/schemas/GlossaryExtractedTerm"
+            },
+            "type": "array",
+            "title": "Terms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source_lang",
+          "extracted_count",
+          "persisted_count"
+        ],
+        "title": "GlossaryExtractResponse"
+      },
+      "GlossaryExtractedTerm": {
+        "properties": {
+          "term_en": {
+            "type": "string",
+            "title": "Term En"
+          },
+          "term_de": {
+            "type": "string",
+            "title": "Term De"
+          },
+          "term_fr": {
+            "type": "string",
+            "title": "Term Fr"
+          },
+          "definition": {
+            "type": "string",
+            "title": "Definition"
+          },
+          "source_lang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Lang"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence",
+            "default": 1.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "term_en",
+          "term_de",
+          "term_fr",
+          "definition"
+        ],
+        "title": "GlossaryExtractedTerm"
+      },
+      "GlossaryLookupResponse": {
+        "properties": {
+          "domain": {
+            "type": "string",
+            "title": "Domain"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "target": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target"
+          },
+          "query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "terms": {
+            "items": {
+              "$ref": "#/components/schemas/GlossaryTermRead"
+            },
+            "type": "array",
+            "title": "Terms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "domain",
+          "count"
+        ],
+        "title": "GlossaryLookupResponse"
+      },
+      "GlossaryTermRead": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "term_en": {
+            "type": "string",
+            "title": "Term En"
+          },
+          "term_de": {
+            "type": "string",
+            "title": "Term De"
+          },
+          "term_fr": {
+            "type": "string",
+            "title": "Term Fr"
+          },
+          "mistranslations": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mistranslations"
+          },
+          "definition": {
+            "type": "string",
+            "title": "Definition"
+          },
+          "source_lang": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Lang"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "term_en",
+          "term_de",
+          "term_fr",
+          "definition",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "GlossaryTermRead",
+        "description": "Response model returned by GET /glossary endpoints.\n\nMirrors GlossaryTermRecord but excludes internal fields (source_doc_id,\nconfidence) unless the caller requests them explicitly."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthStatus": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "dependencies": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Dependencies"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "version",
+          "dependencies"
+        ],
+        "title": "HealthStatus"
+      },
+      "LanguagePairsResponse": {
+        "properties": {
+          "pairs": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Pairs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pairs"
+        ],
+        "title": "LanguagePairsResponse"
+      },
+      "LivenessStatus": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "sprint": {
+            "type": "integer",
+            "title": "Sprint"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "version",
+          "sprint"
+        ],
+        "title": "LivenessStatus"
+      },
+      "MatrixAuthStatus": {
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "title": "Enabled"
+          },
+          "available": {
+            "type": "boolean",
+            "title": "Available"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "transport_error",
+                  "unsupported",
+                  "unexpected_status",
+                  "incomplete_metadata"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enabled",
+          "available"
+        ],
+        "title": "MatrixAuthStatus"
+      },
+      "MatrixSessionStatus": {
+        "properties": {
+          "authenticated": {
+            "type": "boolean",
+            "title": "Authenticated"
+          },
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id"
+          },
+          "device_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Device Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "authenticated"
+        ],
+        "title": "MatrixSessionStatus"
+      },
+      "PDFProcessingProfile": {
+        "properties": {
+          "route": {
+            "type": "string",
+            "enum": [
+              "pdf_reference_translation",
+              "document_understanding_translation"
+            ],
+            "title": "Route",
+            "default": "pdf_reference_translation"
+          },
+          "output_mode": {
+            "type": "string",
+            "enum": [
+              "reference",
+              "extracted_text"
+            ],
+            "title": "Output Mode",
+            "default": "reference"
+          },
+          "layout_preserved": {
+            "type": "boolean",
+            "title": "Layout Preserved",
+            "default": true
+          },
+          "original_unchanged": {
+            "type": "boolean",
+            "const": true,
+            "title": "Original Unchanged",
+            "default": true
+          },
+          "form_filling_supported": {
+            "type": "boolean",
+            "const": false,
+            "title": "Form Filling Supported",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "PDFProcessingProfile",
+        "description": "Describe the available PDF translation product route."
+      },
+      "PDFReferenceTranslationResult": {
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "status": {
+            "type": "string",
+            "const": "done",
+            "title": "Status",
+            "default": "done"
+          },
+          "ephemeral": {
+            "type": "boolean",
+            "const": true,
+            "title": "Ephemeral",
+            "default": true
+          },
+          "output_mode": {
+            "type": "string",
+            "const": "reference",
+            "title": "Output Mode",
+            "default": "reference"
+          },
+          "original_unchanged": {
+            "type": "boolean",
+            "const": true,
+            "title": "Original Unchanged",
+            "default": true
+          },
+          "form_filling_supported": {
+            "type": "boolean",
+            "const": false,
+            "title": "Form Filling Supported",
+            "default": false
+          },
+          "source_language": {
+            "type": "string",
+            "enum": [
+              "en",
+              "de",
+              "fr"
+            ],
+            "title": "Source Language"
+          },
+          "target_language": {
+            "type": "string",
+            "enum": [
+              "en",
+              "de",
+              "fr"
+            ],
+            "title": "Target Language"
+          },
+          "translated_pdf_b64": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Translated Pdf B64"
+          },
+          "translated_pdf_content_type": {
+            "type": "string",
+            "const": "application/pdf",
+            "title": "Translated Pdf Content Type",
+            "default": "application/pdf"
+          },
+          "detected_source_language": {
+            "type": "string",
+            "title": "Detected Source Language"
+          },
+          "layout_preserved": {
+            "type": "boolean",
+            "title": "Layout Preserved"
+          },
+          "pages_processed": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Pages Processed"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/DocumentClassification"
+          },
+          "document_explanation": {
+            "$ref": "#/components/schemas/DocumentExplanation"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "type": "object",
+        "required": [
+          "request_id",
+          "source_language",
+          "target_language",
+          "translated_pdf_b64",
+          "detected_source_language",
+          "layout_preserved",
+          "pages_processed",
+          "classification",
+          "document_explanation"
+        ],
+        "title": "PDFReferenceTranslationResult",
+        "description": "Ephemeral translated reference plus document understanding metadata."
+      },
+      "PipelineStatus": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "components": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ComponentStatus"
+            },
+            "type": "object",
+            "title": "Components"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "environment": {
+            "type": "string",
+            "title": "Environment"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "components",
+          "version",
+          "environment"
+        ],
+        "title": "PipelineStatus"
+      },
+      "RoomCreateRequest": {
+        "properties": {
+          "participants": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Participants"
+          }
+        },
+        "type": "object",
+        "required": [
+          "participants"
+        ],
+        "title": "RoomCreateRequest",
+        "description": "Request body for creating a Matrix exchange room."
+      },
+      "SearchRequest": {
+        "properties": {
+          "query": {
+            "type": "string",
+            "title": "Query"
+          },
+          "language": {
+            "type": "string",
+            "title": "Language",
+            "default": "en"
+          },
+          "document_types": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Document Types",
+            "default": []
+          },
+          "max_results": {
+            "type": "integer",
+            "title": "Max Results",
+            "default": 10
+          }
+        },
+        "type": "object",
+        "required": [
+          "query"
+        ],
+        "title": "SearchRequest"
+      },
+      "SearchResult": {
+        "properties": {
+          "answer": {
+            "type": "string",
+            "title": "Answer"
+          },
+          "sources": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "query_language": {
+            "type": "string",
+            "title": "Query Language"
+          },
+          "result_languages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Result Languages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "answer",
+          "sources",
+          "query_language",
+          "result_languages"
+        ],
+        "title": "SearchResult"
+      },
+      "TranslatedPage": {
+        "properties": {
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/TranslationSection"
+            },
+            "type": "array",
+            "title": "Sections"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "translated",
+              "partial",
+              "failed"
+            ],
+            "title": "Status",
+            "default": "translated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "page",
+          "text"
+        ],
+        "title": "TranslatedPage"
+      },
+      "TranslationQualityCheck": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "warning"
+            ],
+            "title": "Status"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "status",
+          "message"
+        ],
+        "title": "TranslationQualityCheck",
+        "description": "One deterministic translation quality check."
+      },
+      "TranslationQualityReport": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "review"
+            ],
+            "title": "Status"
+          },
+          "terminology_review_status": {
+            "type": "string",
+            "enum": [
+              "applied",
+              "checked_no_changes",
+              "not_checked"
+            ],
+            "title": "Terminology Review Status",
+            "default": "not_checked"
+          },
+          "source_section_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Source Section Count"
+          },
+          "translated_section_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Translated Section Count"
+          },
+          "failed_section_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Failed Section Count"
+          },
+          "checks": {
+            "items": {
+              "$ref": "#/components/schemas/TranslationQualityCheck"
+            },
+            "type": "array",
+            "title": "Checks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "source_section_count",
+          "translated_section_count",
+          "failed_section_count"
+        ],
+        "title": "TranslationQualityReport",
+        "description": "Summary of translation completeness and preservation checks."
+      },
+      "TranslationRequest": {
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "title": "Document Id"
+          },
+          "source_language": {
+            "type": "string",
+            "title": "Source Language",
+            "description": "ISO 639-1 or 'auto'",
+            "default": "auto"
+          },
+          "target_language": {
+            "type": "string",
+            "enum": [
+              "en",
+              "de",
+              "fr"
+            ],
+            "title": "Target Language",
+            "description": "ISO 639-1: en | de | fr"
+          },
+          "preserve_layout": {
+            "type": "boolean",
+            "title": "Preserve Layout",
+            "default": true
+          },
+          "pages": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pages",
+            "description": "Pre-extracted OCR pages: [{page: int, text: str}]. If omitted, translation runs on empty content (stub mode)."
+          },
+          "classification": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DocumentClassification"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "include_document_explanation": {
+            "type": "boolean",
+            "title": "Include Document Explanation",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "document_id",
+          "target_language"
+        ],
+        "title": "TranslationRequest"
+      },
+      "TranslationResponse": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "translated_pages": {
+            "items": {
+              "$ref": "#/components/schemas/TranslatedPage"
+            },
+            "type": "array",
+            "title": "Translated Pages"
+          },
+          "quality_report": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TranslationQualityReport"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "glossary_terms_applied": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Glossary Terms Applied",
+            "default": 0
+          },
+          "document_explanation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DocumentExplanation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "download_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Download Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "status"
+        ],
+        "title": "TranslationResponse"
+      },
+      "TranslationSection": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "source_text": {
+            "type": "string",
+            "title": "Source Text"
+          },
+          "translated_text": {
+            "type": "string",
+            "title": "Translated Text"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "translated",
+              "failed"
+            ],
+            "title": "Status",
+            "default": "translated"
+          },
+          "attempts": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 1.0,
+            "title": "Attempts",
+            "default": 1
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "const": "TRANSLATION_SECTION_FAILED"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "index",
+          "source_text",
+          "translated_text"
+        ],
+        "title": "TranslationSection"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

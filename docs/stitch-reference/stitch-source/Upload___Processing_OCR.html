@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Processing Document</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&family=Courier+Prime&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-custom {
+            animation: spin-slow 2s linear infinite;
+        }
+        .progress-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffede2",
+                        "inverse-surface": "#2f3130",
+                        "surface-dim": "#dadad9",
+                        "on-surface-variant": "#414751",
+                        "primary-container": "#1d70b8",
+                        "surface-container-low": "#f4f3f2",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f1f0ef",
+                        "primary": "#005796",
+                        "error": "#D4351C",
+                        "focus": "#FFDD00",
+                        "outline-variant": "#c1c7d2",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-primary-fixed": "#001c37",
+                        "warning": "#F47738",
+                        "surface-container": "#efeeed",
+                        "on-surface": "#1a1c1c",
+                        "surface-variant": "#e3e2e1",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "surface-container-high": "#e9e8e7",
+                        "tertiary": "#824600",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "tertiary-fixed": "#ffdcc2",
+                        "secondary-fixed": "#e4e2e1",
+                        "primary-fixed": "#d2e4ff",
+                        "inverse-primary": "#a0caff",
+                        "surface-bright": "#faf9f8",
+                        "on-primary-fixed-variant": "#00497e",
+                        "background": "#faf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#626262",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "secondary": "#5e5e5e",
+                        "success": "#00703C",
+                        "primary-fixed-dim": "#a0caff",
+                        "surface": "#faf9f8",
+                        "tertiary-container": "#a55a00",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "border-subtle": "#B1B4B6",
+                        "on-secondary-fixed-variant": "#464747",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e3e2e1",
+                        "surface-tint": "#0061a6",
+                        "secondary-container": "#e1dfdf",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "outline": "#717782",
+                        "on-background": "#1a1c1c",
+                        "on-primary-container": "#e9f1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xs": "4px",
+                        "unit": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "label-sm": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "code": ["Courier Prime"],
+                        "headline-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background font-body-md text-on-background flex h-screen overflow-hidden">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="bg-surface-container-low border-r border-border-subtle flex flex-col h-full w-64 p-md gap-sm shrink-0">
+<div class="flex items-center gap-sm mb-lg px-xs">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md text-primary">EvidenceEU</h1>
+<p class="text-label-sm opacity-70">Legal Workspace</p>
+</div>
+</div>
+<button class="bg-primary text-on-primary py-sm px-md rounded-lg flex items-center justify-center gap-sm mb-lg font-label-md active:scale-95 transition-transform">
+<span class="material-symbols-outlined">add</span>
+<span>New Case</span>
+</button>
+<nav class="flex flex-col gap-xs flex-1">
+<!-- Home -->
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md">Home</span>
+</a>
+<!-- Chat -->
+<a class="flex items-center gap-md p-md bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md">Chat</span>
+</a>
+<!-- Library -->
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="font-label-md">Library</span>
+</a>
+<!-- Cases -->
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="font-label-md">Cases</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high rounded-lg transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-border-subtle pt-md">
+<div class="flex items-center gap-md p-sm">
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a legal professional in a sharp suit, neutral background, high-end corporate photography style with soft rim lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA55mze9nafJyfKn4Hgff9QtVtpVFHe5WtP3ZJjjuUjLqhi8wS5sxOtPNKEcXLmWEHMli91lkuAl23tJpVcOzLdemyPVshymMB1TqM3Wfb322sMsYFm2IOwfU-D28yuoKzXwZzPkLguytete_Lq5evNV50LL4mqpms765iMPvHeySA4AKdHawfg2QliQvYAnPr4bgLkTkRbwn_pW73_-7qZamRAMHYoqYrkDm5PcCrmY1JAlGBk7w2vOaa-Oq3UPejLmF7Gh9OYlszK"/>
+</div>
+<div class="overflow-hidden">
+<p class="text-label-sm font-bold truncate">E. Vandermeer</p>
+<p class="text-xs text-secondary truncate">Senior Counsel</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar (Authority Source: JSON) -->
+<header class="bg-surface flex justify-between items-center w-full px-lg h-16 border-b border-border-subtle z-50 shrink-0">
+<div class="flex items-center gap-xl h-full">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-border-subtle rounded text-body-md focus:ring-3 focus:ring-focus outline-none" placeholder="Search case files..." type="text"/>
+</div>
+<nav class="hidden md:flex items-center gap-lg h-full">
+<a class="text-secondary hover:text-on-surface transition-colors duration-200 flex items-center h-full px-sm" href="#">Dashboard</a>
+<a class="text-primary border-b-2 border-primary pb-1 flex items-center h-full px-sm font-bold" href="#">Documents</a>
+<a class="text-secondary hover:text-on-surface transition-colors duration-200 flex items-center h-full px-sm" href="#">Workflows</a>
+<a class="text-secondary hover:text-on-surface transition-colors duration-200 flex items-center h-full px-sm" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+</header>
+<!-- Main Workspace -->
+<div class="flex-1 overflow-y-auto p-lg bg-background">
+<div class="max-w-container-max mx-auto space-y-lg">
+<!-- Status Badges Header -->
+<div class="flex flex-wrap items-center gap-sm">
+<div class="flex items-center gap-xs bg-primary-fixed text-on-primary-fixed px-sm py-xs rounded-full border border-primary-container text-label-sm">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+<span>Let me upload a document to ask about</span>
+</div>
+<div class="flex items-center gap-xs bg-success/10 text-success px-sm py-xs rounded-full border border-success/30 text-label-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span>Logged in: personal corpus enabled</span>
+</div>
+</div>
+<!-- Processing Canvas -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Main Card: Processing State -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest border border-border-subtle rounded shadow-sm overflow-hidden min-h-[400px] flex flex-col">
+<!-- Card Header -->
+<div class="p-md border-b border-border-subtle flex justify-between items-center bg-surface-container-low">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-error/10 text-error flex items-center justify-center rounded">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+</div>
+<div>
+<h2 class="font-headline-md text-on-surface">Aufenthaltstitel.pdf</h2>
+<p class="text-label-sm text-secondary">2.4 MB • Legal ID Document</p>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<span class="px-sm py-1 bg-warning/10 text-warning border border-warning/30 text-xs font-bold rounded">IN PROGRESS</span>
+</div>
+</div>
+<!-- Processing Visual Body -->
+<div class="flex-1 flex flex-col items-center justify-center p-xl relative overflow-hidden">
+<!-- Background Mesh for Atmosphere -->
+<div class="absolute inset-0 opacity-5 pointer-events-none">
+<div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 50% 50%, #1d70b8 0%, transparent 70%);"></div>
+</div>
+<!-- Circular Spinner & File Icon -->
+<div class="relative mb-xl">
+<!-- Rotating Border -->
+<div class="w-48 h-48 rounded-full border-4 border-surface-container-highest border-t-primary animate-spin-custom"></div>
+<!-- Inner Pulse -->
+<div class="absolute inset-4 rounded-full bg-primary/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-primary animate-pulse">document_scanner</span>
+</div>
+<!-- Floating Data Bits -->
+<div class="absolute -top-4 -right-4 w-12 h-12 bg-surface-container-lowest border border-border-subtle rounded-lg shadow-sm flex items-center justify-center animate-bounce" style="animation-duration: 3s;">
+<span class="material-symbols-outlined text-primary">data_object</span>
+</div>
+</div>
+<!-- Text Feedback -->
+<div class="text-center space-y-sm max-w-md">
+<h3 class="text-headline-lg font-headline-lg text-on-surface">Extracting text...</h3>
+<p class="text-body-md text-secondary">Our AI is performing Optical Character Recognition (OCR) to convert document imagery into searchable data structures.</p>
+<div class="flex items-center justify-center gap-md pt-md">
+<div class="flex items-center gap-xs text-label-sm font-bold text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">timer</span>
+<span>Estimated wait: 3-8s</span>
+</div>
+<div class="h-4 w-px bg-border-subtle"></div>
+<div class="flex items-center gap-xs text-label-sm font-bold text-success">
+<span class="material-symbols-outlined text-[18px]">security</span>
+<span>Encryption: AES-256</span>
+</div>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full max-w-md mt-xl h-2 bg-surface-container-highest rounded-full overflow-hidden relative">
+<div class="absolute top-0 left-0 h-full w-[64%] bg-primary rounded-full transition-all duration-700 ease-out">
+<div class="absolute inset-0 progress-shimmer"></div>
+</div>
+</div>
+<div class="w-full max-w-md flex justify-between mt-sm">
+<span class="text-label-sm text-secondary">OCR Stage 2/3</span>
+<span class="text-label-sm font-bold text-primary">64%</span>
+</div>
+</div>
+<!-- Card Footer -->
+<div class="p-md bg-surface-container border-t border-border-subtle flex justify-end gap-sm">
+<button class="px-md py-sm border-2 border-primary text-primary font-label-md rounded hover:bg-primary/5 transition-colors active:opacity-80">
+                                    Cancel Upload
+                                </button>
+<button class="px-md py-sm bg-primary text-on-primary font-label-md rounded opacity-50 cursor-not-allowed">
+                                    Analyze Data
+                                </button>
+</div>
+</div>
+</div>
+<!-- Sidebar: File Stats & Details -->
+<div class="col-span-12 lg:col-span-4 space-y-lg">
+<!-- Mini Preview -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded shadow-sm p-md space-y-md">
+<h4 class="font-headline-md text-on-surface">Visual Verification</h4>
+<div class="aspect-[3/4] bg-surface-container-high rounded border border-border-subtle relative group overflow-hidden">
+<div class="absolute inset-0 grayscale opacity-40">
+<img class="w-full h-full object-cover" data-alt="A high-resolution scanning effect over a formal European ID document with holographic security features, blue text stamps, and a photo identification area. Professional, technical legal look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmimhNpHUVN_MbzK3aG6g_6StEyyr73EWKzgCQR3Ix85QCBt4r5dJCJvAM7fwe0y3mnDHLMpz0mntjnpAik4EhAUkgzuzRNRnNbBHi5GJpRC8A5TCJqsEO4tzGThWNNeZuwSTC-AiLo9QqgwboVEltRblOiMi6yXnG3zdm6XgmUsdjGrsIoUCBz8RVcI-0d7fksPYRwrG5mXExZxOHJ-aGzQQnARE5_ndAP3lQKpZT0X_USXIN9wZO3GfyYzQM6BoVWx6B1BxEvmTk"/>
+</div>
+<!-- Scanning Line -->
+<div class="absolute top-0 left-0 w-full h-[2px] bg-primary shadow-[0_0_15px_#1d70b8] animate-[scan_4s_ease-in-out_infinite]"></div>
+<style>
+                                    @keyframes scan {
+                                        0% { top: 0; }
+                                        50% { top: 100%; }
+                                        100% { top: 0; }
+                                    }
+                                </style>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-surface-container-lowest/90 border border-primary px-md py-sm rounded-lg backdrop-blur-sm">
+<p class="text-label-sm font-bold text-primary">SCANNING DOCUMENT...</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Points Extracted So Far -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded shadow-sm p-md space-y-md">
+<h4 class="font-headline-md text-on-surface">Live Extraction Log</h4>
+<div class="space-y-sm">
+<div class="flex justify-between items-center p-sm bg-success/5 rounded border border-success/20">
+<span class="text-label-sm text-secondary">Document Type</span>
+<span class="text-label-sm font-bold text-success flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        RESIDENCE_PERMIT
+                                    </span>
+</div>
+<div class="flex justify-between items-center p-sm bg-success/5 rounded border border-success/20">
+<span class="text-label-sm text-secondary">Language</span>
+<span class="text-label-sm font-bold text-success flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                        GERMAN (DE)
+                                    </span>
+</div>
+<div class="flex justify-between items-center p-sm bg-surface-container-high rounded border border-border-subtle animate-pulse">
+<span class="text-label-sm text-secondary">Expiry Date</span>
+<span class="text-label-sm font-bold text-secondary">IDENTIFYING...</span>
+</div>
+</div>
+</div>
+<!-- Alert Box -->
+<div class="bg-warning/5 border border-warning/30 rounded p-md flex gap-md">
+<span class="material-symbols-outlined text-warning">info</span>
+<div class="space-y-xs">
+<p class="text-label-sm font-bold text-warning">Personal Corpus Priority</p>
+<p class="text-xs text-on-surface-variant">This document will be prioritized in your private vector store for subsequent cross-case analysis.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interaction: Progress bar simulation
+        let progress = 64;
+        const progressBar = document.querySelector('.bg-primary.rounded-full');
+        const progressText = document.querySelector('.text-label-sm.font-bold.text-primary');
+
+        setInterval(() => {
+            if (progress < 98) {
+                progress += Math.random() * 1.5;
+                if(progressBar) progressBar.style.width = `${progress}%`;
+                if(progressText) progressText.innerText = `${Math.floor(progress)}%`;
+            }
+        }, 1500);
+
+        // Interactive states for sidebar
+        document.querySelectorAll('aside nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                document.querySelectorAll('aside nav a').forEach(l => {
+                    l.classList.remove('bg-primary-container', 'text-on-primary-container', 'font-bold');
+                    l.classList.add('text-secondary');
+                });
+                link.classList.add('bg-primary-container', 'text-on-primary-container', 'font-bold');
+                link.classList.remove('text-secondary');
+            });
+        });
+    </script>
+</body></html>

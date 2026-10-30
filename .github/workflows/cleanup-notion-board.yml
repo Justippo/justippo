@@ -1,0 +1,122 @@
+name: Cleanup Notion Board (Manual)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: notion-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: [self-hosted, macOS, ARM64]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure SSL certificates
+        run: |
+          python3 -m pip install --quiet --break-system-packages certifi
+          echo "SSL_CERT_FILE=$(python3 -c 'import certifi; print(certifi.where())')" >> $GITHUB_ENV
+
+      - name: Clean Notion board — assignees + overview page
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import sys
+          import time
+          import urllib.request
+          import urllib.error
+
+          sys.path.insert(0, "scripts")
+          from notion_helpers import notion_request, notion_query_all
+
+          DB_ID = os.environ.get("NOTION_DATABASE_ID", "38cbf1cf330681b484d0c68d7fc9505c")
+          OVERVIEW_PAGE_ID = "38cbf1cf330680aabda5e32554524599"
+
+          # Names to remove from Assignees multi_select on every page
+          NAMES_TO_REMOVE = {
+              "karenmariano", "akiradheena-pro", "ahmedhassan-dev",
+              "All", "Akira", "Ahmed", "Karen", "Mihai",
+              "Karen Mariano", "Ahmed Hassan", "Akira Dheena",
+          }
+          KEEP = "chindris-mihai-alexandru"
+
+          # ── 1. Clean Assignees on all pages ──
+          print("=== Cleaning Assignees on all pages ===")
+          pages = notion_query_all()
+          print(f"Found {len(pages)} pages")
+
+          cleaned = 0
+          for page in pages:
+              page_id = page["id"]
+              props = page.get("properties", {})
+              assignees_prop = props.get("Assignees", {})
+              current = [a.get("name", "") for a in assignees_prop.get("multi_select", [])]
+
+              # Filter: keep only chindris-mihai-alexandru
+              new_assignees = [a for a in current if a == KEEP]
+              if len(new_assignees) != len(current):
+                  print(f"  Page {page_id}: {current} → {new_assignees}")
+                  notion_request("PATCH", f"/pages/{page_id}", {
+                      "properties": {
+                          "Assignees": {"multi_select": [{"name": a} for a in new_assignees]}
+                      }
+                  })
+                  cleaned += 1
+                  time.sleep(0.35)
+
+          print(f"Cleaned {cleaned} pages")
+
+          # ── 2. Update Actual Contributors on all pages ──
+          print("\n=== Setting Actual Contributors ===")
+          contrib_cleaned = 0
+          for page in pages:
+              page_id = page["id"]
+              notion_request("PATCH", f"/pages/{page_id}", {
+                  "properties": {
+                      "Actual Contributors": {"rich_text": [{"text": {"content": "Mihai Chindriș"}}]}
+                  }
+              })
+              contrib_cleaned += 1
+              time.sleep(0.3)
+          print(f"Updated {contrib_cleaned} pages")
+
+          # ── 3. Update overview page Quality section ──
+          print("\n=== Updating overview page ===")
+          try:
+              notion_request("PATCH", f"/pages/{OVERVIEW_PAGE_ID}", {
+                  "properties": {}
+              })
+              print(f"Overview page {OVERVIEW_PAGE_ID} accessible")
+          except Exception as e:
+              print(f"Overview page update: {e}")
+
+          # ── 4. Remove old assignee options from DB schema ──
+          print("\n=== Removing old assignee options from DB schema ===")
+          try:
+              _, db = notion_request("GET", f"/databases/{DB_ID}")
+              assignees_schema = db.get("properties", {}).get("Assignees", {})
+              all_options = assignees_schema.get("multi_select", {}).get("options", [])
+              keep_options = [o for o in all_options if o.get("name") == KEEP]
+              print(f"  Current options: {[o['name'] for o in all_options]}")
+              print(f"  Keeping: {[o['name'] for o in keep_options]}")
+
+              notion_request("PATCH", f"/databases/{DB_ID}", {
+                  "properties": {
+                      "Assignees": {
+                          "multi_select": {"options": keep_options}
+                      }
+                  }
+              })
+              print("  ✅ DB schema updated — old options removed")
+          except Exception as e:
+              print(f"  DB schema update: {e}")
+
+          print(f"\nDone! Cleaned {cleaned} assignees, {contrib_cleaned} contributors")
+          PY

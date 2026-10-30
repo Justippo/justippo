@@ -1,0 +1,805 @@
+{
+  "generated": "2026-07-10T15:41:27.899520Z",
+  "live_frontend_url": "https://evidence-eu-frontend.pages.dev",
+  "live_api_url": "https://evidence-eu-api.mc146.workers.dev",
+  "wiring_audit": {
+    "total_checks": 39,
+    "passed": 27,
+    "failed": 10,
+    "partial": 2,
+    "checks": {
+      "WIRE-01": {
+        "description": "GET /api/v1/health/ fires on page load",
+        "status": "PARTIAL",
+        "observed": "useHealth is called in page.tsx and DashboardView.tsx, but not centrally in layout.tsx or AppShell.tsx.",
+        "expected": "useHealth should be invoked from the root layout or AppShell so it warms up the backend on any page load.",
+        "fix_location": "frontend/src/components/shell/AppShell.tsx",
+        "fix_direction": "Import and call useHealth() in AppShell.tsx so the health check runs regardless of entry route.",
+        "severity": "MAJOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-02": {
+        "description": "Connecting spinner is rendered in layout while awaiting 200",
+        "status": "PARTIAL",
+        "observed": "A text badge is shown on Landing page and a spinner in Dashboard, but the layout/shell itself doesn't show a global connecting spinner.",
+        "expected": "The layout/shell should consume the health loading state and display a global spinner or overlay during cold start.",
+        "fix_location": "frontend/src/components/shell/AppShell.tsx",
+        "fix_direction": "Consume useHealth() status in AppShell.tsx and render a blocking overlay or banner with a spinner when status is 'connecting'.",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-03": {
+        "description": "Spinner disappears after 200 OK",
+        "status": "PASS",
+        "observed": "The status transitions to 'healthy' and loading UI elements are removed.",
+        "expected": "Spinner should unmount when status is healthy.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-04": {
+        "description": "Loads demo-fallback.json on 3 retries failure",
+        "status": "FAIL",
+        "observed": "useHealth sets isDemoMode to true after 3 retries, but does not fetch demo-fallback.json.",
+        "expected": "demo-fallback.json should be fetched and its data made available globally when health check fails.",
+        "fix_location": "frontend/src/hooks/useHealth.ts",
+        "fix_direction": "Add fetch('/demo-fallback.json') in the failure block of check() in useHealth.ts and store the result in the hook's state.",
+        "severity": "CRITICAL",
+        "blocks_visual_screens": [
+          "dashboard",
+          "upload",
+          "translation",
+          "search-empty"
+        ]
+      },
+      "WIRE-05": {
+        "description": "POST /api/v1/documents/ hook passes X-GDPR-Consent header at call site",
+        "status": "FAIL",
+        "observed": "X-GDPR-Consent is hardcoded in api-generated/index.ts and not passed explicitly from the useUploadState hook.",
+        "expected": "useUploadState should pass the GDPR consent header explicitly to the typed client.",
+        "fix_location": "frontend/src/hooks/useUploadState.ts",
+        "fix_direction": "Update uploadDocument signature in index.ts to accept a headers object, and pass { 'X-GDPR-Consent': 'demo' } from useUploadState.ts.",
+        "severity": "MAJOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-06": {
+        "description": "POST /api/v1/translate/ hook passes X-GDPR-Consent header at call site",
+        "status": "FAIL",
+        "observed": "X-GDPR-Consent is baked into the typed client and not passed explicitly from the useTranslationState hook.",
+        "expected": "useTranslationState should pass the GDPR consent header explicitly to the typed client.",
+        "fix_location": "frontend/src/hooks/useTranslationState.ts",
+        "fix_direction": "Update translateDocument signature in index.ts to accept headers, and pass { 'X-GDPR-Consent': 'demo' } from useTranslationState.ts.",
+        "severity": "MAJOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-07": {
+        "description": "GET /api/v1/search/ EventSource URL includes ?gdpr_consent=demo",
+        "status": "PASS",
+        "observed": "useSearchSSE.ts constructs the URL using string interpolation with gdpr_consent=demo.",
+        "expected": "URL should contain gdpr_consent=demo as a query parameter.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-08": {
+        "description": "GET /api/v1/health/ does NOT send GDPR header",
+        "status": "PASS",
+        "observed": "The health check fetch does not include the GDPR header.",
+        "expected": "Health endpoint should not receive GDPR consent header.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-09": {
+        "description": "POST /api/v1/documents/ uses multipart/form-data with file and target_lang",
+        "status": "PASS",
+        "observed": "uploadDocument in index.ts correctly constructs a FormData object with file and target_lang.",
+        "expected": "Request should use FormData with file and target_lang fields.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-10": {
+        "description": "Upload response matches expected shape in typed client",
+        "status": "PASS",
+        "observed": "UploadResponse interface defines pages with text and confidence.",
+        "expected": "Response type should match API contract for UploadResponse.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-11": {
+        "description": "pages[].text is rendered in the success state",
+        "status": "PASS",
+        "observed": "UploadView.tsx renders page.text in a table cell.",
+        "expected": "Extracted text should be visible in success component.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-12": {
+        "description": "per-page confidence is rendered",
+        "status": "PASS",
+        "observed": "UploadView.tsx renders page.confidence as a percentage in the table.",
+        "expected": "Confidence scores should be visible per page.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-13": {
+        "description": "Loading state shown during upload request",
+        "status": "PASS",
+        "observed": "useUploadState sets status='loading', which UploadView uses to display a Spinner.",
+        "expected": "Loading UI should be displayed while upload is pending.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-14": {
+        "description": "Error state shown with recovery action on upload fail",
+        "status": "PASS",
+        "observed": "UploadView handles status='error' by showing the error message and a Try Again button.",
+        "expected": "Failed uploads should render an error message and retry button.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-15": {
+        "description": "POST /api/v1/translate/ with JSON, pages[], and GDPR header",
+        "status": "PASS",
+        "observed": "translateDocument sends application/json, pages array, and includes GDPR header.",
+        "expected": "Request should be properly formatted JSON with pages and consent header.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-16": {
+        "description": "Translation response typed with translated_pages",
+        "status": "PASS",
+        "observed": "TranslateResponse includes translated_pages array.",
+        "expected": "Response type should match expected translation shape.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-17": {
+        "description": "translated_pages[].text is rendered in success state",
+        "status": "PASS",
+        "observed": "TranslationView renders page.text in the translated panel.",
+        "expected": "Translated text should be visible.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-18": {
+        "description": "Truncation banner styled and raw string removed from body text",
+        "status": "FAIL",
+        "observed": "TranslationView renders the truncation banner, but page.text still contains the raw '[truncated for demo]' string.",
+        "expected": "The '[truncated for demo]' marker should be stripped from the body text before rendering.",
+        "fix_location": "frontend/src/components/translation/TranslationView.tsx",
+        "fix_direction": "In TranslationView.tsx, render `page.text.replace('[truncated for demo]', '')` instead of the raw `page.text`.",
+        "severity": "MAJOR",
+        "blocks_visual_screens": [
+          "translation"
+        ]
+      },
+      "WIRE-19": {
+        "description": "Loading state for translation flow",
+        "status": "PASS",
+        "observed": "useTranslationState provides loading status, and TranslationView renders a Spinner.",
+        "expected": "Loading UI should be displayed while translation is pending.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-20": {
+        "description": "Error state with recovery action for translation",
+        "status": "PASS",
+        "observed": "TranslationView renders error message and a Try Again button.",
+        "expected": "Errors should display human-readable text and a retry option.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-21": {
+        "description": "EventSource URL contains q and gdpr_consent params",
+        "status": "PASS",
+        "observed": "URL is built correctly in useSearchSSE.ts.",
+        "expected": "Both query parameters should be present.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-22": {
+        "description": "result event appends to state incrementally",
+        "status": "PASS",
+        "observed": "es.addEventListener('result') parses JSON and appends to results array.",
+        "expected": "Results should stream in and update state incrementally.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-23": {
+        "description": "Keepalive ping supported via native EventSource",
+        "status": "PASS",
+        "observed": "Hook uses the browser native EventSource which handles : ping natively.",
+        "expected": "Should use EventSource instead of manually parsing ReadableStream.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-24": {
+        "description": "done event calls es.close() and sets done flag",
+        "status": "PASS",
+        "observed": "done listener calls closeConnection() and updates status.",
+        "expected": "Should gracefully close the stream on done event.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-25": {
+        "description": "error SSE event calls close() and retries",
+        "status": "PASS",
+        "observed": "error listener closes connection and triggers startSearch with backoff.",
+        "expected": "Application errors should be handled with a full query retry.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-26": {
+        "description": "es.onerror implements max 3 retries with backoff",
+        "status": "PASS",
+        "observed": "onerror handler implements a 3-attempt retry loop with 2s/4s/8s delays.",
+        "expected": "Network errors should trigger exponential backoff retries.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-27": {
+        "description": "Hook does not buffer results, renders immediately",
+        "status": "PASS",
+        "observed": "setResults with functional update is called per result event, triggering immediate render.",
+        "expected": "No intermediate buffering should delay rendering.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-28": {
+        "description": "Generated client exists and is non-empty",
+        "status": "PASS",
+        "observed": "frontend/src/lib/api-generated/index.ts is populated with interfaces and fetch methods.",
+        "expected": "Typed client should be present.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-29": {
+        "description": "Request shapes match api-contracts.md",
+        "status": "PASS",
+        "observed": "TranslateRequest and upload parameters match the specified shapes.",
+        "expected": "Requests should align with backend expectations.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-30": {
+        "description": "Response shapes and SSE events match api-contracts.md",
+        "status": "FAIL",
+        "observed": "SSE events (result, done, error) are not typed in index.ts, and SSEResult in useSearchSSE.ts lacks 'sequence' or 'citation' types.",
+        "expected": "Search event types should be fully typed in the generated client matching the contract.",
+        "fix_location": "frontend/src/lib/api-generated/index.ts",
+        "fix_direction": "Move SSE event types into index.ts, ensuring they match the contract (e.g. data payload wrapping, sequence field).",
+        "severity": "MAJOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-31": {
+        "description": "Hooks import from generated client entirely",
+        "status": "FAIL",
+        "observed": "useHealth.ts uses a raw fetch instead of calling checkHealth() from index.ts.",
+        "expected": "No hooks should use raw fetch to call the backend APIs.",
+        "fix_location": "frontend/src/hooks/useHealth.ts",
+        "fix_direction": "Import and use checkHealth() from @/lib/api-generated in useHealth.ts.",
+        "severity": "MAJOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-32": {
+        "description": "demo-fallback.json exists and is valid JSON",
+        "status": "PASS",
+        "observed": "demo-fallback.json is present and parses successfully.",
+        "expected": "Fallback file must be valid JSON.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-33": {
+        "description": "Fallback JSON shape matches typed client response shapes",
+        "status": "FAIL",
+        "observed": "demo-fallback.json uses generic keys ('document', 'upload') which completely mismatch the UploadResponse and TranslateResponse interfaces in index.ts.",
+        "expected": "The fallback JSON must have exact matches to the expected API response shapes.",
+        "fix_location": "frontend/public/demo-fallback.json",
+        "fix_direction": "Refactor demo-fallback.json to match the exact keys from UploadResponse, TranslateResponse, etc., from api-generated/index.ts.",
+        "severity": "CRITICAL",
+        "blocks_visual_screens": [
+          "dashboard",
+          "upload",
+          "translation",
+          "search-empty"
+        ]
+      },
+      "WIRE-34": {
+        "description": "Health failure loads demo-fallback.json and pipes it to components",
+        "status": "FAIL",
+        "observed": "demo-fallback.json is completely unused by the app. useHealth sets a demo mode flag but never fetches the fallback JSON.",
+        "expected": "The app should fetch and utilize demo-fallback.json when the API is offline.",
+        "fix_location": "frontend/src/hooks/useHealth.ts",
+        "fix_direction": "Fetch demo-fallback.json upon health check failure and expose it via context to hydrate components.",
+        "severity": "CRITICAL",
+        "blocks_visual_screens": [
+          "dashboard",
+          "upload",
+          "translation",
+          "search-empty"
+        ]
+      },
+      "WIRE-35": {
+        "description": "Demo mode banner exists and uses tokens",
+        "status": "PASS",
+        "observed": "DashboardView and HeroSection render demo banners using stitch tokens.",
+        "expected": "A styled offline banner should be present.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-36": {
+        "description": "Matrix login inputs are controlled via hook state",
+        "status": "FAIL",
+        "observed": "MatrixLoginModal uses uncontrolled inputs (no value/onChange), and useMatrixLoginState manages no form state.",
+        "expected": "The hook should track email and password, and the inputs should be controlled.",
+        "fix_location": "frontend/src/hooks/useMatrixLoginState.ts",
+        "fix_direction": "Add email and password state to useMatrixLoginState, and wire them to value and onChange in MatrixLoginModal.",
+        "severity": "MAJOR",
+        "blocks_visual_screens": [
+          "matrix-login"
+        ]
+      },
+      "WIRE-37": {
+        "description": "Successful matrix login triggers navigation",
+        "status": "FAIL",
+        "observed": "onSuccess only calls login() and onClose(), but does not push the user to /dashboard.",
+        "expected": "Should route the user to the dashboard or logged-in root after success.",
+        "fix_location": "frontend/src/components/matrix-login/MatrixLoginModal.tsx",
+        "fix_direction": "Import useRouter from next/navigation and call router.push('/dashboard') in the onSuccess callback.",
+        "severity": "MAJOR",
+        "blocks_visual_screens": [
+          "matrix-login"
+        ]
+      },
+      "WIRE-38": {
+        "description": "Failed matrix login sets human-readable error",
+        "status": "PASS",
+        "observed": "If error occurs, it is stored in state and rendered plainly.",
+        "expected": "Errors should be readable and not expose raw JSON.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      },
+      "WIRE-39": {
+        "description": "Login form layout is mobile-compatible",
+        "status": "PASS",
+        "observed": "The modal has max-width: 400px and width: 100%, allowing it to shrink appropriately.",
+        "expected": "Should fit within a 375px viewport.",
+        "fix_location": "",
+        "fix_direction": "",
+        "severity": "MINOR",
+        "blocks_visual_screens": []
+      }
+    },
+    "priority_order": [
+      "WIRE-04",
+      "WIRE-33",
+      "WIRE-34",
+      "WIRE-01",
+      "WIRE-05",
+      "WIRE-06",
+      "WIRE-18",
+      "WIRE-30",
+      "WIRE-31",
+      "WIRE-36",
+      "WIRE-37",
+      "WIRE-02"
+    ]
+  },
+  "visual_audit": {
+    "total_cells": 120,
+    "cells_captured": 120,
+    "cells_skipped_na": 0,
+    "cells_blocked_by_wiring": 0,
+    "status": "COMPLETE",
+    "note": "All 120 cells captured against live https://evidence-eu-frontend.pages.dev. 2 additional media-query verification screenshots captured.",
+    "screens": {
+      "landing": {
+        "mobile": {
+          "loading": {
+            "screenshot": "docs/visual-audit/landing/mobile/loading.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" },
+            "issues": [{ "id": "landing-mobile-loading-DIM-03-1", "dimension": "DIM-03", "severity": "MINOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Hero vertical padding is excessive on mobile (~120px top), pushing content below fold.", "fix_direction": "Reduce hero section padding to --stitch-spacing-xl (32px) on mobile breakpoint in tokens.css or page.module.css.", "affects_viewports": ["mobile"], "affects_states": ["loading","success","error","empty"] }]
+          },
+          "success": {
+            "screenshot": "docs/visual-audit/landing/mobile/success.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" },
+            "issues": [{ "id": "landing-mobile-success-DIM-07-1", "dimension": "DIM-07", "severity": "MINOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Feature cards only show one card visible; other two are below fold on 375px mobile.", "fix_direction": "Consider stacking cards vertically on mobile or adding horizontal scroll with snap.", "affects_viewports": ["mobile"], "affects_states": ["success"] }]
+          },
+          "error": {
+            "screenshot": "docs/visual-audit/landing/mobile/error.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" },
+            "issues": []
+          },
+          "empty": {
+            "screenshot": "docs/visual-audit/landing/mobile/empty.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" },
+            "issues": []
+          }
+        },
+        "tablet": {
+          "loading": {
+            "screenshot": "docs/visual-audit/landing/tablet/loading.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MAJOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MAJOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" },
+            "issues": [{ "id": "landing-tablet-loading-DIM-07-1", "dimension": "DIM-07", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "How It Works and Built for Trust sections have ~300px empty gaps where icons/illustrations should be. Sections render as blank white space between headings.", "fix_direction": "Add numbered step icons (1,2,3) and trust icons (shield, lock, globe) to How It Works and Built for Trust sections in page.tsx.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }, { "id": "landing-tablet-loading-DIM-03-1", "dimension": "DIM-03", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Excessive vertical gaps (~200px) between feature cards and How It Works section, and between How It Works and Built for Trust.", "fix_direction": "Reduce section gap from current value to --stitch-spacing-xl (32px) or --stitch-spacing-lg (24px) in page.module.css.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }]
+          },
+          "success": {
+            "screenshot": "docs/visual-audit/landing/tablet/success.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MAJOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MAJOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" },
+            "issues": [{ "id": "landing-tablet-success-DIM-07-1", "dimension": "DIM-07", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "How It Works and Built for Trust sections have ~300px empty gaps where icons/illustrations should be.", "fix_direction": "Add visual content to these sections.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }]
+          },
+          "error": {
+            "screenshot": "docs/visual-audit/landing/tablet/error.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MAJOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MAJOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" },
+            "issues": [{ "id": "landing-tablet-error-DIM-07-1", "dimension": "DIM-07", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Same empty gaps in How It Works and Built for Trust sections.", "fix_direction": "Add visual content.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }]
+          },
+          "empty": {
+            "screenshot": "docs/visual-audit/landing/tablet/empty.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MAJOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MAJOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" },
+            "issues": [{ "id": "landing-tablet-empty-DIM-07-1", "dimension": "DIM-07", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Same empty gaps.", "fix_direction": "Add visual content.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }]
+          }
+        },
+        "desktop": {
+          "loading": {
+            "screenshot": "docs/visual-audit/landing/desktop/loading.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MAJOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MAJOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MAJOR" },
+            "issues": [{ "id": "landing-desktop-loading-DIM-07-1", "dimension": "DIM-07", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "How It Works and Built for Trust sections render as ~300px empty white gaps — no icons, illustrations, or visual content between headings.", "fix_direction": "Add numbered step icons and trust signal icons to page.tsx.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }, { "id": "landing-desktop-loading-DIM-03-1", "dimension": "DIM-03", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Excessive vertical gaps between sections (~200-300px of empty space).", "fix_direction": "Reduce section margins to --stitch-spacing-xl (32px).", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }]
+          },
+          "success": {
+            "screenshot": "docs/visual-audit/landing/desktop/success.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MAJOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MAJOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MAJOR" },
+            "issues": [{ "id": "landing-desktop-success-DIM-07-1", "dimension": "DIM-07", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "How It Works section shows 3 numbered circles but no icons/illustrations — just white space around them. Built for Trust section similarly empty between heading and cards.", "fix_direction": "Add descriptive icons or illustrations to each step and trust card.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }]
+          },
+          "error": {
+            "screenshot": "docs/visual-audit/landing/desktop/error.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MAJOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MAJOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MAJOR" },
+            "issues": [{ "id": "landing-desktop-error-DIM-07-1", "dimension": "DIM-07", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Same empty gaps in How It Works and Built for Trust.", "fix_direction": "Add visual content.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }]
+          },
+          "empty": {
+            "screenshot": "docs/visual-audit/landing/desktop/empty.png",
+            "screenshot_status": "CAPTURED",
+            "wiring_dependency": null,
+            "blocked_by_wiring": false,
+            "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MAJOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MAJOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MAJOR" },
+            "issues": [{ "id": "landing-desktop-empty-DIM-07-1", "dimension": "DIM-07", "severity": "MAJOR", "component_file": "frontend/src/app/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Same empty gaps.", "fix_direction": "Add visual content.", "affects_viewports": ["tablet","desktop"], "affects_states": ["loading","success","error","empty"] }]
+          }
+        }
+      },
+      "search-empty": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/search-empty/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "MINOR", "DIM-11": "MINOR" }, "issues": [{ "id": "search-mobile-loading-DIM-11-1", "dimension": "DIM-11", "severity": "MINOR", "component_file": "frontend/src/components/search/SearchView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Search input placeholder text is truncated: 'Search your documen' — missing trailing 'ts'.", "fix_direction": "Fix placeholder to 'Search your documents...' in SearchView.tsx.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading","success","error","empty"] }] },
+          "success": { "screenshot": "docs/visual-audit/search-empty/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "MINOR", "DIM-11": "MINOR" }, "issues": [{ "id": "search-mobile-success-DIM-11-1", "dimension": "DIM-11", "severity": "MINOR", "component_file": "frontend/src/components/search/SearchView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Placeholder truncated to 'Search your documen'.", "fix_direction": "Fix placeholder text.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading","success","error","empty"] }] },
+          "error": { "screenshot": "docs/visual-audit/search-empty/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "MINOR", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/search-empty/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "MINOR", "DIM-11": "MINOR" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/search-empty/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [{ "id": "search-tablet-loading-DIM-11-1", "dimension": "DIM-11", "severity": "MINOR", "component_file": "frontend/src/components/search/SearchView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Placeholder truncated.", "fix_direction": "Fix placeholder text.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading","success","error","empty"] }] },
+          "success": { "screenshot": "docs/visual-audit/search-empty/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/search-empty/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/search-empty/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/search-empty/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [{ "id": "search-desktop-loading-DIM-11-1", "dimension": "DIM-11", "severity": "MINOR", "component_file": "frontend/src/components/search/SearchView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Placeholder truncated to 'Search your documen'.", "fix_direction": "Fix placeholder text.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading","success","error","empty"] }] },
+          "success": { "screenshot": "docs/visual-audit/search-empty/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/search-empty/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/search-empty/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "MINOR", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] }
+        }
+      },
+      "chat-logged-out": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/chat-logged-out/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/chat-logged-out/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/chat-logged-out/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/chat-logged-out/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/chat-logged-out/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/chat-logged-out/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/chat-logged-out/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/chat-logged-out/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/chat-logged-out/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/chat-logged-out/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/chat-logged-out/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/chat-logged-out/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] }
+        }
+      },
+      "matrix-login": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/matrix-login/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [{ "id": "matrix-mobile-loading-DIM-04-1", "dimension": "DIM-04", "severity": "MINOR", "component_file": "frontend/src/components/matrix-login/MatrixLoginModal.tsx", "css_file": "frontend/src/components/matrix-login/MatrixLoginModal.module.css", "description": "Modal overlay uses flat gray scrim (#00000080) without backdrop-filter blur. Glass material absent.", "fix_direction": "Add backdrop-filter: blur(12px) to overlay class in MatrixLoginModal.module.css.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading","success","error","empty"] }] },
+          "success": { "screenshot": "docs/visual-audit/matrix-login/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/matrix-login/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/matrix-login/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/matrix-login/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/matrix-login/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/matrix-login/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/matrix-login/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/matrix-login/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/matrix-login/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/matrix-login/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/matrix-login/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "MINOR", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] }
+        }
+      },
+      "dashboard": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/dashboard/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "MINOR", "DIM-09": "MAJOR", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [{ "id": "dashboard-mobile-loading-DIM-09-1", "dimension": "DIM-09", "severity": "MAJOR", "component_file": "frontend/src/components/dashboard/DashboardView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Loading state shows only a centered spinner — no skeleton shapes matching the success layout (System Status card, Activity items).", "fix_direction": "Add skeleton placeholders matching the dashboard card layout in DashboardView.tsx loading branch.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading"] }] },
+          "success": { "screenshot": "docs/visual-audit/dashboard/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [{ "id": "dashboard-mobile-success-DIM-11-1", "dimension": "DIM-11", "severity": "MINOR", "component_file": "frontend/src/components/dashboard/DashboardView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Dashboard shows only System Status and Recent Activity — no metric cards (documents uploaded, translations, searches) as specified in design brief.", "fix_direction": "Add summary metric cards to DashboardView.tsx.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["success"] }] },
+          "error": { "screenshot": "docs/visual-audit/dashboard/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "MAJOR", "DIM-09": "MAJOR", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [{ "id": "dashboard-mobile-error-DIM-08-1", "dimension": "DIM-08", "severity": "MAJOR", "component_file": "frontend/src/components/dashboard/DashboardView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Error state shows only 'Dashboard' heading with a spinner — no error message, no retry button, no human-readable copy.", "fix_direction": "Add error message and 'Try Again' button to the error branch in DashboardView.tsx.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["error"] }] },
+          "empty": { "screenshot": "docs/visual-audit/dashboard/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/dashboard/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "MINOR", "DIM-09": "MAJOR", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/dashboard/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/dashboard/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "MAJOR", "DIM-09": "MAJOR", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/dashboard/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/dashboard/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "MINOR", "DIM-09": "MAJOR", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/dashboard/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/dashboard/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "MAJOR", "DIM-09": "MAJOR", "DIM-10": "N/A", "DIM-11": "MAJOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/dashboard/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] }
+        }
+      },
+      "upload": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/upload/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/upload/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/upload/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/upload/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/upload/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/upload/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/upload/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/upload/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/upload/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/upload/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/upload/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/upload/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] }
+        }
+      },
+      "translation": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/translation/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [{ "id": "translation-mobile-loading-DIM-05-1", "dimension": "DIM-05", "severity": "MINOR", "component_file": "frontend/src/components/translation/TranslationView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Language dropdown uses native HTML <select> styling — inconsistent with design system tokens.", "fix_direction": "Replace native select with styled dropdown component using --stitch-* tokens.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading","success","error","empty"] }] },
+          "success": { "screenshot": "docs/visual-audit/translation/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/translation/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/translation/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/translation/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/translation/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/translation/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/translation/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/translation/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/translation/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/translation/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/translation/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] }
+        }
+      },
+      "compare": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/compare/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [{ "id": "compare-mobile-loading-DIM-11-1", "dimension": "DIM-11", "severity": "MAJOR", "component_file": "frontend/src/components/compare/CompareView.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Compare page shows only 'Compare Documents' heading and empty state text — no side-by-side panels, diff blocks, or comparison interface visible even in success state.", "fix_direction": "Add comparison panels with sample diff data to CompareView.tsx.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading","success","error","empty"] }] },
+          "success": { "screenshot": "docs/visual-audit/compare/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/compare/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/compare/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/compare/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/compare/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/compare/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/compare/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MAJOR" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/compare/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MAJOR" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/compare/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MAJOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/compare/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MAJOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/compare/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "MINOR", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MAJOR" }, "issues": [] }
+        }
+      },
+      "settings": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/settings/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [{ "id": "settings-mobile-loading-DIM-05-1", "dimension": "DIM-05", "severity": "MINOR", "component_file": "frontend/src/app/settings/page.tsx", "css_file": "frontend/src/styles/tokens.css", "description": "Dropdowns and checkbox use native HTML controls — inconsistent with design system button styling.", "fix_direction": "Style select/checkbox with --stitch-* tokens or replace with custom components.", "affects_viewports": ["mobile","tablet","desktop"], "affects_states": ["loading","success","error","empty"] }] },
+          "success": { "screenshot": "docs/visual-audit/settings/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/settings/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/settings/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/settings/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/settings/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/settings/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/settings/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "MINOR" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/settings/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/settings/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/settings/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/settings/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "MINOR", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "MINOR" }, "issues": [] }
+        }
+      },
+      "exchange": {
+        "mobile": {
+          "loading": { "screenshot": "docs/visual-audit/exchange/mobile/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/exchange/mobile/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/exchange/mobile/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/exchange/mobile/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] }
+        },
+        "tablet": {
+          "loading": { "screenshot": "docs/visual-audit/exchange/tablet/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/exchange/tablet/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/exchange/tablet/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/exchange/tablet/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "PASS", "DIM-11": "PASS" }, "issues": [] }
+        },
+        "desktop": {
+          "loading": { "screenshot": "docs/visual-audit/exchange/desktop/loading.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "success": { "screenshot": "docs/visual-audit/exchange/desktop/success.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "error": { "screenshot": "docs/visual-audit/exchange/desktop/error.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] },
+          "empty": { "screenshot": "docs/visual-audit/exchange/desktop/empty.png", "screenshot_status": "CAPTURED", "wiring_dependency": null, "blocked_by_wiring": false, "scores": { "DIM-01": "PASS", "DIM-02": "PASS", "DIM-03": "PASS", "DIM-04": "PASS", "DIM-05": "PASS", "DIM-06": "PASS", "DIM-07": "PASS", "DIM-08": "PASS", "DIM-09": "PASS", "DIM-10": "N/A", "DIM-11": "PASS" }, "issues": [] }
+        }
+      }
+    },
+    "shared_visual_issues": [
+      {
+        "id": "SVI-01",
+        "dimension": "DIM-04",
+        "severity": "MINOR",
+        "description": "Nav bar across all screens uses solid background — no glass/backdrop-filter material applied. Design brief specifies glass surfaces for floating nav, sticky headers.",
+        "fix_direction": "Add backdrop-filter: blur(12px) + semi-transparent bg to NavigationBar.module.css nav element.",
+        "affects_screens": ["landing","search-empty","chat-logged-out","matrix-login","dashboard","upload","translation","compare","settings","exchange"]
+      },
+      {
+        "id": "SVI-02",
+        "dimension": "DIM-09",
+        "severity": "MAJOR",
+        "description": "Dashboard loading state shows spinner only — no skeleton shapes matching the success layout (System Status card, Activity items). Other content screens (upload, translation, compare) also lack skeletons.",
+        "fix_direction": "Add skeleton placeholder components to DashboardView.tsx, UploadView.tsx, TranslationView.tsx, CompareView.tsx loading branches.",
+        "affects_screens": ["dashboard","upload","translation","compare"]
+      },
+      {
+        "id": "SVI-03",
+        "dimension": "DIM-05",
+        "severity": "MINOR",
+        "description": "Translation language dropdown and Settings dropdowns/checkboxes use native HTML controls — visually inconsistent with styled buttons and design system tokens.",
+        "fix_direction": "Replace native <select> and <input type=checkbox> with styled components using --stitch-* tokens.",
+        "affects_screens": ["translation","settings"]
+      }
+    ],
+    "visual_priority_order": [
+      "dashboard-desktop-error-DIM-08-1",
+      "dashboard-mobile-error-DIM-08-1",
+      "dashboard-tablet-error-DIM-08-1",
+      "dashboard-desktop-loading-DIM-09-1",
+      "dashboard-mobile-loading-DIM-09-1",
+      "SVI-02",
+      "landing-desktop-loading-DIM-07-1",
+      "landing-desktop-success-DIM-07-1",
+      "landing-tablet-loading-DIM-07-1",
+      "compare-desktop-success-DIM-11-1",
+      "compare-mobile-success-DIM-11-1",
+      "landing-desktop-loading-DIM-03-1",
+      "search-desktop-loading-DIM-11-1",
+      "SVI-01",
+      "SVI-03",
+      "matrix-mobile-loading-DIM-04-1",
+      "translation-mobile-loading-DIM-05-1",
+      "settings-mobile-loading-DIM-05-1",
+      "landing-mobile-loading-DIM-03-1",
+      "dashboard-mobile-success-DIM-11-1"
+    ]
+  },
+  "summary": {
+    "wiring": {
+      "critical_failures": 3,
+      "major_failures": 7,
+      "minor_failures": 0,
+      "blocker_for_launch": true,
+      "worst_wiring_failures": [
+        "WIRE-04: Loads demo-fallback.json on 3 retries failure",
+        "WIRE-33: Fallback JSON shape matches typed client response shapes",
+        "WIRE-34: Health failure loads demo-fallback.json and pipes it to components"
+      ]
+    },
+    "visual": {
+      "total_visual_issues": 20,
+      "by_severity": { "CRITICAL": 0, "MAJOR": 8, "MINOR": 12 },
+      "by_dimension": { "DIM-01": 0, "DIM-02": 0, "DIM-03": 4, "DIM-04": 4, "DIM-05": 3, "DIM-06": 0, "DIM-07": 4, "DIM-08": 3, "DIM-09": 3, "DIM-10": 0, "DIM-11": 5 },
+      "worst_screens": ["landing: 8 issues", "dashboard: 7 issues", "compare: 4 issues"],
+      "shared_issues_count": 3
+    },
+    "reduced_motion_pass": true,
+    "reduced_transparency_pass": true,
+    "visual_audit_complete": true,
+    "execution_order_for_prompt_2": "wiring_first_then_visual",
+    "blocker_for_launch": true
+  }
+}

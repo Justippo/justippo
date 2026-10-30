@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LegalIntel AI - Search Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;800&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#a55a00",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-container": "#efeeed",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a0caff",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface-bright": "#faf9f8",
+                    "border-subtle": "#B1B4B6",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-surface": "#2f3130",
+                    "primary": "#005796",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c7d2",
+                    "surface-container-low": "#f4f3f2",
+                    "on-background": "#1a1c1c",
+                    "secondary-container": "#e1dfdf",
+                    "on-primary-fixed": "#001c37",
+                    "surface-tint": "#0061a6",
+                    "on-surface": "#1a1c1c",
+                    "warning": "#F47738",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "surface-container-highest": "#e3e2e1",
+                    "error": "#D4351C",
+                    "on-surface-variant": "#414751",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#626262",
+                    "outline": "#717782",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dadad9",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e3e2e1",
+                    "surface-container-high": "#e9e8e7",
+                    "on-primary-container": "#e9f1ff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "on-tertiary-container": "#ffede2",
+                    "focus": "#FFDD00",
+                    "background": "#faf9f8",
+                    "secondary": "#5e5e5e",
+                    "tertiary": "#824600",
+                    "primary-container": "#1d70b8",
+                    "on-primary-fixed-variant": "#00497e",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "success": "#00703C",
+                    "surface": "#faf9f8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "container-max": "1280px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl-mobile": ["Public Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            background-color: #F3F2F1;
+            font-family: 'Public Sans', sans-serif;
+        }
+        .search-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .result-card {
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+        .result-card:hover {
+            border-color: #005796;
+            background-color: #fcfcfc;
+        }
+        .focus-ring:focus {
+            outline: 3px solid #FFDD00;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-border-subtle flex justify-between items-center w-full px-lg h-16 z-50 fixed top-0 left-0">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">LegalIntel AI</span>
+</div>
+<div class="hidden md:flex items-center gap-xl">
+<nav class="flex gap-lg">
+<a class="text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors px-sm py-xs" href="#">Dashboard</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md transition-colors" href="#">Search</a>
+<a class="text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors px-sm py-xs" href="#">Research</a>
+</nav>
+<div class="flex items-center gap-md border-l border-border-subtle pl-lg">
+<button class="p-xs hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-xs hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-xs hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a legal consultant in high-key lighting, wearing a navy blue suit against a clean, light grey studio background. The style is sharp, corporate, and minimalist, echoing an authoritative and reliable enterprise environment with natural skin tones and soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDawimyfTyxAdF3WhGngDOuEj5W1fMCTjmlDZzhvQrTPDlj-yl6gZ5EDMQG4x-V2rgDsIJA_OmfY6cblfGeO08PTzb0MMWf3Yq0DAGtZqXqS28NOakcE1kY9LaPrqb9qUNUGTYvNhNAvh3Ba6ahjyRRRTF_YE5ctruAWPQXHH8mBk8vqr1xisV-bBEEKy-LL1NqwC_dXkPsyaaSPm5LRkx2elEnp0FS2ZEwqJD5sgTEwTHDMr6VnZKT4ZXEWbsMS0PbIQFXCwrZK4vw"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex pt-16 min-h-screen">
+<!-- SideNavBar (Hidden on Mobile) -->
+<aside class="hidden md:flex flex-col h-[calc(100vh-64px)] py-md px-sm gap-unit w-64 bg-surface-container-low border-r border-border-subtle sticky top-16">
+<div class="px-sm py-md border-b border-border-subtle mb-sm">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-primary leading-tight">Enterprise Suite</p>
+<p class="text-[12px] text-on-surface-variant uppercase tracking-wider">Legal Intelligence</p>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-sm px-md rounded-lg font-label-md text-label-md flex items-center justify-center gap-sm mb-md hover:opacity-90 active:scale-95 transition-all focus-ring">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Search
+            </button>
+<nav class="flex-1 flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container font-bold rounded-lg font-label-md text-label-md transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                    Search History
+                </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="bookmarks">bookmarks</span>
+                    Saved Research
+                </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+                    Legal Corpus
+                </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Analytics
+                </a>
+</nav>
+<div class="mt-auto flex flex-col gap-xs border-t border-border-subtle pt-md">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+                    Support
+                </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto bg-background p-lg">
+<div class="search-container">
+<!-- Search Box and Status -->
+<div class="mb-xl">
+<div class="flex justify-between items-end mb-md">
+<h1 class="font-headline-lg text-headline-lg text-primary">Search Results</h1>
+<div class="flex items-center gap-sm bg-success/10 text-success px-md py-sm rounded-full border border-success/20">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-md text-[13px] font-bold">Logged in: Personal corpus plus public corpus</span>
+</div>
+</div>
+<div class="relative mb-md">
+<input class="w-full bg-white border border-border-subtle p-md pl-12 rounded shadow-sm font-body-md text-body-md focus:border-primary focus-ring" type="text" value="Aufenthaltstitel verlängern"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Found <span class="font-bold text-on-surface">12 relevant documents</span> for your query.
+                    </p>
+</div>
+<!-- Results Grid -->
+<div class="space-y-md">
+<!-- Result Card 1 -->
+<article class="result-card bg-white border border-border-subtle p-lg rounded flex flex-col gap-sm relative">
+<div class="absolute top-0 right-0 bg-primary/5 px-md py-xs border-l border-b border-border-subtle rounded-tr rounded-bl">
+<span class="font-label-sm text-label-sm font-bold text-primary">Rank: 1</span>
+</div>
+<div class="flex items-start gap-md">
+<div class="mt-1 w-10 h-10 rounded bg-primary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">EU long-term residence guidance</h2>
+<p class="font-body-md text-body-md text-on-surface mb-md">
+                                    Die Verlängerung eines Aufenthaltstitels richtet sich nach den Voraussetzungen des Aufenthaltsgesetzes. Insbesondere muss der Lebensunterhalt gesichert sein und kein Ausweisungsgrund vorliegen...
+                                </p>
+<div class="flex flex-wrap items-center gap-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="source">source</span>
+<span class="font-label-sm text-label-sm font-bold">EU Directive 2003/109/EC</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-label-sm">Updated: 12 Jan 2024</span>
+</div>
+<div class="ml-auto flex gap-sm">
+<button class="bg-surface-container-high px-md py-xs rounded font-label-sm text-label-sm hover:bg-surface-variant transition-colors focus-ring">Cite</button>
+<button class="bg-primary px-md py-xs rounded text-on-primary font-label-sm text-label-sm hover:opacity-90 transition-opacity focus-ring">View Full Document</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Result Card 2 -->
+<article class="result-card bg-white border border-border-subtle p-lg rounded flex flex-col gap-sm relative">
+<div class="absolute top-0 right-0 bg-secondary-container/30 px-md py-xs border-l border-b border-border-subtle rounded-tr rounded-bl">
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant">Rank: 2</span>
+</div>
+<div class="flex items-start gap-md">
+<div class="mt-1 w-10 h-10 rounded bg-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary" data-icon="gavel">gavel</span>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Aufenthaltsgesetz (AufenthG) - § 8 Verlängerung der Aufenthaltserlaubnis</h2>
+<p class="font-body-md text-body-md text-on-surface mb-md">
+                                    Auf die Verlängerung der Aufenthaltserlaubnis finden dieselben Vorschriften Anwendung wie auf die Erteilung. Sie kann jedoch abgelehnt werden, wenn die Integration nicht nachgewiesen wurde...
+                                </p>
+<div class="flex flex-wrap items-center gap-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="account_balance">account_balance</span>
+<span class="font-label-sm text-label-sm font-bold">Federal Law Gazette (DE)</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="category">category</span>
+<span class="font-label-sm text-label-sm">Administrative Law</span>
+</div>
+<div class="ml-auto flex gap-sm">
+<button class="bg-surface-container-high px-md py-xs rounded font-label-sm text-label-sm hover:bg-surface-variant transition-colors focus-ring">Cite</button>
+<button class="bg-primary px-md py-xs rounded text-on-primary font-label-sm text-label-sm hover:opacity-90 transition-opacity focus-ring">View Full Document</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Result Card 3 -->
+<article class="result-card bg-white border border-border-subtle p-lg rounded flex flex-col gap-sm relative">
+<div class="absolute top-0 right-0 bg-secondary-container/30 px-md py-xs border-l border-b border-border-subtle rounded-tr rounded-bl">
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant">Rank: 3</span>
+</div>
+<div class="flex items-start gap-md">
+<div class="mt-1 w-10 h-10 rounded bg-tertiary-fixed flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary" data-icon="folder_special">folder_special</span>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Case File: Schmidt v. Ausländerbehörde (2022)</h2>
+<div class="mb-md p-md bg-surface-container-low border-l-4 border-tertiary">
+<p class="font-body-md text-body-md italic text-on-surface-variant">
+                                        "Internal Note: Precedent regarding the 'prolongation friction' when biometric data updates are delayed. Crucial for Section 81(4) temporary continuation applications."
+                                    </p>
+</div>
+<div class="flex flex-wrap items-center gap-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="lock">lock</span>
+<span class="font-label-sm text-label-sm font-bold">Personal Corpus: Private Case Files</span>
+</div>
+<div class="ml-auto flex gap-sm">
+<button class="bg-surface-container-high px-md py-xs rounded font-label-sm text-label-sm hover:bg-surface-variant transition-colors focus-ring">Cite</button>
+<button class="bg-primary px-md py-xs rounded text-on-primary font-label-sm text-label-sm hover:opacity-90 transition-opacity focus-ring">View Full Document</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Result Card 4 -->
+<article class="result-card bg-white border border-border-subtle p-lg rounded flex flex-col gap-sm relative">
+<div class="absolute top-0 right-0 bg-secondary-container/30 px-md py-xs border-l border-b border-border-subtle rounded-tr rounded-bl">
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant">Rank: 4</span>
+</div>
+<div class="flex items-start gap-md">
+<div class="mt-1 w-10 h-10 rounded bg-secondary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary" data-icon="article">article</span>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">VwV-AufenthG – Allgemeine Verwaltungsvorschrift zum Aufenthaltsgesetz</h2>
+<p class="font-body-md text-body-md text-on-surface mb-md">
+                                    Detaillierte Anweisungen zur Bearbeitung von Verlängerungsanträgen durch die Ausländerbehörden. Enthält spezifische Fristenregelungen und Checklisten für Sachbearbeiter...
+                                </p>
+<div class="flex flex-wrap items-center gap-md">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="menu_book">menu_book</span>
+<span class="font-label-sm text-label-sm font-bold">Administrative Guidelines</span>
+</div>
+<div class="ml-auto flex gap-sm">
+<button class="bg-surface-container-high px-md py-xs rounded font-label-sm text-label-sm hover:bg-surface-variant transition-colors focus-ring">Cite</button>
+<button class="bg-primary px-md py-xs rounded text-on-primary font-label-sm text-label-sm hover:opacity-90 transition-opacity focus-ring">View Full Document</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-xl flex items-center justify-between py-md border-t border-border-subtle">
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+                        Previous
+                    </button>
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary rounded font-label-md text-label-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high rounded font-label-md text-label-md transition-colors">2</button>
+<button class="w-10 h-10 flex items-center justify-center hover:bg-surface-container-high rounded font-label-md text-label-md transition-colors">3</button>
+<span class="text-outline">...</span>
+</div>
+<button class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md">
+                        Next
+                        <span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Right Side Panel (Context Info) -->
+<aside class="hidden xl:block w-80 bg-surface-container-low border-l border-border-subtle p-lg sticky top-16 h-[calc(100vh-64px)] overflow-y-auto">
+<h3 class="font-label-md text-label-md text-primary uppercase tracking-wider mb-md">Search Insights</h3>
+<div class="bg-white border border-border-subtle p-md rounded mb-lg">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-xs">Commonly Linked Sections</p>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded font-label-sm text-[12px] border border-border-subtle">§ 5 AufenthG</span>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded font-label-sm text-[12px] border border-border-subtle">§ 81 AufenthG</span>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-xs rounded font-label-sm text-[12px] border border-border-subtle">§ 9a AufenthG</span>
+</div>
+</div>
+<div class="bg-primary/5 border border-primary/20 p-md rounded mb-lg">
+<div class="flex items-center gap-sm mb-sm text-primary">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-md text-label-md">AI Quick Summary</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    Queries regarding "Aufenthaltstitel verlängern" usually involve Section 8 of the AufenthG. Ensure the client's passport is valid for the requested duration and they meet integration requirements if applicable.
+                </p>
+</div>
+<div class="space-y-md">
+<h4 class="font-label-md text-label-md text-on-surface">Recent Downloads</h4>
+<div class="flex items-center gap-md p-sm hover:bg-surface-container-high rounded transition-colors cursor-pointer">
+<div class="w-8 h-8 rounded bg-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-error" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-label-sm text-label-sm text-on-surface truncate">EU_Residence_Directive.pdf</p>
+<p class="text-[11px] text-on-surface-variant">2.4 MB • 2 hours ago</p>
+</div>
+</div>
+<div class="flex items-center gap-md p-sm hover:bg-surface-container-high rounded transition-colors cursor-pointer">
+<div class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-label-sm text-label-sm text-on-surface truncate">Prolongation_Checklist.docx</p>
+<p class="text-[11px] text-on-surface-variant">145 KB • Yesterday</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Mobile BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-border-subtle flex justify-around items-center h-16 z-50">
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-primary" href="#">
+<span class="material-symbols-outlined" data-icon="search" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="text-[10px] font-label-md">Search</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-[10px] font-label-md">History</span>
+</a>
+<a class="flex flex-col items-center gap-xs text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[10px] font-label-md">Profile</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('.result-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'transform 0.2s ease, border-color 0.2s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0px)';
+            });
+        });
+
+        // Simple tab behavior simulation
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // For demo purposes we don't preventDefault if it's a real link, but here we just toggle visual
+                if (link.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body></html>

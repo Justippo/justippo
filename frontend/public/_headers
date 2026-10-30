@@ -1,0 +1,8 @@
+# Security headers — overrides Cloudflare Pages defaults for all routes.
+# https://developers.cloudflare.com/pages/configuration/headers/
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob: https://eu-assets.i.posthog.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://evidence-eu-worker.mc146.workers.dev https://eu.i.posthog.com https://eu-assets.i.posthog.com; frame-src 'none'; object-src 'none'; base-uri 'self'

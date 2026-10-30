@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Document Comparison Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&family=Courier+Prime&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#717782",
+                      "on-error-container": "#93000a",
+                      "on-primary-fixed": "#001c37",
+                      "surface-bright": "#faf9f8",
+                      "tertiary-container": "#a55a00",
+                      "on-background": "#1a1c1c",
+                      "warning": "#F47738",
+                      "surface-container-high": "#e9e8e7",
+                      "secondary-fixed-dim": "#c7c6c6",
+                      "surface-tint": "#0061a6",
+                      "on-tertiary-fixed": "#2e1500",
+                      "surface-dim": "#dadad9",
+                      "success": "#00703C",
+                      "inverse-on-surface": "#f1f0ef",
+                      "tertiary": "#824600",
+                      "border-subtle": "#B1B4B6",
+                      "on-tertiary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#6d3a00",
+                      "on-primary-fixed-variant": "#00497e",
+                      "primary-container": "#1d70b8",
+                      "background": "#faf9f8",
+                      "surface-container-low": "#f4f3f2",
+                      "on-primary": "#ffffff",
+                      "primary-fixed": "#d2e4ff",
+                      "secondary-fixed": "#e4e2e1",
+                      "surface-container": "#efeeed",
+                      "on-tertiary-container": "#ffede2",
+                      "surface-container-highest": "#e3e2e1",
+                      "error-container": "#ffdad6",
+                      "focus": "#FFDD00",
+                      "on-error": "#ffffff",
+                      "secondary-container": "#e1dfdf",
+                      "on-surface-variant": "#414751",
+                      "outline-variant": "#c1c7d2",
+                      "tertiary-fixed-dim": "#ffb77b",
+                      "secondary": "#5e5e5e",
+                      "on-secondary-fixed-variant": "#464747",
+                      "tertiary-fixed": "#ffdcc2",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "surface": "#faf9f8",
+                      "on-surface": "#1a1c1c",
+                      "inverse-primary": "#a0caff",
+                      "on-primary-container": "#e9f1ff",
+                      "primary": "#005796",
+                      "on-secondary-fixed": "#1b1c1c",
+                      "on-secondary-container": "#626262",
+                      "inverse-surface": "#2f3130",
+                      "surface-variant": "#e3e2e1",
+                      "primary-fixed-dim": "#a0caff",
+                      "error": "#D4351C"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "gutter": "24px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "unit": "4px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "body-md": ["Public Sans"],
+                      "label-sm": ["Public Sans"],
+                      "headline-lg": ["Public Sans"],
+                      "body-lg": ["Public Sans"],
+                      "label-md": ["Public Sans"],
+                      "headline-xl-mobile": ["Public Sans"],
+                      "headline-xl": ["Public Sans"],
+                      "code": ["Courier Prime"],
+                      "headline-md": ["Public Sans"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                      "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                      "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                      "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F3F2F1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #B1B4B6;
+            border-radius: 4px;
+        }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            background: rgba(250, 249, 248, 0.85);
+        }
+        .focus-ring:focus {
+            outline: 3px solid #FFDD00;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background h-screen overflow-hidden flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden md:flex flex-col h-full py-md w-64 bg-surface-container border-r border-border-subtle shrink-0">
+<div class="px-md mb-xl flex items-center gap-sm">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">gavel</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">EvidenceEU</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-75">Legal Workspace</p>
+</div>
+</div>
+<nav class="flex-1 px-sm space-y-1">
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-md text-label-md">Chat</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-label-md text-label-md">Library</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded bg-primary-container text-on-primary-container font-bold border-l-4 border-primary" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-md text-label-md">Cases</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-sm pt-md border-t border-border-subtle space-y-1">
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded text-on-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">rate_review</span>
+<span class="font-label-md text-label-md">Feedback</span>
+</a>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0 relative h-full">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-gutter h-16 bg-surface border-b border-border-subtle shrink-0">
+<div class="flex items-center gap-lg">
+<button class="md:hidden p-sm hover:bg-surface-container-low transition-colors rounded">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:flex items-center bg-surface-container-low border border-outline-variant rounded-lg px-md h-10 w-96">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full text-body-md font-body-md px-sm" placeholder="Search case files..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined p-sm rounded-full hover:bg-surface-container-low transition-colors cursor-pointer">notifications</span>
+<span class="material-symbols-outlined p-sm rounded-full hover:bg-surface-container-low transition-colors cursor-pointer">help</span>
+<div class="h-8 w-8 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a legal expert in a minimalist setting, characterized by high-key lighting and a professional enterprise SaaS aesthetic. The portrait features clean lines, neutral colors like slate and white, and an aura of reliability and transparency. Digital clarity and corporate stability are central to the composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb-2wGy6_Xxekyw-afskHizExjx49kiFNKBHwn-BBg9JYVf4qOtoIrvSRIUeL5nAceL7TBs4x5vsk7hSl6uq3lpAS53zT-7BT14bwzDQqiQBV9bD56EhBXyfTHuXa535MS3Nrcj4sQOulZt423imy7mD5d7zMym4tzoVuVxbn2Ej4-5bGvzqCOTOuNvt_EdtnDw1x9DXAT9o1RrWgck5oD8AvLN9IEs_sTBgiOtoJaJ-oeLiC50CeaFNQMd_jHbQwANmb2kXzWgVU1"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area: Compare View -->
+<section class="flex-1 p-gutter overflow-hidden flex flex-col bg-surface-container-low">
+<!-- Breadcrumbs / Annotation -->
+<div class="mb-lg flex items-center gap-sm">
+<span class="bg-tertiary-container text-on-tertiary px-sm py-xs rounded font-label-sm text-label-sm uppercase tracking-wider">Auth: Logged In</span>
+<div class="flex items-center text-on-surface-variant gap-xs font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>Reached from chat: "Compare this with the DE version"</span>
+</div>
+</div>
+<!-- Bento Grid Layout for Detailed Comparison -->
+<div class="grid grid-cols-12 gap-lg flex-1 overflow-hidden">
+<!-- Left Column: Contextual List (The Document Spine) -->
+<div class="col-span-3 flex flex-col gap-md overflow-y-auto custom-scrollbar">
+<div class="bg-surface border border-border-subtle p-md rounded flex flex-col gap-sm">
+<h3 class="font-label-md text-label-md text-primary">Comparison Index</h3>
+<div class="space-y-sm">
+<div class="p-sm rounded border-l-4 border-outline bg-surface-container-high opacity-60">
+<p class="text-label-sm font-label-sm mb-xs">Block 04.1</p>
+<p class="text-body-md font-body-md truncate">Term of agreement...</p>
+</div>
+<div class="p-sm rounded border-l-4 border-warning bg-surface-container-highest shadow-sm ring-1 ring-inset ring-warning/20">
+<div class="flex justify-between items-start mb-xs">
+<span class="text-label-sm font-label-sm">Block 04.2</span>
+<span class="bg-warning text-on-background px-xs rounded text-[10px] font-bold uppercase">Changed</span>
+</div>
+<p class="text-body-md font-body-md font-bold">Aufenthaltstitel</p>
+</div>
+<div class="p-sm rounded border-l-4 border-outline bg-surface-container-high opacity-60">
+<p class="text-label-sm font-label-sm mb-xs">Block 05.0</p>
+<p class="text-body-md font-body-md truncate">Signatories and date...</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-highest border border-border-subtle p-md rounded">
+<h4 class="font-label-md text-label-md mb-sm">Change Metadata</h4>
+<dl class="space-y-md text-label-sm">
+<div>
+<dt class="text-on-surface-variant opacity-60">Source Language</dt>
+<dd class="font-bold">German (DE)</dd>
+</div>
+<div>
+<dt class="text-on-surface-variant opacity-60">Target Language</dt>
+<dd class="font-bold">English (UK)</dd>
+</div>
+<div>
+<dt class="text-on-surface-variant opacity-60">Confidence Score</dt>
+<dd class="flex items-center gap-xs">
+<div class="h-1.5 w-16 bg-outline-variant rounded-full overflow-hidden">
+<div class="h-full bg-success w-[94%]"></div>
+</div>
+<span class="text-success font-bold">94%</span>
+</dd>
+</div>
+</dl>
+</div>
+</div>
+<!-- Right Column: The Expanded Comparison Block (The Focal Point) -->
+<div class="col-span-9 bg-surface border border-border-subtle rounded-xl flex flex-col shadow-sm">
+<!-- Header -->
+<div class="p-lg border-b border-border-subtle flex justify-between items-center bg-surface-bright rounded-t-xl">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-warning" style="font-variation-settings: 'FILL' 1;">error</span>
+<h2 class="font-headline-md text-headline-md">Change Review: Legal Terminology</h2>
+</div>
+<div class="flex items-center gap-sm">
+<span class="bg-surface-container-high text-on-surface-variant px-md py-xs rounded font-label-sm text-label-sm">Block ID: #L-449-B</span>
+</div>
+</div>
+<!-- Comparison Grid -->
+<div class="flex-1 grid grid-cols-2 divide-x divide-border-subtle overflow-hidden">
+<!-- Original (DE) -->
+<div class="p-xl flex flex-col gap-lg bg-surface">
+<div class="flex items-center gap-sm opacity-60">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md uppercase tracking-tight">Original Document (DE)</span>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<div class="p-lg bg-surface-container-low border border-border-subtle rounded-lg">
+<p class="font-code text-[24px] leading-relaxed text-on-surface">"Aufenthaltstitel"</p>
+</div>
+<div class="mt-lg">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-xs">Legal Definition Context:</p>
+<p class="text-body-md font-body-md text-on-surface-variant leading-normal">
+                                        According to § 4 AufenthG, the Aufenthaltstitel is the generic term for residence rights granted to non-EU citizens.
+                                    </p>
+</div>
+</div>
+</div>
+<!-- Proposed (EN) -->
+<div class="p-xl flex flex-col gap-lg bg-primary-container/5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm text-primary">
+<span class="material-symbols-outlined">translate</span>
+<span class="font-label-md text-label-md uppercase tracking-tight">Proposed Change (EN)</span>
+</div>
+<span class="bg-primary text-on-primary px-sm py-xs rounded text-[10px] font-bold uppercase">CHANGED</span>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<div class="p-lg bg-white border-2 border-primary rounded-lg shadow-md ring-4 ring-primary/5">
+<p class="font-code text-[24px] leading-relaxed text-primary">"Residence Permit"</p>
+</div>
+<div class="mt-lg">
+<p class="font-label-sm text-label-sm text-primary mb-xs">Linguistic Analysis:</p>
+<p class="text-body-md font-body-md text-on-surface leading-normal">
+                                        Appropriate equivalent for the UK jurisdiction. Common usage in immigration and cross-border legal frameworks. 
+                                        <span class="text-success font-bold block mt-sm">✓ High accuracy match for administrative law.</span>
+</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions Footer -->
+<div class="p-lg border-t border-border-subtle bg-surface-container-low flex items-center justify-between rounded-b-xl">
+<div class="flex items-center gap-md">
+<button class="bg-surface border-2 border-primary text-primary px-lg py-md rounded-lg font-label-md text-label-md hover:bg-primary-container/5 transition-colors focus-ring flex items-center gap-sm">
+<span class="material-symbols-outlined">edit</span>
+                                Request Revision
+                            </button>
+</div>
+<div class="flex items-center gap-md">
+<button class="bg-error text-on-error px-lg py-md rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity focus-ring flex items-center gap-sm">
+<span class="material-symbols-outlined">close</span>
+                                Reject
+                            </button>
+<button class="bg-primary text-on-primary px-xl py-md rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity shadow-lg focus-ring flex items-center gap-sm">
+<span class="material-symbols-outlined">check</span>
+                                Accept Change
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating Chat Mini-Context (User Micro-interaction) -->
+<div class="absolute bottom-lg right-lg w-72 bg-white shadow-xl border border-border-subtle rounded-xl p-md glass-effect">
+<div class="flex items-center justify-between mb-sm border-b border-border-subtle pb-xs">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">chat_bubble</span>
+<span class="font-label-sm text-label-sm text-primary">Active Thread</span>
+</div>
+<button class="text-outline hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">close</span></button>
+</div>
+<div class="space-y-sm">
+<div class="bg-surface-container-low p-sm rounded text-label-sm">
+<p class="opacity-60 mb-xs">Assigned Counsel:</p>
+<p>"The DE version uses 'Aufenthaltstitel', let's ensure the EN translation doesn't lose the specific administrative weight in the merger clause."</p>
+</div>
+<input class="w-full text-label-sm border border-outline-variant rounded px-sm py-xs focus:ring-1 focus:ring-primary" placeholder="Reply to counsel..." type="text"/>
+</div>
+</div>
+</main>
+<!-- Overlay / Modal Atmosphere Script -->
+<script>
+        // Simple micro-interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simulating the 'Expanded' state focus
+        console.log("EvidenceEU Comparison View Initialized: High Detail Block Analysis Active.");
+    </script>
+</body></html>

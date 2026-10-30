@@ -1,0 +1,54 @@
+name: User Story
+description: Create a user story and sync it to Notion
+title: "[Story] "
+labels:
+  - backlog
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for Notion-synced EvidenceEU user stories. Add the appropriate sprint label after creation.
+  - type: textarea
+    id: story
+    attributes:
+      label: User Story
+      description: Who needs what, and why?
+      value: |
+        As a [user/persona],
+        I want [capability],
+        so that [outcome].
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What must be true for this story to be done?
+      placeholder: |
+        - [ ] Given..., when..., then...
+        - [ ] Given..., when..., then...
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope Notes
+      description: Boundaries, exclusions, dependencies, or implementation notes.
+      placeholder: |
+        In scope:
+        Out of scope:
+        Dependencies:
+    validations:
+      required: false
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Add the matching GitHub label after creating the issue so priority syncs to Notion.
+      options:
+        - priority-normal
+        - priority-high
+        - priority-urgent
+        - priority-low
+    validations:
+      required: false

@@ -1,0 +1,4 @@
+# AGPL-3.0 community sidecar only. Keep BabelDOC outside the Pyodide backend.
+BabelDOC==0.6.3
+fastapi==0.115.6
+uvicorn[standard]==0.34.0

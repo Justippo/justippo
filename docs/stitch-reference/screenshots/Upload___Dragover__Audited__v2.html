@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Document Upload</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Public Sans & Courier Prime -->
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#ffede2",
+                    "inverse-surface": "#2f3130",
+                    "surface-dim": "#dadad9",
+                    "on-surface-variant": "#414751",
+                    "primary-container": "#1d70b8",
+                    "surface-container-low": "#f4f3f2",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f1f0ef",
+                    "primary": "#005796",
+                    "error": "#D4351C",
+                    "focus": "#FFDD00",
+                    "outline-variant": "#c1c7d2",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-primary-fixed": "#001c37",
+                    "warning": "#F47738",
+                    "surface-container": "#efeeed",
+                    "on-surface": "#1a1c1c",
+                    "surface-variant": "#e3e2e1",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "surface-container-high": "#e9e8e7",
+                    "tertiary": "#824600",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "tertiary-fixed": "#ffdcc2",
+                    "secondary-fixed": "#e4e2e1",
+                    "primary-fixed": "#d2e4ff",
+                    "inverse-primary": "#a0caff",
+                    "surface-bright": "#faf9f8",
+                    "on-primary-fixed-variant": "#00497e",
+                    "background": "#faf9f8",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#626262",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "secondary": "#5e5e5e",
+                    "success": "#00703C",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface": "#faf9f8",
+                    "tertiary-container": "#a55a00",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "border-subtle": "#B1B4B6",
+                    "on-secondary-fixed-variant": "#464747",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#e3e2e1",
+                    "surface-tint": "#0061a6",
+                    "secondary-container": "#e1dfdf",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "outline": "#717782",
+                    "on-background": "#1a1c1c",
+                    "on-primary-container": "#e9f1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-lg": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; background-color: #F3F2F1; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .drag-dashed {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%231D70B8' stroke-width='4' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full p-md gap-sm bg-surface-container-low dark:bg-surface-container-lowest border-r border-border-subtle dark:border-outline-variant w-64 shrink-0 z-50">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md text-primary">EvidenceEU</h1>
+<p class="text-label-sm font-label-sm text-secondary">Legal Workspace</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<button class="w-full flex items-center gap-md p-md text-secondary dark:text-secondary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-md font-label-md">Home</span>
+</button>
+<button class="w-full flex items-center gap-md p-md text-secondary dark:text-secondary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="text-label-md font-label-md">Chat</span>
+</button>
+<button class="w-full flex items-center gap-md p-md text-secondary dark:text-secondary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="text-label-md font-label-md">Library</span>
+</button>
+<!-- Active Case State -->
+<button class="w-full flex items-center gap-md p-md bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="text-label-md font-label-md">Cases</span>
+</button>
+<button class="w-full flex items-center gap-md p-md text-secondary dark:text-secondary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all duration-150 scale-95 active:scale-90">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</button>
+</nav>
+<div class="mt-auto pt-lg">
+<button class="w-full bg-primary text-on-primary py-md px-lg rounded font-label-md flex items-center justify-center gap-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                    New Case
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-lg h-16 z-50 bg-surface dark:bg-inverse-surface border-b border-border-subtle dark:border-outline-variant">
+<div class="flex items-center gap-xl">
+<div class="relative flex items-center bg-surface-container rounded-lg px-md w-96 border border-border-subtle">
+<span class="material-symbols-outlined text-secondary mr-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full py-sm" placeholder="Search case documents..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-lg">
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface text-label-md font-label-md" href="#">Dashboard</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed pb-1 text-label-md font-label-md" href="#">Documents</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface text-label-md font-label-md" href="#">Workflows</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface text-label-md font-label-md" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm hover:bg-surface-container rounded-full transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-secondary" data-icon="notifications">notifications</span>
+</button>
+<button class="p-sm hover:bg-surface-container rounded-full transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-secondary" data-icon="help">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="A professional profile headshot of a legal consultant in a well-lit modern corporate office environment. The lighting is soft and natural, emphasizing a trustworthy and reliable persona. The aesthetic is clean and high-end, matching an enterprise software user interface with a neutral color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoOGc_uqeYe6AGHmVe_79iL5LSeL3pLeOvxSMeO6b3aLVBAbNaEAGhP68crstXCZ25GtcsIsu9lRTItPssxoymhqxB9TyYwHT2glsm9sm-rGHQ0ftuPjf7dhUibjTUvq7xzEKPfaiNHKLLCYC49_4e5DRWiUjAhXz6Bppl6iMz3gT5BYP9I_CyGerB11t8QyGQHdY8OEmzsWRukdEf7WjBdaIqKyUeYSEB0pAvq6Jjr6T29P83EP4mfVfgGksv-9Bopg9Wp6Hjhsok"/>
+</div>
+</div>
+</header>
+<!-- Drag Over Canvas -->
+<div class="flex-1 p-lg flex flex-col relative overflow-hidden">
+<!-- Status Badges Bar -->
+<div class="flex gap-sm mb-lg">
+<div class="inline-flex items-center gap-xs px-md py-xs bg-primary-fixed text-on-primary-fixed-variant rounded-full text-label-sm font-label-sm border border-primary-fixed-dim">
+<span class="material-symbols-outlined text-[16px]" data-icon="info">info</span>
+                        Let me upload a document to ask about
+                    </div>
+<div class="inline-flex items-center gap-xs px-md py-xs bg-success/10 text-success rounded-full text-label-sm font-label-sm border border-success/30">
+<span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span>
+                        Logged in: personal corpus enabled
+                    </div>
+<div class="inline-flex items-center gap-xs px-md py-xs bg-primary-container text-on-primary-container rounded-full text-label-sm font-label-sm border border-primary-fixed-dim"><span class="material-symbols-outlined text-[16px]" data-icon="encrypted">encrypted</span>Zero-Knowledge Encryption</div></div>
+<!-- Main Drop Zone -->
+<div class="flex-1 flex flex-col items-center justify-center rounded-xl bg-primary-container/10 drag-dashed border-2 border-primary relative transition-all duration-300 animate-pulse-subtle focus:ring-4 focus:ring-focus focus:outline-none" tabindex="0">
+<div class="flex flex-col items-center max-w-lg text-center gap-lg">
+<div class="w-24 h-24 bg-primary-container rounded-full flex items-center justify-center text-on-primary shadow-lg mb-4">
+<span class="material-symbols-outlined !text-[48px]" data-icon="upload_file">upload_file</span>
+</div>
+<h2 class="text-headline-xl font-headline-xl text-primary">Release to upload</h2>
+<p class="text-body-lg text-secondary">
+                            Your document will be encrypted and indexed for analysis within the <b>EvidenceEU</b> secure legal environment. 
+                        </p>
+<!-- Visual Guidance -->
+<div class="grid grid-cols-3 gap-lg w-full mt-lg opacity-60">
+<div class="flex flex-col items-center gap-sm">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+<span class="text-label-sm font-label-sm uppercase tracking-wider">Secure</span>
+</div>
+<div class="flex flex-col items-center gap-sm">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+<span class="text-label-sm font-label-sm uppercase tracking-wider">Fast Indexing</span>
+</div>
+<div class="flex flex-col items-center gap-sm">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-label-sm font-label-sm uppercase tracking-wider">PDF/DOCX</span>
+</div>
+</div>
+</div>
+<!-- Floating Interaction Indicator -->
+<div class="absolute bottom-12 flex items-center gap-md bg-white p-md rounded-lg border border-border-subtle shadow-md">
+<div class="w-10 h-12 bg-surface-variant flex items-center justify-center rounded border border-outline-variant">
+<span class="material-symbols-outlined text-secondary" data-icon="draft">draft</span>
+</div>
+<div class="text-left">
+<p class="text-label-md font-label-md">legal_discovery_report.pdf</p>
+<p class="text-label-sm font-label-sm text-secondary">Ready for processing (4.2 MB)</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Meta -->
+<footer class="px-lg py-sm bg-surface-container-low border-t border-border-subtle flex justify-between items-center text-label-sm font-label-sm text-secondary">
+<div class="flex gap-md">
+<span>© 2024 EvidenceEU</span>
+<span>Privacy Policy</span>
+<span>Security Terms</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 bg-success rounded-full"></span>
+                    Systems Operational
+                </div>
+</footer>
+</main>
+</div>
+<!-- UI Interaction Scripts -->
+<script>
+        // Simple micro-interaction for the drag-over state
+        document.body.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        // Add a subtle bounce animation for the "Release" message
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse-subtle {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.005); }
+            }
+            .animate-pulse-subtle {
+                animation: pulse-subtle 3s ease-in-out infinite;
+            }
+        `;
+        document.head.append(style);
+    </script>
+</body></html>

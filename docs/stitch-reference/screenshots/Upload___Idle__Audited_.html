@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Upload Document</title>
+<!-- Google Fonts: Public Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#ffede2",
+                    "inverse-surface": "#2f3130",
+                    "surface-dim": "#dadad9",
+                    "on-surface-variant": "#414751",
+                    "primary-container": "#1d70b8",
+                    "surface-container-low": "#f4f3f2",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f1f0ef",
+                    "primary": "#005796",
+                    "error": "#D4351C",
+                    "focus": "#FFDD00",
+                    "outline-variant": "#c1c7d2",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-primary-fixed": "#001c37",
+                    "warning": "#F47738",
+                    "surface-container": "#efeeed",
+                    "on-surface": "#1a1c1c",
+                    "surface-variant": "#e3e2e1",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "surface-container-high": "#e9e8e7",
+                    "tertiary": "#824600",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "tertiary-fixed": "#ffdcc2",
+                    "secondary-fixed": "#e4e2e1",
+                    "primary-fixed": "#d2e4ff",
+                    "inverse-primary": "#a0caff",
+                    "surface-bright": "#faf9f8",
+                    "on-primary-fixed-variant": "#00497e",
+                    "background": "#faf9f8",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#626262",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "secondary": "#5e5e5e",
+                    "success": "#00703C",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface": "#faf9f8",
+                    "tertiary-container": "#a55a00",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "border-subtle": "#B1B4B6",
+                    "on-secondary-fixed-variant": "#464747",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#e3e2e1",
+                    "surface-tint": "#0061a6",
+                    "secondary-container": "#e1dfdf",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "outline": "#717782",
+                    "on-background": "#1a1c1c",
+                    "on-primary-container": "#e9f1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-lg": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .upload-dashed {
+            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23B1B4B6' stroke-width='2' stroke-dasharray='8%2c 8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex overflow-hidden">
+<!-- SideNavBar Shell Component -->
+<aside class="flex flex-col h-full p-md gap-sm bg-surface-container-low border-r border-border-subtle w-64 flex-shrink-0 z-40">
+<div class="mb-lg px-sm">
+<h1 class="text-headline-md font-headline-md text-primary">EvidenceEU</h1>
+<p class="text-label-sm text-secondary">Legal Workspace</p>
+</div>
+<nav class="flex flex-col gap-xs flex-grow">
+<!-- Home -->
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high transition-all duration-150 rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<!-- Chat (Active) -->
+<a class="flex items-center gap-md p-md bg-primary-container text-on-primary-container font-bold rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-md text-label-md">Chat</span>
+</a>
+<!-- Library -->
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high transition-all duration-150 rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">library_books</span>
+<span class="font-label-md text-label-md">Library</span>
+</a>
+<!-- Cases -->
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high transition-all duration-150 rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-md text-label-md">Cases</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high transition-all duration-150 rounded-lg scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<button class="mt-auto w-full bg-primary text-on-primary py-md font-label-md rounded-lg hover:opacity-90 active:opacity-80 transition-opacity">
+            New Case
+        </button>
+</aside>
+<div class="flex-grow flex flex-col min-w-0 h-screen overflow-hidden">
+<!-- TopNavBar Shell Component -->
+<header class="flex justify-between items-center w-full px-lg h-16 z-50 bg-surface border-b border-border-subtle">
+<div class="flex items-center gap-xl">
+<div class="flex items-center gap-md">
+<span class="text-headline-lg font-headline-lg text-primary">EvidenceEU</span>
+</div>
+<nav class="hidden md:flex gap-lg items-center h-full pt-1">
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface transition-colors" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Documents</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface transition-colors" href="#">Workflows</a>
+<a class="font-label-md text-label-md text-secondary hover:text-on-surface transition-colors" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-secondary hover:bg-surface-container p-sm rounded-lg transition-colors cursor-pointer">notifications</button>
+<button class="material-symbols-outlined text-secondary hover:bg-surface-container p-sm rounded-lg transition-colors cursor-pointer">help</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden cursor-pointer active:opacity-80">
+<img class="w-full h-full object-cover" data-alt="A professional corporate headshot for an enterprise user profile avatar, clean studio lighting, neutral background, sharp focus, 8k resolution, minimalist style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM8cks6p2ribxUdVrU-K0XHbedWxqG22063tnXQMtZ9N1zBTliqud-VsuXKcEiQzEmLrlNMFDAYyAfIvb15EGQVPmhTqu4Txphu86oRGIM-0EA2UBRVn3Tcqmmql5r5ULVF_zZKCjYMz5csOXzdUPa5jOE7v7AjorPyv9FxsYFgQL-LFYn3rbN6hnSMw_irvL5tGK3UniaFX7X41fEgU_-Oe9TFfLP1ZAdF3FQ5ZO3CSTEqzkRaMDnMr5BQ0OrybsnG5ubkZ42L-ml"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow overflow-y-auto p-xl">
+<div class="max-w-container-max mx-auto space-y-xl">
+<!-- Header Section -->
+<div class="space-y-sm">
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Upload Document</h2>
+<p class="font-body-lg text-body-lg text-secondary">Add files to your personal legal corpus</p>
+</div>
+<!-- Badges -->
+<div class="flex flex-wrap gap-sm">
+<div class="flex items-center gap-xs px-md py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-sm border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<span>Let me upload a document to ask about</span>
+</div>
+<div class="flex items-center gap-xs px-md py-xs bg-primary-fixed text-on-primary-fixed-variant rounded-full text-label-sm border border-primary-fixed-dim">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span>Logged in: personal corpus enabled</span>
+</div>
+</div>
+<!-- Bento Grid Layout for Controls & Main Upload -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Language Selection Column -->
+<div class="col-span-12 lg:col-span-3 space-y-md">
+<div class="bg-surface border border-border-subtle p-md rounded-lg"><label class="block font-label-md text-label-md mb-sm text-on-surface">Document Language</label><div class="flex flex-col gap-sm"><button class="w-full py-sm px-md bg-[#1d4ed8] text-white rounded-lg font-label-md">English (EN)</button><button class="w-full py-sm px-md border border-[#e2e8f0] text-[#475569] rounded-lg font-label-md hover:bg-surface-container-low transition-colors">German (DE)</button><button class="w-full py-sm px-md border border-[#e2e8f0] text-[#475569] rounded-lg font-label-md hover:bg-surface-container-low transition-colors">French (FR)</button></div></div>
+<!-- Info Card -->
+<div class="bg-surface-container-low border border-border-subtle p-md rounded-lg space-y-sm">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary mt-xs">policy</span>
+<p class="text-label-sm text-on-surface-variant leading-relaxed">
+                                    Documents are processed within European data zones. All uploads are encrypted and isolated from public LLM training sets.
+                                </p>
+</div>
+</div>
+</div>
+<!-- Main Upload Zone Column -->
+<div class="col-span-12 lg:col-span-9 h-full">
+<div class="bg-surface border border-border-subtle rounded-lg p-xl flex flex-col h-full min-h-[400px]">
+<!-- Drag and Drop Zone -->
+<div class="flex-grow flex flex-col items-center justify-center text-center p-xl cursor-pointer hover:bg-surface-container-low transition-colors duration-200 group rounded-xl bg-[#f8fafc] border-2 border-dashed border-[#cbd5e1] p-[48px] focus:outline-none focus:ring-[3px] focus:ring-[#1d4ed8]" id="dropzone" tabindex="0">
+<div class="mb-lg bg-primary-fixed rounded-full p-xl text-primary transition-transform group-hover:scale-110">
+<span class="material-symbols-outlined text-[64px]" style="font-variation-settings: 'wght' 300;">cloud_upload</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Drag and drop your file here</h3>
+<p class="font-body-lg text-body-lg text-secondary mb-xl">or <span class="inline-block px-md py-xs bg-[#1d4ed8] text-white rounded-lg font-bold cursor-pointer hover:opacity-90 transition-opacity">click to browse</span> your computer</p>
+<div class="bg-surface-container border border-border-subtle rounded px-md py-sm flex items-center gap-md"><span class="font-label-sm text-label-sm text-secondary">Accepted: PDF, DOCX, TXT</span><div class="h-4 w-px bg-border-subtle"></div><span class="font-label-sm text-label-sm text-secondary">Max size: 10MB</span></div>
+</div>
+<!-- Form Controls / Buttons -->
+<div class="mt-lg flex justify-end items-center gap-md">
+<button class="px-xl py-md text-primary font-label-md hover:bg-surface-container rounded-lg transition-colors border border-transparent">
+                                    Cancel
+                                </button>
+<button class="px-xl py-md bg-primary text-on-primary font-label-md rounded-lg hover:opacity-90 active:opacity-80 transition-all shadow-sm focus:ring-4 focus:ring-focus">
+                                    Upload &amp; Analyze
+                                </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Data Visualization (Contextual) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg pt-lg">
+<div class="bg-surface border border-border-subtle p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">storage</span>
+</div>
+<div>
+<p class="text-label-sm text-secondary uppercase tracking-wider">Storage Used</p>
+<p class="font-headline-md text-headline-md">1.2 GB / 10 GB</p>
+</div>
+</div>
+<div class="bg-surface border border-border-subtle p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">history</span>
+</div>
+<div>
+<p class="text-label-sm text-secondary uppercase tracking-wider">Last Upload</p>
+<p class="font-headline-md text-headline-md">2 hours ago</p>
+</div>
+</div>
+<div class="bg-surface border border-border-subtle p-md flex items-center gap-md">
+<div class="w-12 h-12 bg-surface-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">verified</span>
+</div>
+<div>
+<p class="text-label-sm text-secondary uppercase tracking-wider">Active Corpus</p>
+<p class="font-headline-md text-headline-md">EU Legal 2024</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Hidden File Input for Triggering -->
+<input accept=".pdf,.docx,.png" class="hidden" id="file-input" type="file"/>
+<script>
+        // Simple Interaction Logic
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+
+        dropzone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Visual feedback for drag over
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('bg-primary-fixed');
+            dropzone.classList.remove('bg-surface');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('bg-primary-fixed');
+            dropzone.classList.add('bg-surface');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('bg-primary-fixed');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                console.log('Files dropped:', files[0].name);
+                alert('File "' + files[0].name + '" ready for upload.');
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                alert('File "' + fileInput.files[0].name + '" selected.');
+            }
+        });
+    </script>
+</body></html>

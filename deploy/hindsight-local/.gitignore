@@ -1,0 +1,15 @@
+# Hindsight Local - Git Ignore
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Local data (should be in ~/.hindsight-data, not in repo)
+*.db
+*.sqlite
+*.sqlite3

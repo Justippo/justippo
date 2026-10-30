@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enterprise Audit Board | EvidenceEU Reference Baseline</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;800&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#a0caff",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "inverse-surface": "#2f3130",
+                        "tertiary": "#824600",
+                        "tertiary-fixed": "#ffdcc2",
+                        "on-primary-fixed": "#001c37",
+                        "border-subtle": "#B1B4B6",
+                        "surface": "#faf9f8",
+                        "on-surface-variant": "#414751",
+                        "surface-bright": "#faf9f8",
+                        "secondary": "#5e5e5e",
+                        "on-primary-container": "#e9f1ff",
+                        "surface-dim": "#dadad9",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e3e2e1",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "primary-container": "#1d70b8",
+                        "on-secondary-fixed-variant": "#464747",
+                        "surface-variant": "#e3e2e1",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "primary-fixed": "#d2e4ff",
+                        "success": "#00703C",
+                        "outline-variant": "#c1c7d2",
+                        "surface-tint": "#0061a6",
+                        "tertiary-container": "#a55a00",
+                        "secondary-container": "#e1dfdf",
+                        "on-background": "#1a1c1c",
+                        "on-surface": "#1a1c1c",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "primary-fixed-dim": "#a0caff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#ffede2",
+                        "error": "#D4351C",
+                        "on-primary-fixed-variant": "#00497e",
+                        "on-tertiary-fixed": "#2e1500",
+                        "outline": "#717782",
+                        "warning": "#F47738",
+                        "on-secondary-container": "#626262",
+                        "surface-container-low": "#f4f3f2",
+                        "primary": "#005796",
+                        "focus": "#FFDD00",
+                        "surface-container": "#efeeed",
+                        "surface-container-high": "#e9e8e7",
+                        "secondary-fixed": "#e4e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "background": "#faf9f8",
+                        "inverse-on-surface": "#f1f0ef"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Public Sans"],
+                        "code": ["Courier Prime"],
+                        "headline-md": ["Public Sans"],
+                        "label-sm": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F3F2F1;
+            font-family: 'Public Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .audit-card {
+            border: 1px solid #B1B4B6;
+            background: #FFFFFF;
+            transition: border-color 0.2s ease;
+        }
+        .audit-card:hover {
+            border-color: #1D70B8;
+        }
+        .wireframe-placeholder {
+            background-color: #F3F2F1;
+            border: 1px dashed #B1B4B6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .zebra-table tr:nth-child(even) {
+            background-color: #F3F2F1;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-on-surface">
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col h-full w-64 bg-surface-container-low border-r border-border-subtle p-md gap-sm shrink-0">
+<div class="mb-lg">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">architecture</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Reference Baseline</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Current State Analysis</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-xs">
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-container-highest transition-all scale-95 active:scale-90 rounded-lg" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+<span class="font-label-md text-label-md">Upload</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-container-highest transition-all scale-95 active:scale-90 rounded-lg" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-md text-label-md">Search</span>
+</a>
+<a class="flex items-center gap-sm p-sm bg-secondary-container text-on-secondary-container font-bold rounded-lg transition-all scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined">translate</span>
+<span class="font-label-md text-label-md">Translation</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-container-highest transition-all scale-95 active:scale-90 rounded-lg" href="#">
+<span class="material-symbols-outlined">compare</span>
+<span class="font-label-md text-label-md">Comparison</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-container-highest transition-all scale-95 active:scale-90 rounded-lg" href="#">
+<span class="material-symbols-outlined">swap_horiz</span>
+<span class="font-label-md text-label-md">Exchange</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-container-highest transition-all scale-95 active:scale-90 rounded-lg" href="#">
+<span class="material-symbols-outlined">login</span>
+<span class="font-label-md text-label-md">Login</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-border-subtle pt-md space-y-xs">
+<button class="w-full bg-primary-container text-on-primary-container font-label-md text-label-md py-sm rounded px-md hover:opacity-90 transition-opacity mb-md">
+                Export Documentation
+            </button>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">history_edu</span>
+<span class="font-label-md text-label-md">Audit Logs</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-container-highest transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="bg-surface border-b border-border-subtle shrink-0">
+<div class="flex justify-between items-center px-lg py-sm w-full max-w-container-max mx-auto">
+<div class="flex items-center gap-lg">
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary">Enterprise Audit Board</h1>
+<nav class="hidden lg:flex items-center gap-md">
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors px-xs py-1" href="#">Modules</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Architecture</a>
+<a class="text-on-surface-variant hover:bg-surface-container-high transition-colors px-xs py-1" href="#">Roadmap</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="pl-xl pr-md py-xs border border-border-subtle rounded text-label-sm w-64 focus:outline-none focus:ring-2 focus:ring-focus" placeholder="Search components..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-xs hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined">settings</span></button>
+<button class="p-xs hover:bg-surface-container-high rounded transition-colors"><span class="material-symbols-outlined">help</span></button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle ml-xs">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a corporate executive for a user profile avatar. The lighting is crisp and clear, against a neutral light gray background. The subject is wearing a navy blue professional blazer. The overall aesthetic is clean, corporate, and highly reliable, fitting for a government administration software context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY2FiN0nUL0sSyEALJHweQHnLNqZGAsMafDn4lqnWYbcZUMYmHC7z5-zW4imWDF-t0_Gavob7yjbJJwyLGokXyeciBGGrmT94TwMUMLL_ReBEWf3Iv0TAfcaIr_EsVdpe2KCoEmFgbs1n8e6q0sOgItVltVCTwy1ykjtXIFM2yZ-Nf6llXiH9ckPmlX9mBSxwTGiNrWBXtFRngampdU1RMf4frKLJ_Ja2VXz-WkcwNuTX21jrztLLUyA"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Audit Board Grid -->
+<main class="flex-1 overflow-y-auto p-lg">
+<div class="max-w-container-max mx-auto">
+<div class="mb-lg">
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-xs">Current-State Reference Baseline</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Documentation of legacy components and architectural hooks before chat-first transition.</p>
+</div>
+<!-- Grid Layout for 6 Sections -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-lg mb-xl">
+<!-- Section 1: Upload Page -->
+<section class="audit-card flex flex-col rounded shadow-sm overflow-hidden">
+<div class="p-md bg-surface-container border-b border-border-subtle">
+<h3 class="font-label-md text-label-md text-on-surface">Upload Page / Upload Component</h3>
+<code class="font-code text-code text-primary block mt-xs truncate">frontend/src/app/upload/page.tsx | DocumentUploader.tsx</code>
+</div>
+<div class="p-md flex-1">
+<div class="wireframe-placeholder w-full aspect-video mb-md" data-alt="A low-fidelity technical wireframe of a document upload interface. The design uses light gray boxes and dashed borders to represent a 'Drag and Drop' area. The layout is clean and minimalist, showing progress bars and file list placeholders. The aesthetic is purely functional and documented-oriented, with neutral tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiNVCOoexl69x-HnKTS8llMfUFdxKGQEIsDGkgCLqjUd5kN5eEb5yiIkglz7_Kv90RLIP2bzGJEdeEryXtFyjGQJq8grYLb2GpH9LUFIeSlXyR1GTb6lPsRkOXhzMS3DLcMVy7cuYBGpec9yfhXk_JHQy5rFHjd9tZ49nFR9JUzRlI_Ml_dI3Ycw0q2TTxbWwmfANXHuZ0OJcCUh51calWiD53H_igHbkXMMlYWL-woBW_FSLTppoPdw')"></div>
+<div class="space-y-md">
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What exists now</h4>
+<p class="font-body-md text-body-md">Standard drag-and-drop zone with MIME-type validation and upload progress tracking.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What must change for chat-first UX</h4>
+<p class="font-body-md text-body-md">Seamless integration into the message stream; automated metadata extraction triggered by file drop in thread.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">Related downstream wireframe</h4>
+<a class="text-primary font-label-md text-label-md flex items-center gap-xs" href="#">Page 03: File Injection <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Search Page -->
+<section class="audit-card flex flex-col rounded shadow-sm overflow-hidden">
+<div class="p-md bg-surface-container border-b border-border-subtle">
+<h3 class="font-label-md text-label-md text-on-surface">Search Page / Results Component</h3>
+<code class="font-code text-code text-primary block mt-xs truncate">frontend/src/components/search/SearchBar.tsx | SearchResults.tsx</code>
+</div>
+<div class="p-md flex-1">
+<div class="wireframe-placeholder w-full aspect-video mb-md" data-alt="A low-fidelity technical wireframe showing a search results page for an enterprise system. It features a top search bar with filter chips below it. The main area shows a vertical list of search result cards with placeholder text and metadata labels. The color palette is strictly neutral grays and whites." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZrESjF0L0RjhmXpXxVw2-GwlycCtyHlLDxgVGUsLC7qLMLDhta_KnPVTkYyna3BiDquMDvoeroua8BWzOmLgu2yvsbS8lWbgvZzK_J_kQnsaF8vDgcXYop0MvdZIL9K6wBWktSRORpB5oP-76mTqbbGhw7v7l4ustEGNC7mtNr8BXmRFmPdRZzSyroA1PaV2DtIBPsawHIqBSTYpOzp5GE4eBrc_-apJM8I6kyFO8XWLtW9XzGBMx3g')"></div>
+<div class="space-y-md">
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What exists now</h4>
+<p class="font-body-md text-body-md">Keyword-based faceted search with paginated table results and basic filter sidebar.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What must change for chat-first UX</h4>
+<p class="font-body-md text-body-md">Natural language querying (semantic search) with results displayed as interactive cards within chat.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">Related downstream wireframe</h4>
+<a class="text-primary font-label-md text-label-md flex items-center gap-xs" href="#">Page 04: Semantic Discovery <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Translation -->
+<section class="audit-card flex flex-col rounded shadow-sm overflow-hidden">
+<div class="p-md bg-surface-container border-b border-border-subtle">
+<h3 class="font-label-md text-label-md text-on-surface">Translation / Document Viewer</h3>
+<code class="font-code text-code text-primary block mt-xs truncate">frontend/src/components/document/DocumentViewer.tsx</code>
+</div>
+<div class="p-md flex-1">
+<div class="wireframe-placeholder w-full aspect-video mb-md" data-alt="A technical wireframe of a side-by-side document viewer. On the left is a placeholder for the original text, and on the right is a placeholder for the translated version. Simple icons indicate language selection and download options. The design is institutional and utilitarian, using only gray-scale shades." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC931ahnlKqSQzfbBMh33J8duIdB5lsmY8OHD57LsZ2DBrvbio3otc9LPMnksTiD-lkFGO3Mp4ugxOws837VwKsJo0ywK9Sf8Dc1NT5aNDdYiYTW3q5z4TusLr7eNP1mNNOhdUBowK3einUqeZhWnLX8xsj8Oe7Qx3vPIIOXI_vgwH7QeFFkM_0H-wAvozfdpW-itEu2rkWV8_6jdraqecM_spl7acx0qLd9JNJBwYZVBXcru_nxZvH5A')"></div>
+<div class="space-y-md">
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What exists now</h4>
+<p class="font-body-md text-body-md">Static PDF viewer with side-by-side translation toggle and basic annotation tools.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What must change for chat-first UX</h4>
+<p class="font-body-md text-body-md">Inline contextual translation; ability to ask specific questions about foreign language segments.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">Related downstream wireframe</h4>
+<a class="text-primary font-label-md text-label-md flex items-center gap-xs" href="#">Page 05: LLM Translator <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Cross-Border Comparison -->
+<section class="audit-card flex flex-col rounded shadow-sm overflow-hidden">
+<div class="p-md bg-surface-container border-b border-border-subtle">
+<h3 class="font-label-md text-label-md text-on-surface">Cross-Border Comparison</h3>
+<code class="font-code text-code text-primary block mt-xs truncate">frontend/src/components/compare/DocumentComparison.tsx</code>
+</div>
+<div class="p-md flex-1">
+<div class="wireframe-placeholder w-full aspect-video mb-md" data-alt="A low-fidelity wireframe illustrating a data comparison matrix. Columns represent different jurisdictions, and rows represent legal requirements. Each cell contains a small placeholder box. The overall layout is clean, structured, and documentation-focused, utilizing a Microsoft Fluent-inspired aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC3GsiHkLVSOhGqaJlUzYHz4XI4zHUgGm0XJ5BPsBg9tPmcHMZpY0fX33uoZFagRf2TcduhFDXdold0CSrsj4xWaRGJ7SPsSUsvM9FlXlGk7xLB0UDmoO1CWPOrekmqiZjLfJSgf3J7qQwrnniuEIg0Xa5Z5XGVGRiTtsExuLpopSYZKMdTv_sX5S4lYteddS_TBe9kosY7xRdBT17AnTK094LcwGP9pXZqBXTsA1bglsf9Ku6yzL7oaA')"></div>
+<div class="space-y-md">
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What exists now</h4>
+<p class="font-body-md text-body-md">Manual column-based comparison matrix for identifying differences in multi-jurisdictional legal texts.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What must change for chat-first UX</h4>
+<p class="font-body-md text-body-md">AI-generated delta summaries; automated highlighting of conflicting clauses across jurisdictions.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">Related downstream wireframe</h4>
+<a class="text-primary font-label-md text-label-md flex items-center gap-xs" href="#">Page 06: Conflict Resolver <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Exchange Panel -->
+<section class="audit-card flex flex-col rounded shadow-sm overflow-hidden">
+<div class="p-md bg-surface-container border-b border-border-subtle">
+<h3 class="font-label-md text-label-md text-on-surface">Exchange Panel</h3>
+<code class="font-code text-code text-primary block mt-xs truncate">frontend/src/components/exchange/ExchangePanel.tsx</code>
+</div>
+<div class="p-md flex-1">
+<div class="wireframe-placeholder w-full aspect-video mb-md" data-alt="A technical wireframe of a file exchange dashboard. It shows a list of outbound and inbound document requests with status indicators like 'Pending' or 'Complete'. The interface is simple, using standard table headers and utility icons. The color palette is minimal gray and white." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvCGAsyUzrzBcnoHFghOo2OhzUkkJQ60QdJUAf_P7zFV-O8HYJkA9EY4lR-AYDMYc87UBpn43qvVGOQu6Z6qqmmYDxcQ2-Be1DjkIF3u32HwEXOg6iOm7Qflh9I0Kl2kBZ8Oj4U5GTRN03_dlu8z7rGYwA0qkmcBfW7Znn5UsbpDKvu8meMJf9XBmvL1zevN6EiBH4bmEYVdsPs2G62VxGGvnsdxxYdXxadDkyCWx8zB8VMzQlXBXdIw')"></div>
+<div class="space-y-md">
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What exists now</h4>
+<p class="font-body-md text-body-md">Tabbed view showing outgoing and incoming document requests with status badges.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What must change for chat-first UX</h4>
+<p class="font-body-md text-body-md">Conversation-linked exchanges; shared workspaces where documents can be analyzed jointly via agent.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">Related downstream wireframe</h4>
+<a class="text-primary font-label-md text-label-md flex items-center gap-xs" href="#">Page 07: Collaborative Thread <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Matrix Login -->
+<section class="audit-card flex flex-col rounded shadow-sm overflow-hidden">
+<div class="p-md bg-surface-container border-b border-border-subtle">
+<h3 class="font-label-md text-label-md text-on-surface">Matrix Login / Auth State</h3>
+<code class="font-code text-code text-primary block mt-xs truncate">frontend/src/components/exchange/ExchangePanel.tsx</code>
+</div>
+<div class="p-md flex-1">
+<div class="wireframe-placeholder w-full aspect-video mb-md" data-alt="A wireframe of a secure login screen. It includes a brand logo placeholder, input fields for username and password, and a 'Sign In' button. A small secondary section mentions 'Matrix Authentication'. The design is clean, authoritative, and stable, following GOV.UK design principles." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDyF3-o0iGsByrq9U0pV3x7BUND_R08x5h-gCq5Rsc4PMZd-4Rmq5h9aCpOq2o9DuL-4e2eHovXSwuA2GLHKN4KHPH0_cx_Ids7Ic5_0g3cmQlNA5eD4cYV1vyqM79WDWk6xk_9CBaFQY2ZO4uMuHppDlvuPQOBjaRwIvGAXi4TKzSsB2mZXxUw3DoqZ-5_m0LFnZBkwYwO6vj9kutusAMAJhpOqp_syxY88IpPGoW6zg0K-W-urZWRFA')"></div>
+<div class="space-y-md">
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">Reference source</h4>
+<p class="font-body-md text-body-md">Legacy authentication module utilizing OIDC and Matrix-protocol session management.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">What must change for chat-first UX</h4>
+<p class="font-body-md text-body-md">Unified identity provider across chat and tools; persistent session across agent-driven subtasks.</p>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs">Related downstream wireframe</h4>
+<a class="text-primary font-label-md text-label-md flex items-center gap-xs" href="#">Page 08: Secure Handshake <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Final Annotation -->
+<div class="p-lg bg-surface-container-high rounded border-l-4 border-primary mb-xl">
+<p class="font-body-lg text-body-lg text-on-surface">
+<span class="font-bold">Note:</span> This page captures current UI references for the EvidenceEU system baseline. Final redesigned flows, utilizing the <span class="italic">chat-first architecture</span> and LLM-driven interactions, are presented from <span class="font-bold text-primary">Page 02</span> onward.
+                    </p>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-dim border-t border-border-subtle shrink-0">
+<div class="flex flex-col sm:flex-row justify-between items-center px-lg py-md w-full gap-md">
+<div class="flex items-center gap-md">
+<p class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">© 2024 Enterprise Capstone Project | Current-State Reference Baseline</p>
+</div>
+<div class="flex gap-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Technical Documentation</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Downstream Wireframes</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">React Architecture</a>
+</div>
+</div>
+</footer>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Simple hover effect or interaction logic if needed
+        document.querySelectorAll('.audit-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'transform 0.2s ease-out, border-color 0.2s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

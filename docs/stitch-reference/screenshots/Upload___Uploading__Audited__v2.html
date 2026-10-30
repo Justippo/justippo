@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Uploading...</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .progress-bar-indeterminate {
+            width: 100%;
+            height: 4px;
+            background-color: #d2e4ff;
+            position: relative;
+            overflow: hidden;
+        }
+        .progress-bar-indeterminate::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 30%;
+            background-color: #1d70b8;
+            animation: indeterminate 1.5s infinite linear;
+        }
+        @keyframes indeterminate {
+            0% { left: -30%; }
+            100% { left: 100%; }
+        }
+        body {
+            background-color: #faf9f8;
+            font-family: 'Public Sans', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#ffede2",
+                        "inverse-surface": "#2f3130",
+                        "surface-dim": "#dadad9",
+                        "on-surface-variant": "#414751",
+                        "primary-container": "#1d70b8",
+                        "surface-container-low": "#f4f3f2",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f1f0ef",
+                        "primary": "#005796",
+                        "error": "#D4351C",
+                        "focus": "#FFDD00",
+                        "outline-variant": "#c1c7d2",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-primary-fixed": "#001c37",
+                        "warning": "#F47738",
+                        "surface-container": "#efeeed",
+                        "on-surface": "#1a1c1c",
+                        "surface-variant": "#e3e2e1",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "surface-container-high": "#e9e8e7",
+                        "tertiary": "#824600",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "tertiary-fixed": "#ffdcc2",
+                        "secondary-fixed": "#e4e2e1",
+                        "primary-fixed": "#d2e4ff",
+                        "inverse-primary": "#a0caff",
+                        "surface-bright": "#faf9f8",
+                        "on-primary-fixed-variant": "#00497e",
+                        "background": "#faf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-container": "#626262",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "secondary": "#5e5e5e",
+                        "success": "#00703C",
+                        "primary-fixed-dim": "#a0caff",
+                        "surface": "#faf9f8",
+                        "tertiary-container": "#a55a00",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "border-subtle": "#B1B4B6",
+                        "on-secondary-fixed-variant": "#464747",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e3e2e1",
+                        "surface-tint": "#0061a6",
+                        "secondary-container": "#e1dfdf",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "outline": "#717782",
+                        "on-background": "#1a1c1c",
+                        "on-primary-container": "#e9f1ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xs": "4px",
+                        "unit": "4px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "label-sm": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "headline-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="flex h-screen overflow-hidden text-on-surface">
+<!-- SideNavBar Anchor -->
+<aside class="flex flex-col h-full p-md gap-sm bg-surface-container-low dark:bg-surface-container-lowest border-r border-border-subtle dark:border-outline-variant w-64 docked left-0">
+<div class="flex flex-col gap-xs mb-lg px-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<h1 class="text-headline-md font-headline-md text-primary dark:text-primary-fixed">EvidenceEU</h1>
+</div>
+<p class="text-label-sm font-label-sm text-secondary px-10">Legal Workspace</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Home -->
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-md font-label-md">Home</span>
+</a>
+<!-- Chat -->
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="text-label-md font-label-md">Chat</span>
+</a>
+<!-- Library - Active Mapping for Documents -->
+<a class="flex items-center gap-md p-md bg-primary-container text-on-primary-container font-bold rounded-lg transition-all duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="library_books" style="font-variation-settings: 'FILL' 1;">library_books</span>
+<span class="text-label-md font-label-md">Library</span>
+</a>
+<!-- Cases -->
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="text-label-md font-label-md">Cases</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-md p-md text-secondary dark:text-secondary-fixed hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-lg transition-all duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-lg">
+<button class="w-full bg-primary text-on-primary font-label-md py-md rounded-lg hover:opacity-90 transition-opacity">
+                New Case
+            </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar Anchor -->
+<header class="flex justify-between items-center w-full px-lg h-16 z-50 bg-surface dark:bg-inverse-surface border-b border-border-subtle dark:border-outline-variant docked full-width top-0">
+<div class="flex items-center gap-lg">
+<div class="relative w-64">
+<span class="absolute inset-y-0 left-3 flex items-center text-secondary">
+<span class="material-symbols-outlined text-body-md" data-icon="search">search</span>
+</span>
+<input class="w-full pl-10 pr-md py-sm bg-surface-container border border-border-subtle rounded-lg text-body-md focus:outline-none focus:ring-2 focus:ring-focus" placeholder="Search workspace..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-lg">
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-on-surface-variant font-label-md text-label-md transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed pb-1 font-label-md text-label-md" href="#">Documents</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-on-surface-variant font-label-md text-label-md transition-colors duration-200" href="#">Workflows</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-on-surface-variant font-label-md text-label-md transition-colors duration-200" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined p-sm hover:bg-surface-container dark:hover:bg-surface-container-highest rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined p-sm hover:bg-surface-container dark:hover:bg-surface-container-highest rounded-full transition-colors" data-icon="help">help</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-high border border-border-subtle overflow-hidden ml-sm cursor-pointer active:opacity-80">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a legal analyst in a modern office, soft diffused lighting, neutral tones, corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoA8n42JibhCv87_SUFqu5LJg5ca2d1uUsQRJqsFhw_m5dzvwG5MiuoZwb24sgrnJy-PVklcuT4dz6edTRcbM7y1tgIwQ6S9l3kuxs-bdvfeYeLxbhnxJ06RNw-YZVU09JGaY1Gw2DAl19Pnx8QPEyAa83M-bkzt7NGGzmj4omyDhEVC5c3y-Ylvn4VlrU0TlZrFysz8jllF2xGLEZQQpJ-HnKa560B8-UzlTUd48xsd8dUlDqZhAkjETsYTAEW2ZGwCFt5R8lt6aH"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 overflow-y-auto p-lg bg-background">
+<div class="max-w-4xl mx-auto space-y-lg">
+<!-- Badges Header -->
+<div class="flex flex-wrap gap-sm">
+<div class="bg-primary-container/10 text-primary px-sm py-1 rounded-lg border border-primary/20 text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'opsz' 20;">info</span>
+                        Let me upload a document to ask about
+                    </div>
+<div class="bg-success/10 text-success px-sm py-1 rounded-lg border border-success/20 text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'opsz' 20, 'FILL' 1;">verified_user</span>
+                        Logged in: personal corpus enabled
+                    </div>
+</div>
+<!-- Breadcrumb -->
+<div class="text-label-sm text-secondary flex items-center gap-xs">
+<span>Documents</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface">New Upload</span>
+</div>
+<!-- Upload Section (Bento Style Focus) -->
+<div class="grid grid-cols-1 gap-lg">
+<!-- File Upload Card -->
+<div class="bg-surface-container-lowest border border-border-subtle p-xl rounded-lg shadow-sm">
+<div class="flex items-start gap-lg">
+<!-- Icon and Visual -->
+<div class="w-16 h-20 bg-surface-container flex flex-col items-center justify-center rounded-lg border border-outline-variant flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-headline-xl" style="font-variation-settings: 'opsz' 48;">description</span>
+<div class="bg-primary text-on-primary text-[8px] font-bold px-1 rounded-sm -mt-2">PDF</div>
+</div>
+<!-- Metadata -->
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-sm">
+<div>
+<h2 class="text-headline-md font-headline-md text-on-surface truncate">Aufenthaltstitel.pdf</h2>
+<div class="flex items-center gap-md mt-xs">
+<span class="text-body-md text-secondary">1.2 MB</span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span aria-live="polite" class="flex items-center gap-xs text-body-md font-bold" role="status" style="color: #475569;"><span class="material-symbols-outlined text-sm animate-spin">progress_activity</span>Uploading...</span>
+</div>
+</div>
+<button class="text-secondary hover:text-error transition-colors p-xs focus:ring-2 focus:ring-focus focus:outline-none">
+<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
+</button>
+</div>
+<!-- Progress Bar (Indeterminate as requested) -->
+<div class="mt-lg">
+<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="45" class="progress-bar-indeterminate rounded-full" role="progressbar" style="background-color: #d2e4ff; border-radius: 4px; height: 4px; width: 100%; position: relative; overflow: hidden;"></div>
+<div class="flex justify-between mt-sm text-label-sm text-secondary">
+<span>Analyzing document structure...</span>
+<span>45%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Informational Cards (Contextual) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<div class="bg-surface border border-border-subtle p-lg rounded-lg">
+<div class="flex items-center gap-sm mb-md text-primary">
+<span class="material-symbols-outlined" data-icon="security">security</span>
+<h3 class="text-label-md font-label-md">Privacy Shield: Zero-Knowledge Encryption</h3>
+</div>
+<p class="text-body-md text-secondary">Your document is protected by Zero-Knowledge Encryption. It is encrypted locally before being processed, ensuring all data remains within the EU legal boundary.</p>
+</div>
+<div class="bg-surface border border-border-subtle p-lg rounded-lg">
+<div class="flex items-center gap-sm mb-md text-tertiary">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="text-label-md font-label-md">OCR Enhancement</h3>
+</div>
+<p class="text-body-md text-secondary">Automatic text recognition is active for high-fidelity extraction of hand-written annotations.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Simple state management simulation
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadText = document.querySelector('.animate-pulse');
+            const states = ['Uploading...', 'Processing...', 'Indexing...'];
+            let currentState = 0;
+
+            setInterval(() => {
+                currentState = (currentState + 1) % states.length;
+                if (uploadText) uploadText.textContent = states[currentState];
+            }, 3000);
+        });
+    </script>
+</body></html>

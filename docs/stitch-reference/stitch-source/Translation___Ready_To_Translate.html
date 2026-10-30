@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Legal Translation Interface</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#717782",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#001c37",
+                    "surface-bright": "#faf9f8",
+                    "tertiary-container": "#a55a00",
+                    "on-background": "#1a1c1c",
+                    "warning": "#F47738",
+                    "on-tertiary-fixed": "#2e1500",
+                    "surface-container-high": "#e9e8e7",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "surface-tint": "#0061a6",
+                    "surface-dim": "#dadad9",
+                    "inverse-on-surface": "#f1f0ef",
+                    "success": "#00703C",
+                    "tertiary": "#824600",
+                    "border-subtle": "#B1B4B6",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1d70b8",
+                    "background": "#faf9f8",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "on-primary-fixed-variant": "#00497e",
+                    "surface-container-low": "#f4f3f2",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-container": "#efeeed",
+                    "on-tertiary-container": "#ffede2",
+                    "surface-container-highest": "#e3e2e1",
+                    "error-container": "#ffdad6",
+                    "focus": "#FFDD00",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#e1dfdf",
+                    "on-surface-variant": "#414751",
+                    "outline-variant": "#c1c7d2",
+                    "secondary": "#5e5e5e",
+                    "on-secondary-fixed-variant": "#464747",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface": "#faf9f8",
+                    "on-surface": "#1a1c1c",
+                    "inverse-primary": "#a0caff",
+                    "on-primary-container": "#e9f1ff",
+                    "primary": "#005796",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "on-secondary-container": "#626262",
+                    "inverse-surface": "#2f3130",
+                    "surface-variant": "#e3e2e1",
+                    "primary-fixed-dim": "#a0caff",
+                    "error": "#D4351C"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "lg": "24px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-md": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "label-md": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .translation-panel {
+            scrollbar-width: thin;
+            scrollbar-color: #B1B4B6 transparent;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen flex flex-col overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-border-subtle dark:border-outline flex justify-between items-center w-full px-lg h-16 shrink-0 z-10">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">EvidenceEU</span>
+<div class="hidden md:flex ml-lg gap-lg">
+<a class="font-headline-md text-headline-md cursor-pointer active:opacity-80 transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest text-on-surface-variant dark:text-outline-variant px-sm py-xs">Dashboard</a>
+<a class="font-headline-md text-headline-md cursor-pointer active:opacity-80 transition-colors hover:bg-surface-container-low dark:hover:bg-surface-container-highest text-primary dark:text-inverse-primary border-b-2 border-primary px-sm py-xs">Library</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant cursor-pointer">help_outline</span>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a corporate legal professional with a clean, blurred office background. The lighting is bright and natural, reflecting a high-trust, modern institutional environment. The subject wears professional attire in neutral tones, aligning with the EvidenceEU brand's stable and authoritative visual identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSqIPIyr9mzljrbkfN78eTut-WRQFxAm2JAMSh9m3rOjW4jmhpcjleCdcxwtyLCk_1pV9exeEwTIttYgCUZxz-32Os4Wzu4I25u27nZNxWPjb-agK06QuDpjFwCaTJuBj6uDSkUPs86BYlWkBOGztkxa2s7Qh7ivv4F9Zq5-H7b1XKHRDoldXUnQyR67Hw6CIt9gZ_JZvcmpVmi1kvgeLZ-Av27LsMxNpl57Viu-NPMEPzvaEw8Byqm0ySsrT23RgS4QwUP3RrQcoS"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-low dark:bg-surface-container-lowest border-r border-border-subtle dark:border-outline flex flex-col h-screen py-md space-y-2 w-64 shrink-0 hidden md:flex">
+<div class="px-md mb-lg">
+<p class="font-label-md text-label-md text-on-surface-variant">Auth: Logged in</p>
+<div class="mt-sm p-sm bg-primary-fixed text-on-primary-fixed rounded-lg flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<span class="font-label-sm text-label-sm">Reached from chat: 'Translate this section to DE'</span>
+</div>
+</div>
+<div class="px-sm space-y-1">
+<div class="flex items-center gap-md px-md py-sm cursor-pointer transition-all duration-200 ease-in-out hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm cursor-pointer transition-all duration-200 ease-in-out hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span>Chat</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm cursor-pointer transition-all duration-200 ease-in-out bg-surface-container-high dark:bg-surface-container-highest text-primary dark:text-inverse-primary font-bold rounded-lg font-label-md text-label-md">
+<span class="material-symbols-outlined">library_books</span>
+<span>Library</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm cursor-pointer transition-all duration-200 ease-in-out hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">work</span>
+<span>Cases</span>
+</div>
+<div class="flex items-center gap-md px-md py-sm cursor-pointer transition-all duration-200 ease-in-out hover:bg-secondary-container dark:hover:bg-secondary-fixed-dim rounded-lg text-on-surface-variant dark:text-outline-variant font-label-md text-label-md">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col bg-surface-container overflow-hidden">
+<!-- Toolbar Area -->
+<div class="bg-surface border-b border-border-subtle p-md flex items-center justify-between shadow-sm z-10">
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-sm">
+<span class="bg-secondary-container text-on-secondary-container px-sm py-1 font-bold rounded text-label-sm border border-border-subtle">DE</span>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+<span class="bg-primary text-on-primary px-sm py-1 font-bold rounded text-label-sm">EN</span>
+</div>
+<div class="h-6 w-[1px] bg-border-subtle"></div>
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-success">check_circle</span>
+<span class="font-label-md text-label-md text-on-surface">Status: <span class="font-bold text-success">Ready</span></span>
+</div>
+<div class="flex items-center gap-sm bg-surface-container-low px-sm py-1 rounded border border-border-subtle">
+<span class="material-symbols-outlined text-tertiary">menu_book</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Glossary: <span class="font-bold">Legal_Standard_DE-EN</span></span>
+</div>
+</div>
+<div>
+<button class="bg-primary text-on-primary px-lg py-sm font-label-md text-label-md rounded flex items-center gap-sm hover:brightness-110 active:ring-2 active:ring-focus transition-all">
+<span class="material-symbols-outlined">translate</span>
+                        Start Translation
+                    </button>
+</div>
+</div>
+<!-- Two-Panel Document Viewer -->
+<div class="flex-1 flex gap-px bg-border-subtle overflow-hidden">
+<!-- Left Panel: German Text -->
+<section class="flex-1 bg-white overflow-y-auto p-xl translation-panel">
+<div class="max-w-2xl mx-auto">
+<div class="flex items-center justify-between mb-lg border-b border-surface-container pb-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Source Document</h2>
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">German (DE)</span>
+</div>
+<article class="font-body-lg text-body-lg text-on-surface leading-relaxed whitespace-pre-wrap">
+<span class="font-bold text-headline-md block mb-md">Aufenthaltstitel</span>
+
+Dieser Aufenthaltstitel berechtigt den Inhaber zur Ausübung einer Erwerbstätigkeit. Die Gültigkeit dieses Dokuments entspricht der Dauer des beigefügten Zusatzblattes. 
+
+Jede Änderung der Wohnanschrift ist der zuständigen Ausländerbehörde unverzüglich mitzuteilen. Der Verlust dieses Dokuments ist polizeilich anzuzeigen.
+
+Hinweis: Die unbefugte Änderung oder Verwendung dieses Dokuments kann strafrechtlich verfolgt werden.</article>
+</div>
+</section>
+<!-- Right Panel: English Placeholder -->
+<section class="flex-1 bg-surface-container-lowest overflow-y-auto p-xl translation-panel relative">
+<div class="max-w-2xl mx-auto h-full flex flex-col">
+<div class="flex items-center justify-between mb-lg border-b border-surface-container pb-sm">
+<h2 class="font-headline-lg text-headline-lg text-outline">Target Translation</h2>
+<span class="text-outline-variant font-label-sm text-label-sm uppercase tracking-wider">English (EN)</span>
+</div>
+<!-- Empty State Placeholder UI -->
+<div class="flex-1 flex flex-col items-center justify-center text-center space-y-md opacity-40">
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center mb-sm">
+<span class="material-symbols-outlined text-4xl text-outline">edit_note</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Translation Pending</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm">
+                                Click "Start Translation" to generate an initial draft using the EvidenceEU Legal Core engine.
+                            </p>
+</div>
+<!-- Skeletal structure for potential text -->
+<div class="space-y-sm mt-xl animate-pulse opacity-10">
+<div class="h-8 bg-outline-variant w-1/3 rounded"></div>
+<div class="h-4 bg-outline-variant w-full rounded"></div>
+<div class="h-4 bg-outline-variant w-full rounded"></div>
+<div class="h-4 bg-outline-variant w-4/5 rounded"></div>
+<div class="h-4 bg-outline-variant w-full rounded mt-lg"></div>
+<div class="h-4 bg-outline-variant w-1/2 rounded"></div>
+</div>
+</div>
+</section></div>
+</main></div>
+<!-- Footer Meta Info -->
+<footer class="bg-surface border-t border-border-subtle px-lg py-sm flex justify-between items-center shrink-0">
+<div class="flex gap-lg">
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">description</span>
+<span>Doc ID: EUEU-77291-B</span>
+</div>
+<div class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">event</span>
+<span>Created: 24 Oct 2023</span>
+</div>
+</div>
+<div class="flex gap-md">
+<button class="px-md py-1 border border-border-subtle rounded font-label-sm text-label-sm text-on-surface hover:bg-surface-container transition-colors">Compare History</button>
+<button class="px-md py-1 border border-border-subtle rounded font-label-sm text-label-sm text-on-surface hover:bg-surface-container transition-colors">Export .DOCX</button>
+</div>
+</footer>
+<!-- Micro-interaction Script for Hover/Click Effects -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const panels = document.querySelectorAll('.translation-panel');
+            
+            // Sync scrolling if desired (optional UX enhancer)
+            let isSyncing = false;
+            panels.forEach((panel, index) => {
+                panel.addEventListener('scroll', (e) => {
+                    if (!isSyncing) {
+                        isSyncing = true;
+                        const otherPanel = panels[index === 0 ? 1 : 0];
+                        otherPanel.scrollTop = panel.scrollTop;
+                    }
+                    isSyncing = false;
+                });
+            });
+
+            // Simple Start Translation simulation
+            const startBtn = document.querySelector('button:contains("Start Translation")');
+            if (startBtn) {
+                startBtn.addEventListener('click', () => {
+                    alert('Initializing secure legal translation engine...');
+                });
+            }
+        });
+        
+        // Custom selector polyfill for the demo
+        window.jQuery = {
+            contains: (text) => Array.from(document.querySelectorAll('button')).find(el => el.textContent.includes(text))
+        };
+    </script>
+</body></html>

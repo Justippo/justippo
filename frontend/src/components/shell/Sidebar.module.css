@@ -1,0 +1,103 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--stitch-overlay-scrim-light);
+}
+
+@media (min-width: 768px) {
+  .overlay {
+    display: none;
+  }
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 95;
+  width: 260px;
+  height: 100dvh;
+  padding: var(--stitch-spacing-xl) var(--stitch-spacing-md);
+  background: var(--stitch-glass-bg);
+  backdrop-filter: blur(var(--stitch-blur-md));
+  border-right: 1px solid var(--stitch-outline-variant);
+  transform: translateX(-100%);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    transform var(--stitch-transition-base),
+    visibility var(--stitch-transition-base);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .sidebar {
+    background: var(--stitch-surface);
+    backdrop-filter: none;
+  }
+}
+
+.sidebar.open {
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+    transform: none;
+    visibility: visible;
+    pointer-events: auto;
+    height: calc(100dvh - 57px);
+    flex-shrink: 0;
+  }
+
+  .sidebar.open {
+    transform: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .sidebar {
+    width: 280px;
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-unit);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-sm);
+  padding: var(--stitch-spacing-sm) var(--stitch-spacing-md);
+  font-size: var(--text-label-sm);
+  font-weight: var(--stitch-weight-medium);
+  color: var(--stitch-on-surface-variant);
+  text-decoration: none;
+  border-radius: var(--stitch-radius-xl);
+  transition: background-color var(--stitch-transition-fast);
+}
+
+.link:hover {
+  background-color: var(--stitch-surface-container-low);
+  color: var(--stitch-on-surface);
+}
+
+.active,
+.active:hover {
+  background-color: var(--stitch-primary-fixed);
+  color: var(--stitch-primary);
+  font-weight: var(--stitch-weight-semibold);
+  box-shadow: inset 3px 0 0 var(--stitch-primary);
+}
+
+.link:focus-visible {
+  outline: 3px solid var(--stitch-focus);
+  outline-offset: 2px;
+}

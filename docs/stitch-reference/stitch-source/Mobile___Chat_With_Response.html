@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Chat Assistant</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Public Sans & Courier Prime -->
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#efeeed",
+                    "on-surface": "#1a1c1c",
+                    "on-secondary-fixed-variant": "#464747",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "surface": "#faf9f8",
+                    "secondary-fixed": "#e4e2e1",
+                    "surface-container-high": "#e9e8e7",
+                    "background": "#faf9f8",
+                    "on-secondary-container": "#626262",
+                    "warning": "#F47738",
+                    "surface-container-low": "#f4f3f2",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "secondary": "#5e5e5e",
+                    "success": "#00703C",
+                    "primary-fixed-dim": "#a0caff",
+                    "inverse-surface": "#2f3130",
+                    "focus": "#FFDD00",
+                    "outline": "#717782",
+                    "on-primary": "#ffffff",
+                    "primary": "#005796",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#0061a6",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#1d70b8",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface-container-highest": "#e3e2e1",
+                    "secondary-container": "#e1dfdf",
+                    "tertiary": "#824600",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "error": "#D4351C",
+                    "border-subtle": "#B1B4B6",
+                    "surface-bright": "#faf9f8",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#a0caff",
+                    "on-surface-variant": "#414751",
+                    "surface-dim": "#dadad9",
+                    "on-primary-container": "#e9f1ff",
+                    "outline-variant": "#c1c7d2",
+                    "on-background": "#1a1c1c",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-tertiary-container": "#ffede2",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#a55a00",
+                    "on-primary-fixed-variant": "#00497e",
+                    "on-primary-fixed": "#001c37",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e3e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Public Sans', sans-serif; }
+        .chat-container { height: calc(100vh - 128px); }
+        .source-tag { background: #F3F2F1; border: 1px solid #B1B4B6; }
+        .user-bubble { background-color: #005796; color: white; border-radius: 12px 12px 2px 12px; }
+        .assistant-card { border: 1px solid #B1B4B6; border-left: 4px solid #005796; }
+        /* Micro-interactions */
+        .btn-hover:hover { filter: brightness(95%); }
+        .btn-focus:focus { outline: 3px solid #FFDD00; outline-offset: 1px; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface border-b border-border-subtle flex items-center justify-between px-md py-sm h-16">
+<div class="flex items-center gap-md">
+<button class="p-xs rounded-full hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary">EvidenceEU</h1>
+</div>
+<div class="flex items-center gap-sm">
+<div class="flex flex-col items-end hidden sm:flex">
+<span class="font-label-sm text-label-sm text-success flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+                    Logged in: personal corpus
+                </span>
+</div>
+<button class="p-xs rounded-full hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-container-max mx-auto px-md pt-lg pb-xl chat-container overflow-y-auto bg-surface-container-low">
+<!-- Status Indicator Mobile -->
+<div class="sm:hidden mb-md text-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface px-sm py-xs rounded-full border border-border-subtle">
+                Personal Corpus Active
+            </span>
+</div>
+<div class="flex flex-col gap-lg max-w-3xl mx-auto">
+<!-- User Question -->
+<div class="flex flex-col items-end gap-xs w-full animate-in fade-in slide-in-from-right-4 duration-500">
+<div class="user-bubble px-md py-sm max-w-[85%] shadow-sm">
+<p class="font-body-md text-body-md">Can I renew my Aufenthaltstitel?</p>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-xs">14:02</span>
+</div>
+<!-- Assistant Response (Professional Card Layout) -->
+<div class="flex flex-col gap-xs w-full animate-in fade-in slide-in-from-left-4 duration-700">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">gavel</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Legal Assistant</span>
+</div>
+<div class="assistant-card bg-surface px-md py-lg rounded-lg shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-md">Renewal of Aufenthaltstitel</h2>
+<p class="font-body-md text-body-md text-on-surface mb-lg">
+                        Yes, you can renew your Aufenthaltstitel (Residence Permit), provided you still meet the initial eligibility requirements. This process typically requires an application at your local <span class="font-bold">Ausländerbehörde</span> at least 4–6 weeks before the current expiry.
+                    </p>
+<!-- Key Points -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-lg">
+<div class="p-md bg-surface-container rounded border border-border-subtle">
+<span class="font-label-md text-label-md text-primary block mb-xs">Requirements</span>
+<ul class="font-label-sm text-label-sm space-y-xs text-on-surface-variant list-disc pl-md">
+<li>Valid Passport</li>
+<li>Proof of Income/Funding</li>
+<li>Current Health Insurance</li>
+<li>Registration (Anmeldung)</li>
+</ul>
+</div>
+<div class="p-md bg-surface-container rounded border border-border-subtle">
+<span class="font-label-md text-label-md text-primary block mb-xs">Processing</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                                Average processing time: 6-12 weeks. You will receive a <span class="italic">Fiktionsbescheinigung</span> if your permit expires while processing.
+                            </p>
+</div>
+</div>
+<!-- Source Citation -->
+<div class="pt-md border-t border-border-subtle">
+<div class="flex items-center gap-sm flex-wrap">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Primary Source:</span>
+<a class="source-tag px-sm py-xs rounded flex items-center gap-xs text-primary font-code hover:bg-secondary-container transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+                                EU Directive 2003/109/EC
+                            </a>
+<span class="text-on-surface-variant font-label-sm text-label-sm italic">(Long-term residents)</span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex items-center gap-md mt-sm ml-sm">
+<button class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">content_copy</span> Copy
+                    </button>
+<button class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">share</span> Share
+                    </button>
+<button class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Chat Input Area (Task-Focused) -->
+<div class="fixed bottom-16 w-full bg-surface-bright px-md py-sm border-t border-border-subtle z-40">
+<div class="max-w-3xl mx-auto relative flex items-center">
+<input class="w-full bg-surface-container border border-border-subtle rounded-xl py-md px-lg font-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Ask a follow-up question..." type="text"/>
+<button class="absolute right-md p-sm bg-primary text-on-primary rounded-lg btn-hover btn-focus transition-all">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full h-16 bg-surface-container border-t border-border-subtle flex justify-around items-center px-sm pb-safe z-50">
+<!-- Chat - Active -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-sm py-xs active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span class="font-label-sm text-label-sm">Chat</span>
+</a>
+<!-- Documents -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:text-primary active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-sm text-label-sm">Documents</span>
+</a>
+<!-- Search -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:text-primary active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">manage_search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<!-- Translate -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:text-primary active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">g_translate</span>
+<span class="font-label-sm text-label-sm">Translate</span>
+</a>
+<!-- Settings -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:text-primary active:scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<script>
+        // Simple animation trigger for smooth entry
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.animate-in');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                }, index * 200);
+            });
+        });
+    </script>
+</body></html>

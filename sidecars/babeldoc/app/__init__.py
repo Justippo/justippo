@@ -1,0 +1,1 @@
+"""BabelDOC sidecar HTTP wrapper."""

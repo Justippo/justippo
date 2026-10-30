@@ -1,0 +1,12 @@
+Commercial License — EvidenceEU
+
+Copyright (c) 2026 EvidenceEU Team
+
+For commercial licensing inquiries (enterprise self-hosted, white-label/OEM
+embedding, SLA + priority support), contact:
+
+  team@evidence-eu.eu
+
+This placeholder reserves the commercial license path described in ADR-008.
+The community edition is licensed under AGPL-3.0-or-later (see LICENSE).
+The frontend is licensed under MIT (see frontend/LICENSE).

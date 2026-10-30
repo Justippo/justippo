@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Secure Access</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;800&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#efeeed",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-fixed-variant": "#464747",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d2e4ff",
+                        "surface": "#faf9f8",
+                        "secondary-fixed": "#e4e2e1",
+                        "surface-container-high": "#e9e8e7",
+                        "background": "#faf9f8",
+                        "on-secondary-container": "#626262",
+                        "warning": "#F47738",
+                        "surface-container-low": "#f4f3f2",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "secondary": "#5e5e5e",
+                        "success": "#00703C",
+                        "primary-fixed-dim": "#a0caff",
+                        "inverse-surface": "#2f3130",
+                        "focus": "#FFDD00",
+                        "outline": "#717782",
+                        "on-primary": "#ffffff",
+                        "primary": "#005796",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#0061a6",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#1d70b8",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "tertiary-fixed": "#ffdcc2",
+                        "surface-container-highest": "#e3e2e1",
+                        "secondary-container": "#e1dfdf",
+                        "tertiary": "#824600",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "error": "#D4351C",
+                        "border-subtle": "#B1B4B6",
+                        "surface-bright": "#faf9f8",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#a0caff",
+                        "on-surface-variant": "#414751",
+                        "surface-dim": "#dadad9",
+                        "on-primary-container": "#e9f1ff",
+                        "outline-variant": "#c1c7d2",
+                        "on-background": "#1a1c1c",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "on-tertiary-fixed": "#2e1500",
+                        "inverse-on-surface": "#f1f0ef",
+                        "on-tertiary-container": "#ffede2",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#a55a00",
+                        "on-primary-fixed-variant": "#00497e",
+                        "on-primary-fixed": "#001c37",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e3e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "code": ["Courier Prime"],
+                        "headline-xl": ["Public Sans"],
+                        "headline-xl-mobile": ["Public Sans"],
+                        "headline-lg": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "headline-md": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; background-color: #F3F2F1; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .modal-blur {
+            backdrop-filter: blur(8px);
+            background-color: rgba(26, 28, 28, 0.4);
+        }
+        input:focus {
+            outline: 3px solid #FFDD00 !important;
+            border-color: #0B0C0C !important;
+            box-shadow: none !important;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface overflow-hidden">
+<!-- Background Content (Mock Workspace) -->
+<div aria-hidden="true" class="fixed inset-0 flex flex-col h-full opacity-40 select-none pointer-events-none">
+<!-- TopAppBar -->
+<header class="bg-surface w-full top-0 sticky border-b border-border-subtle flex items-center justify-between px-md py-sm w-full z-10">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">menu</span>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary">EvidenceEU</h1>
+</div>
+<span class="material-symbols-outlined text-primary">account_circle</span>
+</header>
+<main class="flex-1 overflow-y-auto p-md space-y-md bg-surface-container-low">
+<div class="p-lg bg-surface border border-border-subtle rounded-lg">
+<h2 class="font-headline-md text-headline-md mb-md">Secure Document Repository</h2>
+<div class="space-y-sm">
+<div class="h-4 w-3/4 bg-surface-container-highest rounded"></div>
+<div class="h-4 w-full bg-surface-container-highest rounded"></div>
+<div class="h-4 w-5/6 bg-surface-container-highest rounded"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="h-32 bg-surface border border-border-subtle rounded-lg"></div>
+<div class="h-32 bg-surface border border-border-subtle rounded-lg"></div>
+</div>
+<div class="p-lg bg-surface border border-border-subtle rounded-lg">
+<div class="h-20 w-full bg-surface-container-highest rounded"></div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-surface-container fixed bottom-0 w-full z-50 border-t border-border-subtle flex justify-around items-center h-16 pb-safe px-sm">
+<div class="flex flex-col items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-sm text-label-sm">Chat</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-sm py-xs">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-sm text-label-sm">Documents</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">manage_search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">g_translate</span>
+<span class="font-label-sm text-label-sm">Translate</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</div>
+</nav>
+</div>
+<!-- Matrix Login Modal Overlay -->
+<div class="fixed inset-0 z-[100] flex items-end sm:items-center justify-center modal-blur p-0 sm:p-md animate-fade-in">
+<div class="w-full max-w-md bg-surface border-t sm:border border-border-subtle shadow-lg sm:rounded-xl overflow-hidden transition-all transform translate-y-0 duration-300">
+<!-- Branding Header -->
+<div class="relative h-48 w-full overflow-hidden">
+
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/60 to-transparent"></div>
+<div class="absolute bottom-md left-md flex flex-col">
+<div class="flex items-center gap-xs text-primary mb-xs">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="font-label-md text-label-md tracking-wider">SECURE NODE 07</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface leading-tight">Sign in to use personal documents</h2>
+</div>
+<button class="absolute top-md right-md bg-surface/50 hover:bg-surface-container-high p-xs rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface">close</span>
+</button>
+</div>
+<div class="px-lg pt-md pb-xl space-y-lg">
+<!-- Input Group -->
+<div class="space-y-md">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="matrix-id">Matrix ID</label>
+<div class="relative">
+<input class="w-full px-md py-[14px] border-2 border-on-surface rounded-lg font-body-md text-body-md focus:ring-0" id="matrix-id" placeholder="@user:matrix.eu" type="text"/>
+<span class="absolute right-md top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">alternate_email</span>
+</div>
+</div>
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<div class="relative">
+<input class="w-full px-md py-[14px] border-2 border-on-surface rounded-lg font-body-md text-body-md focus:ring-0" id="password" type="password"/>
+<span class="absolute right-md top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">key</span>
+</div>
+</div>
+</div>
+<!-- GDPR Consent -->
+<label class="flex items-start gap-md group cursor-pointer">
+<div class="relative mt-1">
+<input class="peer h-6 w-6 border-2 border-on-surface rounded-none focus:ring-offset-2 focus:ring-focus checked:bg-primary checked:border-primary transition-all" type="checkbox"/>
+<span class="hidden peer-checked:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 material-symbols-outlined text-on-primary text-[18px]">check</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant leading-snug">
+                        I consent to the processing of my encrypted data under EU GDPR regulations for secure legal evidence handling.
+                    </span>
+</label>
+<!-- Actions -->
+<div class="flex flex-col gap-md pt-md">
+<button class="w-full bg-primary text-on-primary font-headline-md text-headline-md py-md rounded-lg active:scale-[0.98] transition-all hover:bg-primary-container flex items-center justify-center gap-sm shadow-sm">
+<span>Continue securely</span>
+<span class="material-symbols-outlined">shield_with_heart</span>
+</button>
+<button class="w-full bg-transparent text-primary border-2 border-primary font-headline-md text-headline-md py-md rounded-lg active:bg-surface-container-low transition-all">
+                        Cancel
+                    </button>
+</div>
+<!-- Footer Meta -->
+<div class="text-center">
+<p class="font-label-sm text-label-sm text-outline flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                        EvidenceEU Institutional Encryption (AES-256)
+                    </p>
+</div>
+</div>
+</div>
+</div>
+<!-- UI Logic Scripts -->
+<script>
+        // Micro-interactions for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Flash feedback or logic here
+                console.log('Action triggered');
+            });
+        });
+
+        // Close logic mock
+        const closeBtn = document.querySelector('button .material-symbols-outlined[innerText="close"]')?.parentElement;
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                document.querySelector('.modal-blur').classList.add('opacity-0');
+                setTimeout(() => {
+                    document.querySelector('.modal-blur').style.display = 'none';
+                }, 300);
+            });
+        }
+    </script>
+</body></html>

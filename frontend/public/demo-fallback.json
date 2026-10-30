@@ -1,0 +1,54 @@
+{
+  "fallbackMode": true,
+  "upload": {
+    "doc_id": "demo-001",
+    "status": "processed",
+    "ephemeral": true,
+    "page_count": 1,
+    "pages": [
+      {
+        "page": 1,
+        "text": "EU Residence Permit Application Form\n\nField 1: Full Name — John Smith\nField 2: Nationality — British\nField 3: Date of Birth — 15 March 1990\nField 4: Address in Germany — Hauptstrasse 12, 10115 Berlin\nField 5: Purpose of Residence — Employment (IT Specialist)\nField 6: Permit Duration — 5 years (2026-2031)\n\nThis permit is issued under Section 18 of the German Residence Act (Aufenthaltsgesetz) and is valid throughout the Federal Republic of Germany. The holder is entitled to seek employment without additional work permits. This document must be renewed 6 weeks before expiry.",
+        "confidence": 0.94
+      }
+    ],
+    "classification": {
+      "document_type": "residence_permit",
+      "language_code": "en",
+      "quality_score": 0.94,
+      "geographic_relevance": ["DE"],
+      "safety_flags": [],
+      "confidence": 0.94
+    }
+  },
+  "translate": {
+    "job_id": "demo-job-001",
+    "status": "done",
+    "translated_pages": [
+      {
+        "page": 1,
+        "text": "EU-Aufenthaltstitel-Antragsformular\n\nFeld 1: Vollständiger Name — John Smith\nFeld 2: Nationalität — Britisch\nFeld 3: Geburtsdatum — 15. März 1990\nFeld 4: Adresse in Deutschland — Hauptstraße 12, 10115 Berlin\nFeld 5: Aufenthaltszweck — Beschäftigung (IT-Spezialist)\nFeld 6: Genehmigungsdauer — 5 Jahre (2026-2031)"
+      }
+    ],
+    "error": null,
+    "download_url": null
+  },
+  "search": [
+    {
+      "id": "chunk-demo-001",
+      "text": "Die Verlängerung eines Aufenthaltstitels richtet sich nach §8 AufenthG. Der Antrag muss mindestens 6 Wochen vor Ablauf der Gültigkeit gestellt werden.",
+      "type": "world",
+      "chunk_id": "chunk-demo-001",
+      "entities": ["Aufenthaltstitel", "§8 AufenthG"],
+      "rank": 1
+    },
+    {
+      "id": "chunk-demo-002",
+      "text": "Section 18 of the German Residence Act (Aufenthaltsgesetz) grants residence permits for qualified professional employment. Holders are entitled to work without a separate work permit.",
+      "type": "world",
+      "chunk_id": "chunk-demo-002",
+      "entities": ["Aufenthaltsgesetz", "Section 18"],
+      "rank": 2
+    }
+  ]
+}

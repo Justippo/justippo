@@ -1,0 +1,280 @@
+/*
+ * EvidenceEU — Design Tokens (Single Source of Truth)
+ *
+ * Stitch source: project 16375579204261083556 (Mihai's — 105 screens).
+ * All hex values are defined HERE ONLY. .tsx/.ts files reference via
+ * CSS custom properties or Tailwind theme classes.
+ *
+ * Token reconciliation: #005796 canonical primary (EvidenceEU's own blue — between EU #004494 and GOV.UK #1d70b8).
+ * EU ECL-derived values for container/error/warning/success/focus (not GOV.UK copies).
+ */
+
+:root {
+  /* Color */
+  --color-primary: #005796;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1b5e9e;
+  --color-info-container: #d2e4ff;
+  --color-on-info-container: #005796;
+  --color-error: #da2130;
+  --color-warning: #8b4a0b;
+  --color-success: #467a39;
+  --color-surface: #faf9f8;
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #414751;
+  --color-outline: #717782;
+  --color-outline-variant: #c1c7d2;
+  --color-focus: #ffd617;
+
+  /* Typography */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, var(--font-inter), "Segoe UI", system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "Fira Code", monospace;
+
+  /* Type Scale */
+  --text-headline-xl: 2.25rem; /* 36px */
+  --leading-headline-xl: 2.75rem; /* 44px */
+  --text-headline-lg: 1.5rem; /* 24px */
+  --leading-headline-lg: 2rem; /* 32px */
+  --text-headline-md: 1.1875rem; /* 19px */
+  --leading-headline-md: 1.75rem; /* 28px */
+  --text-body-lg: 1.1875rem; /* 19px */
+  --leading-body-lg: 1.75rem; /* 28px */
+  --text-body-md: 1rem; /* 16px */
+  --leading-body-md: 1.5rem; /* 24px */
+  --text-label-md: 1rem; /* 16px */
+  --leading-label-md: 1.5rem; /* 24px */
+  --text-label-sm: 0.875rem; /* 14px */
+  --leading-label-sm: 1.25rem; /* 20px */
+  --text-code: 0.875rem; /* 14px */
+  --leading-code: 1.25rem; /* 20px */
+
+  /* Spacing */
+  --space-xs: 0.5rem; /* 8px */
+  --space-sm: 0.75rem; /* 12px */
+  --space-md: 1rem; /* 16px */
+  --space-lg: 1.5rem; /* 24px */
+  --space-xl: 2rem; /* 32px */
+  --space-2xl: 3rem; /* 48px */
+  --container-max: 80rem; /* 1280px */
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  /* Glass */
+  --glass-blur-amount: 16px;
+  --glass-blur: blur(var(--glass-blur-amount));
+  --glass-fill: rgba(250, 249, 248, 0.75);
+  --glass-border: 1px solid var(--color-outline-variant);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  /* ── Legacy stitch-* aliases (CSS modules — migrate to --color-* over time) ── */
+  --stitch-primary: var(--color-primary);
+  --stitch-primary-container: var(--color-primary-container);
+  --stitch-on-primary: var(--color-on-primary);
+  --stitch-on-primary-container: #e9f1ff;
+  --stitch-primary-fixed: #d2e4ff;
+  --stitch-primary-fixed-dim: #a0caff;
+  --stitch-inverse-primary: #a0caff;
+
+  --stitch-secondary: #5e5e5e;
+  --stitch-secondary-container: #e1dfdf;
+  --stitch-on-secondary: var(--color-on-primary);
+  --stitch-on-secondary-container: #626262;
+  --stitch-secondary-fixed: #e4e2e1;
+  --stitch-secondary-fixed-dim: #c7c6c6;
+
+  --stitch-tertiary: #824600;
+  --stitch-tertiary-container: #a55a00;
+  --stitch-on-tertiary: var(--color-on-primary);
+  --stitch-on-tertiary-container: #ffede2;
+  --stitch-tertiary-fixed: #ffdcc2;
+  --stitch-tertiary-fixed-dim: #ffb77b;
+
+  --stitch-error: var(--color-error);
+  --stitch-error-container: #ffdad6;
+  --stitch-on-error: var(--color-on-primary);
+  --stitch-on-error-container: #93000a;
+
+  --stitch-warning: var(--color-warning);
+  --stitch-success: var(--color-success);
+
+  --stitch-surface: var(--color-surface);
+  --stitch-surface-dim: #dadad9;
+  --stitch-surface-bright: var(--color-surface);
+  --stitch-surface-container-lowest: var(--color-on-primary);
+  --stitch-surface-container-low: #f4f3f2;
+  --stitch-surface-container: #efeeed;
+  --stitch-surface-container-high: #e9e8e7;
+  --stitch-surface-container-highest: #e3e2e1;
+  --stitch-surface-variant: #e3e2e1;
+  --stitch-surface-tint: var(--color-primary);
+  --stitch-on-surface: var(--color-on-surface);
+  --stitch-on-surface-variant: var(--color-on-surface-variant);
+  --stitch-inverse-surface: #2f3130;
+  --stitch-inverse-on-surface: #f1f0ef;
+
+  --stitch-outline: var(--color-outline);
+  --stitch-outline-variant: var(--color-outline-variant);
+  --stitch-border-subtle: #b1b4b6;
+  --stitch-focus: var(--color-focus);
+
+  --stitch-glass-bg: var(--glass-fill);
+  --stitch-overlay-scrim: rgba(0, 0, 0, 0.5);
+  --stitch-overlay-scrim-light: rgba(0, 0, 0, 0.3);
+
+  --stitch-unit: 4px;
+  --stitch-spacing-xs: var(--space-xs);
+  --stitch-spacing-sm: var(--space-sm);
+  --stitch-spacing-md: var(--space-md);
+  --stitch-spacing-lg: var(--space-lg);
+  --stitch-spacing-xl: var(--space-xl);
+  --stitch-container-max: var(--container-max);
+
+  --stitch-font-sans: var(--font-sans);
+  --stitch-font-mono: var(--font-mono);
+
+  --stitch-text-xs: 0.75rem;
+  --stitch-text-sm: var(--text-label-sm);
+  --stitch-text-base: var(--text-body-md);
+  --stitch-text-md: 1.125rem;
+  --stitch-text-lg: 1.25rem;
+  --stitch-text-xl: var(--text-headline-lg);
+  --stitch-text-2xl: 2rem;
+
+  --stitch-weight-normal: 400;
+  --stitch-weight-medium: 500;
+  --stitch-weight-semibold: 600;
+  --stitch-weight-bold: 700;
+
+  --stitch-leading-tight: 1.25;
+  --stitch-leading-normal: 1.5;
+  --stitch-leading-relaxed: 1.6;
+
+  --stitch-radius: var(--radius-sm);
+  --stitch-radius-sm: var(--radius-md);
+  --stitch-radius-lg: var(--radius-sm);
+  --stitch-radius-md: var(--radius-lg);
+  --stitch-radius-xl: var(--radius-md);
+  --stitch-radius-full: var(--radius-full);
+  --stitch-radius-circle: 50%;
+
+  --stitch-blur-sm: 12px;
+  --stitch-blur-md: 20px;
+
+  --stitch-container-sm: 600px;
+  --stitch-container-md: 720px;
+  --stitch-container-lg: 900px;
+  --stitch-container-xl: 960px;
+
+  --stitch-shadow-sm: var(--shadow-sm);
+  --stitch-shadow-md: var(--shadow-md);
+  --stitch-shadow-lg: var(--shadow-lg);
+
+  --stitch-transition-fast: 150ms ease;
+  --stitch-transition-base: 200ms ease;
+  --stitch-transition-slow: 300ms ease;
+}
+
+/* ── Dark mode ──────────────────────────────────────────────────────────── */
+.dark {
+  --color-primary: #a0caff;
+  --color-on-primary: #003258;
+  --color-primary-container: #1b5e9e;
+  --color-info-container: #1b5e9e;
+  --color-on-info-container: #e9f1ff;
+  --color-error: #ffb4ab;
+  --color-warning: #ffb77b;
+  --color-success: #8ed07e;
+  --color-surface: #1a1c1c;
+  --color-on-surface: #e3e2e1;
+  --color-on-surface-variant: #c1c7d2;
+  --color-outline: #8b9099;
+  --color-outline-variant: #414751;
+  --color-focus: #ffd617;
+
+  --stitch-secondary: #c7c6c6;
+  --stitch-secondary-container: #4a4a4a;
+  --stitch-on-secondary: #1a1c1c;
+  --stitch-on-secondary-container: #e3e2e1;
+
+  --stitch-tertiary: #ffb77b;
+  --stitch-tertiary-container: #824600;
+  --stitch-on-tertiary: #1a1c1c;
+  --stitch-on-tertiary-container: #ffede2;
+
+  --stitch-error-container: #93000a;
+  --stitch-on-error-container: #ffb4ab;
+
+  --stitch-surface-dim: #1a1c1c;
+  --stitch-surface-bright: #2f3130;
+  --stitch-surface-container-lowest: #0f1111;
+  --stitch-surface-container-low: #1a1c1c;
+  --stitch-surface-container: #222324;
+  --stitch-surface-container-high: #2d2e2f;
+  --stitch-surface-container-highest: #383939;
+  --stitch-surface-variant: #414751;
+  --stitch-inverse-surface: #e3e2e1;
+  --stitch-inverse-on-surface: #1a1c1c;
+
+  --stitch-border-subtle: #414751;
+
+  --glass-fill: rgba(26, 28, 28, 0.75);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-fill: var(--color-surface);
+    --glass-blur: none;
+    --glass-highlight: none;
+    --stitch-glass-bg: var(--color-surface);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-on-surface);
+  background-color: var(--color-surface);
+  line-height: var(--stitch-leading-relaxed);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}

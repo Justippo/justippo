@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU | Design Tokens</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&family=Courier+Prime&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#faf9f8",
+                    "success": "#00703C",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#00497e",
+                    "tertiary": "#824600",
+                    "primary-container": "#1d70b8",
+                    "secondary": "#5e5e5e",
+                    "background": "#faf9f8",
+                    "on-tertiary-container": "#ffede2",
+                    "focus": "#FFDD00",
+                    "on-primary-container": "#e9f1ff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface-container-high": "#e9e8e7",
+                    "surface-variant": "#e3e2e1",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#dadad9",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-error-container": "#93000a",
+                    "outline": "#717782",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#414751",
+                    "on-secondary-container": "#626262",
+                    "error": "#D4351C",
+                    "surface-container-highest": "#e3e2e1",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "warning": "#F47738",
+                    "surface-tint": "#0061a6",
+                    "on-surface": "#1a1c1c",
+                    "secondary-container": "#e1dfdf",
+                    "on-primary-fixed": "#001c37",
+                    "on-background": "#1a1c1c",
+                    "surface-container-low": "#f4f3f2",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c7d2",
+                    "primary": "#005796",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-surface": "#2f3130",
+                    "border-subtle": "#B1B4B6",
+                    "surface-bright": "#faf9f8",
+                    "inverse-primary": "#a0caff",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#a0caff",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "surface-container": "#efeeed",
+                    "primary-fixed": "#d2e4ff",
+                    "tertiary-container": "#a55a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1;
+        }
+        body {
+            background-color: #F3F2F1;
+            color: #1a1c1c;
+        }
+        .token-card {
+            background-color: #FFFFFF;
+            border: 1px solid #B1B4B6;
+            transition: background-color 0.2s ease;
+        }
+        .token-card:hover {
+            background-color: #f4f3f2;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface docked full-width top-0 border-b border-border-subtle z-50 sticky">
+<nav class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-xl">
+<span class="font-headline-lg text-headline-lg font-black text-primary">EvidenceEU</span>
+<div class="hidden md:flex gap-md items-center">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Documents</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Workflows</a>
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Analytics</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-2 hover:bg-surface-container-low transition-colors rounded-lg"><span class="material-symbols-outlined">translate</span></button>
+<button class="p-2 hover:bg-surface-container-low transition-colors rounded-lg"><span class="material-symbols-outlined">notifications</span></button>
+<button class="p-2 hover:bg-surface-container-low transition-colors rounded-lg"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+</nav>
+</header>
+<div class="flex min-h-screen">
+<!-- SideNavBar (Hidden on small, visible on MD) -->
+<aside class="hidden md:flex flex-col h-screen p-md space-y-sm bg-surface-container-low border-r border-border-subtle w-64 sticky top-16">
+<div class="mb-lg">
+<p class="font-headline-md text-headline-md font-bold text-primary">EvidenceEU</p>
+<p class="font-body-md text-body-md opacity-70">Legal Workspace</p>
+</div>
+<nav class="flex-1 space-y-xs">
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-md">Home</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-body-md">Chat</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-body-md">Library</span>
+</a>
+<a class="flex items-center gap-sm p-sm bg-primary-container text-on-primary-container font-bold rounded-lg scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-body-md">Cases</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="pt-md border-t border-border-subtle space-y-xs">
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-body-md">Support</span>
+</a>
+<a class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">archive</span>
+<span class="font-body-md">Archive</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-gutter max-w-container-max mx-auto mb-16 md:mb-0">
+<header class="mb-xl">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-xs">Design System Tokens</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">The foundational visual properties for EvidenceEU. Built for clarity, accessibility, and administrative efficiency.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Section 1: Color Palette (Neutrals) -->
+<section class="lg:col-span-8">
+<h2 class="font-headline-md text-headline-md mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">palette</span>
+                        Color Palette: Neutrals & Surfaces
+                    </h2>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-md">
+<div class="token-card p-md">
+<div class="h-16 w-full bg-surface border border-border-subtle rounded-sm mb-sm"></div>
+<p class="font-label-md text-label-md">Surface</p>
+<p class="font-code text-code text-on-surface-variant">#FAF9F8</p>
+</div>
+<div class="token-card p-md">
+<div class="h-16 w-full bg-surface-container-low border border-border-subtle rounded-sm mb-sm"></div>
+<p class="font-label-md text-label-md">Surface Low</p>
+<p class="font-code text-code text-on-surface-variant">#F4F3F2</p>
+</div>
+<div class="token-card p-md">
+<div class="h-16 w-full bg-surface-container-high border border-border-subtle rounded-sm mb-sm"></div>
+<p class="font-label-md text-label-md">Surface High</p>
+<p class="font-code text-code text-on-surface-variant">#E9E8E7</p>
+</div>
+<div class="token-card p-md">
+<div class="h-16 w-full bg-on-surface rounded-sm mb-sm"></div>
+<p class="font-label-md text-label-md">On Surface</p>
+<p class="font-code text-code text-on-surface-variant">#1A1C1C</p>
+</div>
+</div>
+</section>
+<!-- Section 2: Primary Branding -->
+<section class="lg:col-span-4">
+<h2 class="font-headline-md text-headline-md mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">token</span>
+                        Primary Brand
+                    </h2>
+<div class="flex flex-col gap-md">
+<div class="token-card p-md flex items-center gap-md">
+<div class="h-12 w-12 bg-primary rounded-sm shadow-sm"></div>
+<div>
+<p class="font-label-md text-label-md">Primary Blue</p>
+<p class="font-code text-code">#005796</p>
+</div>
+</div>
+<div class="token-card p-md flex items-center gap-md">
+<div class="h-12 w-12 bg-primary-container rounded-sm shadow-sm"></div>
+<div>
+<p class="font-label-md text-label-md">Container Blue</p>
+<p class="font-code text-code">#1D70B8</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Typography Scale -->
+<section class="lg:col-span-12">
+<h2 class="font-headline-md text-headline-md mb-md border-t border-border-subtle pt-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">text_fields</span>
+                        Typography Scale
+                    </h2>
+<div class="token-card overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low border-b border-border-subtle">
+<tr>
+<th class="p-md font-label-md">Token</th>
+<th class="p-md font-label-md">Preview</th>
+<th class="p-md font-label-md">Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr class="border-b border-border-subtle">
+<td class="p-md font-code text-code">headline-xl</td>
+<td class="p-md font-headline-xl text-headline-xl">Administrative Overview</td>
+<td class="p-md font-label-sm text-label-sm">36px / 44px • Bold</td>
+</tr>
+<tr class="border-b border-border-subtle bg-surface-container-lowest">
+<td class="p-md font-code text-code">headline-lg</td>
+<td class="p-md font-headline-lg text-headline-lg">Case Management Details</td>
+<td class="p-md font-label-sm text-label-sm">24px / 32px • Bold</td>
+</tr>
+<tr class="border-b border-border-subtle">
+<td class="p-md font-code text-code">body-lg</td>
+<td class="p-md font-body-lg text-body-lg">Essential legal documentation for verification and cross-referencing.</td>
+<td class="p-md font-label-sm text-label-sm">19px / 28px • Regular</td>
+</tr>
+<tr class="border-b border-border-subtle bg-surface-container-lowest">
+<td class="p-md font-code text-code">body-md</td>
+<td class="p-md font-body-md text-body-md">Standard interface text and descriptive labels.</td>
+<td class="p-md font-label-sm text-label-sm">16px / 24px • Regular</td>
+</tr>
+<tr>
+<td class="p-md font-code text-code">label-md</td>
+<td class="p-md font-label-md text-label-md">SUBMIT DOCUMENT</td>
+<td class="p-md font-label-sm text-label-sm">16px / 24px • Bold</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Section 4: Feedback System -->
+<section class="lg:col-span-6">
+<h2 class="font-headline-md text-headline-md mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">info</span>
+                        Semantic Feedback
+                    </h2>
+<div class="space-y-md">
+<div class="flex items-center gap-md p-md bg-white border-l-4 border-success shadow-sm">
+<span class="material-symbols-outlined text-success">check_circle</span>
+<div>
+<p class="font-label-md text-label-md text-success">Success State</p>
+<p class="font-body-md text-body-md">#00703C - Action completed successfully</p>
+</div>
+</div>
+<div class="flex items-center gap-md p-md bg-white border-l-4 border-error shadow-sm">
+<span class="material-symbols-outlined text-error">error</span>
+<div>
+<p class="font-label-md text-label-md text-error">Error State</p>
+<p class="font-body-md text-body-md">#D4351C - Intervention required</p>
+</div>
+</div>
+<div class="flex items-center gap-md p-md bg-white border-l-4 border-warning shadow-sm">
+<span class="material-symbols-outlined text-warning">warning</span>
+<div>
+<p class="font-label-md text-label-md text-warning">Warning State</p>
+<p class="font-body-md text-body-md">#F47738 - Caution advised</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Spacing System -->
+<section class="lg:col-span-6">
+<h2 class="font-headline-md text-headline-md mb-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">straighten</span>
+                        Spacing & Grid (4px Base)
+                    </h2>
+<div class="token-card p-md space-y-md">
+<div class="flex items-center justify-between group">
+<span class="font-label-md text-label-md">xs (4px)</span>
+<div class="h-1 w-1 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<div class="flex items-center justify-between group">
+<span class="font-label-md text-label-md">sm (8px)</span>
+<div class="h-2 w-2 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<div class="flex items-center justify-between group">
+<span class="font-label-md text-label-md">md (16px)</span>
+<div class="h-4 w-4 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<div class="flex items-center justify-between group">
+<span class="font-label-md text-label-md">lg (24px)</span>
+<div class="h-6 w-6 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+<div class="flex items-center justify-between group">
+<span class="font-label-md text-label-md">xl (32px)</span>
+<div class="h-8 w-8 bg-primary group-hover:w-full transition-all duration-300"></div>
+</div>
+</div>
+<div class="mt-md p-md bg-focus/10 border border-focus rounded-sm">
+<p class="font-label-md text-label-md text-on-surface">Focus Outline</p>
+<p class="font-body-md text-body-md">Standard 3px solid #FFDD00 for accessibility.</p>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Visible on Mobile) -->
+<footer class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 bg-surface border-t border-border-subtle shadow-md pb-safe z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-sm text-[12px]">Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-sm text-[12px]">Docs</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary active:scale-90 transition-transform">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-sm text-[12px]">Analytics</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[12px]">Me</span>
+</button>
+</footer>
+<script>
+        // Micro-interactions for interactivity
+        document.querySelectorAll('.token-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Copy to clipboard mock for color tokens
+        document.querySelectorAll('.font-code').forEach(code => {
+            code.classList.add('cursor-pointer', 'hover:text-primary');
+            code.addEventListener('click', () => {
+                const text = code.innerText;
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalText = code.innerText;
+                    code.innerText = 'COPIED!';
+                    setTimeout(() => {
+                        code.innerText = originalText;
+                    }, 1000);
+                });
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  hindsight:
+    image: ghcr.io/vectorize-io/hindsight:latest
+    container_name: hindsight-evidenceeu
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8600:8888"
+    volumes:
+      - ~/.hindsight-data:/home/hindsight/.pg0
+    environment:
+      - HINDSIGHT_API_WORKER_ID=evidenceeu-local
+      - HINDSIGHT_API_LLM_PROVIDER=mistral
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
+      - HINDSIGHT_API_LLM_API_KEY=${MISTRAL_API_KEY}
+      - HINDSIGHT_API_PORT=8888
+      # ── Local CPU recall tuning (Vectorize perf guide) ──────────────────
+      # Recall bottleneck on a GPU-less Docker box is the cross-encoder
+      # reranker. Defaults (300 candidates) push recall to ~10s on 2 vCPUs;
+      # these quality-neutral knobs bring it under the NFR-01 5s ceiling.
+      # Sort pairs by length before batching — 36-54% faster, quality-identical.
+      - HINDSIGHT_API_RERANKER_LOCAL_BUCKET_BATCHING=true
+      # Rerank 100 candidates instead of 300 (RRF pre-filters the rest).
+      - HINDSIGHT_API_RERANKER_MAX_CANDIDATES=100
+      # Cap reranker parallelism so it doesn't thrash the CPU under load.
+      - HINDSIGHT_API_RERANKER_LOCAL_MAX_CONCURRENT=2
+      # Keep LLM (reflect/consolidation) concurrency sane on a shared box.
+      - HINDSIGHT_API_LLM_MAX_CONCURRENT=4
+    # Limit resources to avoid swamping the laptop:
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: "4.0"

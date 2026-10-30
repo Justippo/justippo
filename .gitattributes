@@ -1,0 +1,28 @@
+# Normalize all text files to LF on commit, native on checkout
+* text=auto eol=lf
+
+# Force LF for scripts (must not have CRLF)
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+
+# Force CRLF for Windows-only files (if any are added later)
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary — do not touch
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.pdf binary
+*.zip binary
+
+# Cloudflare Workers — keep as text
+*.toml text
+*.jsonc text

@@ -1,0 +1,19 @@
+# Local Services - Git Ignore
+
+# Environment files
+.env
+.env.local
+.env*.local
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Local build artifacts
+*.pyc
+__pycache__/
+.DS_Store
+
+# Synapse signing key is a private credential: init.sh generates one per machine.
+synapse/signing.key
+synapse/data/

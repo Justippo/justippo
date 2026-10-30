@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+storybook-static
+coverage
+test-results
+playwright-report
+.turbo
+.DS_Store
+.env.local
+npm-debug.log*

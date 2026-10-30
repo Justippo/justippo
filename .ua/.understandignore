@@ -1,0 +1,141 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions — uncomment to activate.
+# Use ! prefix to force-include something excluded by defaults.
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+
+# --- From .gitignore (uncomment to exclude) ---
+
+# *.py[codz]
+# *$py.class
+# .Python
+# *.egg-info/
+# .eggs/
+# env/
+# *.egg
+# MANIFEST
+# .pypirc
+# .ipynb_checkpoints
+# .dmypy.json
+# dmypy.json
+# *.so
+# .pyre/
+# .pytype/
+# *.cover
+# *.lcov
+# .pytest_cache/
+# .coverage
+# coverage.xml
+# htmlcov/
+# .mypy_cache/
+# .ruff_cache/
+# .tox/
+# .nox/
+# .hypothesis/
+# *.db
+# *.sqlite
+# *.sqlite3
+# .env
+# .env.local
+# .env.*.local
+# backend/.env
+# frontend/.env.local
+# .envrc
+# npm-debug.log*
+# .eslintcache/
+# .npm/
+# *.tsbuildinfo
+# .stylelintcache
+# .yarn-integrity
+# .pnpm-store
+# frontend/.next/
+# frontend/out/
+# frontend/node_modules/
+# frontend/tsconfig.tsbuildinfo
+# worker/node_modules/
+# .DS_Store
+# Thumbs.db
+# docker-compose.override.yml
+# .vscode/*
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
+# *.vsix
+# .wrangler/
+# backend/.wrangler/
+# frontend/.wrangler/
+# backend/python_modules/
+# backend/.venv-workers/
+# backend/uv.lock
+# frontend/.vercel/
+# frontend/next-env.d.ts
+# docs/planning/conversations-tracker.md
+# docs/planning/package-distribution-strategy.md
+# docs/planning/org-setup-reference.md
+# docs/reference/dead-lawyer-theory-reference.md
+# docs/reference/emoji-conventions-reference.md
+# *.swp
+# *.swo
+# backend/uploads/
+# backend/tmp/
+# /node_modules/
+# /package-lock.json
+# **/package-lock.json
+# **/.turbo/
+# experiments/**/optimized_prompt.json
+# k6_results.json
+# assets/media_assets.json
+# docs/demo/screenshots/
+# docs/demo/recordings/
+# docs/demo/demo-script-final.md
+# frontend/docs/visual-audit/
+# *dummy*
+# docs/design-reference-bootcamp.md
+# backend/reports/
+# tools/
+# deploy/local/synapse/data/
+
+# --- Detected directories (uncomment to exclude) ---
+
+# docs/
+# scripts/
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# JS / TS
+# *.test.*
+# *.spec.*
+# *.snap
+# C# / .NET
+# **/*Tests.cs
+# **/*Test.cs
+# **/*Fixture.cs
+# **/*.Tests.csproj
+# Java / Kotlin
+# **/src/test/**
+# **/*Test.java
+# **/*IT.java
+# **/*Spec.kt
+# Go
+# **/*_test.go
+# C++
+# **/*_test.cc
+# **/*_test.cpp
+# **/*_test.cxx
+# **/*Test.cc
+# **/*Test.cpp
+# **/*_unittest.cc
+# **/*_unittest.cpp
+# **/*_browsertest.cc
+# **/*_benchmark.cc
+# **/*Benchmark.cpp
+# Python
+# **/test_*.py
+# **/*_test.py
+# **/tests.py
+# **/conftest.py
+.adal/

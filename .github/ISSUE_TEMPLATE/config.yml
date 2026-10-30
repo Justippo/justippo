@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/chindris-mihai-alexandru/evidence-eu#readme
+    about: Read the README and architecture docs before opening an issue.
+  - name: Contributing Guide
+    url: https://github.com/chindris-mihai-alexandru/evidence-eu/blob/main/CONTRIBUTING.md
+    about: DCO sign-off, license breakdown, and development setup.

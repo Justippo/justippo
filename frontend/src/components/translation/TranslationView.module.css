@@ -1,0 +1,7 @@
+.checking {
+  max-width: var(--stitch-container-md);
+  margin: 0 auto;
+  padding: var(--stitch-spacing-xl);
+  color: var(--stitch-on-surface-variant);
+  text-align: center;
+}

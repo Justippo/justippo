@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2e1500",
+                        "surface-bright": "#faf9f8",
+                        "focus": "#FFDD00",
+                        "tertiary-container": "#a55a00",
+                        "success": "#00703C",
+                        "inverse-surface": "#2f3130",
+                        "secondary-container": "#e1dfdf",
+                        "on-surface": "#1a1c1c",
+                        "tertiary": "#824600",
+                        "inverse-on-surface": "#f1f0ef",
+                        "on-primary-fixed-variant": "#00497e",
+                        "surface-container-high": "#e9e8e7",
+                        "primary-container": "#1d70b8",
+                        "surface-tint": "#0061a6",
+                        "outline-variant": "#c1c7d2",
+                        "on-secondary-fixed-variant": "#464747",
+                        "error-container": "#ffdad6",
+                        "warning": "#F47738",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "secondary": "#5e5e5e",
+                        "outline": "#717782",
+                        "primary-fixed": "#d2e4ff",
+                        "surface-dim": "#dadad9",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "primary-fixed-dim": "#a0caff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "on-primary-fixed": "#001c37",
+                        "inverse-primary": "#a0caff",
+                        "surface-container": "#efeeed",
+                        "surface-container-low": "#f4f3f2",
+                        "secondary-fixed": "#e4e2e1",
+                        "on-surface-variant": "#414751",
+                        "primary": "#005796",
+                        "on-primary-container": "#e9f1ff",
+                        "tertiary-fixed": "#ffdcc2",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e3e2e1",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e3e2e1",
+                        "background": "#faf9f8",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "on-secondary-container": "#626262",
+                        "surface": "#faf9f8",
+                        "on-tertiary-container": "#ffede2",
+                        "on-tertiary": "#ffffff",
+                        "error": "#D4351C",
+                        "border-subtle": "#B1B4B6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "unit": "4px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Public Sans"],
+                        "headline-xl-mobile": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "headline-lg": ["Public Sans"],
+                        "code": ["Courier Prime"],
+                        "label-sm": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .traceability-line {
+            background-image: linear-gradient(to right, #B1B4B6 50%, transparent 50%);
+            background-size: 10px 1px;
+            background-repeat: repeat-x;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface-bright font-body-md text-on-surface">
+<!-- Top Navigation Bar (Shared Component Reference) -->
+<nav class="bg-surface border-b border-border-subtle h-16 flex justify-between items-center w-full px-gutter max-w-container-max mx-auto top-0 z-50">
+<div class="flex items-center space-x-md">
+<span class="font-headline-lg text-headline-lg font-black text-primary">EvidenceEU</span>
+<div class="hidden md:flex space-x-md ml-xl">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Documents</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Workflows</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#">Analytics</a>
+</div>
+</div>
+<div class="flex items-center space-x-md">
+<button class="material-symbols-outlined p-sm hover:bg-surface-container-low transition-colors rounded-lg text-on-surface-variant">translate</button>
+<button class="material-symbols-outlined p-sm hover:bg-surface-container-low transition-colors rounded-lg text-on-surface-variant">notifications</button>
+<button class="material-symbols-outlined p-sm hover:bg-surface-container-low transition-colors rounded-lg text-primary">account_circle</button>
+</div>
+</nav>
+<main class="max-w-container-max mx-auto p-gutter space-y-xl">
+<!-- Hero Section: Project Cover -->
+<section class="relative bg-white border border-border-subtle p-xl overflow-hidden">
+<div class="absolute top-0 right-0 p-lg">
+<span class="font-code text-code text-outline uppercase tracking-widest">v1.0.4-stable</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-center">
+<div class="md:col-span-8 space-y-md">
+<div class="inline-block bg-primary-fixed text-on-primary-fixed px-sm py-xs font-label-sm text-label-sm uppercase tracking-wider rounded">
+                        Software Engineering Capstone
+                    </div>
+<h1 class="font-headline-xl text-headline-xl text-primary leading-none">EvidenceEU</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Chat-first multilingual document intelligence platform for Europe. Bridging the linguistic gap in legal processing for a unified administrative landscape.
+                    </p>
+<div class="flex flex-wrap gap-md pt-md">
+<div class="flex items-center space-x-sm bg-surface-container px-md py-sm rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="groups">groups</span>
+<div>
+<p class="text-[10px] uppercase font-bold text-outline">Target Audience</p>
+<p class="font-label-md text-label-md">Migrants, Legal Professionals, HR</p>
+</div>
+</div>
+<div class="flex items-center space-x-sm bg-surface-container px-md py-sm rounded-lg border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="language">language</span>
+<div>
+<p class="text-[10px] uppercase font-bold text-outline">Supported Locales</p>
+<p class="font-label-md text-label-md">EN / DE / FR</p>
+</div>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 h-full flex flex-col justify-center border-l border-border-subtle pl-lg">
+<div class="space-y-sm">
+<div class="flex justify-between items-center pb-xs border-b border-outline-variant">
+<span class="text-outline font-label-sm">GitHub Issue</span>
+<span class="font-code text-code text-on-surface">#EEU-442</span>
+</div>
+<div class="flex justify-between items-center pb-xs border-b border-outline-variant">
+<span class="text-outline font-label-sm">Notion Task</span>
+<span class="font-code text-code text-on-surface">TASK-981-INT</span>
+</div>
+<div class="flex justify-between items-center pb-xs border-b border-outline-variant">
+<span class="text-outline font-label-sm">Repository</span>
+<span class="font-code text-code text-on-surface">org/evidence-eu-core</span>
+</div>
+<div class="flex justify-between items-center pb-xs border-b border-outline-variant">
+<span class="text-outline font-label-sm">Sprint</span>
+<span class="font-code text-code text-on-surface">Q3-S4 (Deployment)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-outline font-label-sm">Date</span>
+<span class="font-code text-code text-on-surface" id="current-date">Oct 24, 2023</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Visual Traceability Section -->
+<section class="bg-surface-container-lowest border border-border-subtle p-xl">
+<h2 class="font-headline-md text-headline-md mb-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="account_tree">account_tree</span>
+                Engineering Traceability Framework
+            </h2>
+<div class="relative">
+<!-- Traceability Flowchart -->
+<div class="grid grid-cols-1 md:grid-cols-6 gap-md relative z-10">
+<!-- Step 1 -->
+<div class="flex flex-col items-center space-y-sm text-center">
+<div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-sm border-4 border-primary-fixed">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div class="space-y-xs">
+<p class="font-label-md text-label-md">Requirements</p>
+<p class="text-[12px] text-on-surface-variant">EU Reg 2024/C-12</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center space-y-sm text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high border-2 border-outline flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="bug_report">bug_report</span>
+</div>
+<div class="space-y-xs">
+<p class="font-label-md text-label-md">GitHub Issues</p>
+<p class="text-[12px] text-on-surface-variant">Technical Backlog</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center space-y-sm text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high border-2 border-outline flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+</div>
+<div class="space-y-xs">
+<p class="font-label-md text-label-md">Notion Tasks</p>
+<p class="text-[12px] text-on-surface-variant">Sprint Planning</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex flex-col items-center space-y-sm text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high border-2 border-outline flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+</div>
+<div class="space-y-xs">
+<p class="font-label-md text-label-md">Wireframes</p>
+<p class="text-[12px] text-on-surface-variant">Figma Prototypes</p>
+</div>
+</div>
+<!-- Step 5 -->
+<div class="flex flex-col items-center space-y-sm text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high border-2 border-outline flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+</div>
+<div class="space-y-xs">
+<p class="font-label-md text-label-md">Implementation</p>
+<p class="text-[12px] text-on-surface-variant">CI/CD Pipeline</p>
+</div>
+</div>
+<!-- Step 6 -->
+<div class="flex flex-col items-center space-y-sm text-center">
+<div class="w-12 h-12 rounded-full bg-success flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<div class="space-y-xs">
+<p class="font-label-md text-label-md">Testing</p>
+<p class="text-[12px] text-on-surface-variant">UAT Validated</p>
+</div>
+</div>
+</div>
+<!-- Horizontal Connector Line (Desktop) -->
+<div class="hidden md:block absolute top-6 left-[8%] right-[8%] h-px traceability-line -z-0"></div>
+</div>
+<!-- Dashboard Preview Bento Grid -->
+<div class="mt-xl grid grid-cols-1 md:grid-cols-3 gap-md">
+<div class="md:col-span-2 bg-white border border-border-subtle p-md rounded flex items-center justify-center min-h-[200px]">
+<div class="w-full h-full flex flex-col items-center justify-center text-center space-y-sm opacity-60">
+<span class="material-symbols-outlined text-[48px]" data-icon="schema">schema</span>
+<p class="font-code text-code">Traceability Mapping Engine v0.8</p>
+<div class="flex gap-xs">
+<div class="h-2 w-12 bg-primary rounded-full"></div>
+<div class="h-2 w-12 bg-primary-fixed rounded-full"></div>
+<div class="h-2 w-4 bg-outline rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="bg-primary text-on-primary p-md rounded flex flex-col justify-between">
+<div>
+<p class="text-[10px] font-bold uppercase tracking-widest opacity-80">Project Health</p>
+<h3 class="font-headline-lg text-headline-lg mt-xs">98.4%</h3>
+<p class="text-label-sm font-label-sm opacity-90">Requirement Coverage</p>
+</div>
+<div class="mt-md pt-md border-t border-white/20">
+<div class="flex justify-between items-center">
+<span class="text-label-sm">Uptime</span>
+<span class="font-code text-code">99.99%</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Architectural Board Details -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-lg">
+<div class="bg-surface-container p-md border border-border-subtle rounded space-y-sm">
+<p class="text-[11px] font-bold text-primary uppercase">Core Infrastructure</p>
+<ul class="space-y-xs font-label-sm text-label-sm">
+<li class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="dns">dns</span> Distributed Vault</li>
+<li class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="translate">translate</span> Neural Translation</li>
+<li class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="verified_user">verified_user</span> OAuth2.0 / SAML</li>
+</ul>
+</div>
+<div class="bg-surface-container p-md border border-border-subtle rounded space-y-sm">
+<p class="text-[11px] font-bold text-primary uppercase">Data Processing</p>
+<ul class="space-y-xs font-label-sm text-label-sm">
+<li class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="cognition">cognition</span> Semantic Search</li>
+<li class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="text_snippet">text_snippet</span> OCR Engine</li>
+<li class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]" data-icon="auto_awesome">auto_awesome</span> LLM Context Window</li>
+</ul>
+</div>
+<div class="md:col-span-2 relative bg-white border border-border-subtle p-md rounded flex items-center overflow-hidden">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="grid grid-cols-10 h-full w-full">
+<div class="border-r border-outline"></div><div class="border-r border-outline"></div><div class="border-r border-outline"></div><div class="border-r border-outline"></div><div class="border-r border-outline"></div>&lt;</div></div></div></section></main></body></html>

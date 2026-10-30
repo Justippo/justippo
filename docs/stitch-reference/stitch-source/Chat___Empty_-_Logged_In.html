@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Chat / Empty State</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Public Sans', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #B1B4B6; border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#1d70b8",
+                        "success": "#00703C",
+                        "primary": "#005796",
+                        "surface-container-highest": "#e3e2e1",
+                        "border-subtle": "#B1B4B6",
+                        "on-primary-fixed-variant": "#00497e",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "surface-dim": "#dadad9",
+                        "tertiary-fixed": "#ffdcc2",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e3e2e1",
+                        "on-background": "#1a1c1c",
+                        "surface-bright": "#faf9f8",
+                        "inverse-surface": "#2f3130",
+                        "surface-tint": "#0061a6",
+                        "outline-variant": "#c1c7d2",
+                        "surface-container-low": "#f4f3f2",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface": "#faf9f8",
+                        "secondary-container": "#e1dfdf",
+                        "tertiary": "#824600",
+                        "primary-fixed": "#d2e4ff",
+                        "outline": "#717782",
+                        "primary-fixed-dim": "#a0caff",
+                        "on-secondary": "#ffffff",
+                        "error": "#D4351C",
+                        "on-surface": "#1a1c1c",
+                        "on-tertiary-container": "#ffede2",
+                        "surface-container": "#efeeed",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-primary-fixed": "#001c37",
+                        "tertiary-container": "#a55a00",
+                        "on-surface-variant": "#414751",
+                        "on-secondary-container": "#626262",
+                        "warning": "#F47738",
+                        "inverse-primary": "#a0caff",
+                        "background": "#faf9f8",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "surface-container-high": "#e9e8e7",
+                        "secondary": "#5e5e5e",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f1f0ef",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "on-primary-container": "#e9f1ff",
+                        "secondary-fixed": "#e4e2e1",
+                        "focus": "#FFDD00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "xl": "32px",
+                        "container-max": "1280px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "headline-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "label-sm": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "code": ["Courier Prime"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface h-screen overflow-hidden flex">
+<!-- SideNavBar Shell -->
+<aside class="hidden md:flex flex-col h-screen p-md space-y-sm bg-surface-container-low border-r border-border-subtle w-64 shrink-0">
+<div class="flex flex-col space-y-xs pb-md">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EvidenceEU</h1>
+<p class="font-body-md text-label-sm text-on-surface-variant opacity-70">Legal Workspace</p>
+</div>
+<button class="flex items-center justify-center gap-2 bg-primary-container text-on-primary-container py-3 px-4 rounded-lg font-label-md transition-all active:scale-95 mb-lg">
+<span class="material-symbols-outlined text-[20px]" data-icon="upload">upload</span>
+            Upload Document
+        </button>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body-md">Home</span>
+</a>
+<!-- Active State for Chat -->
+<a class="flex items-center gap-3 p-3 bg-primary-container text-on-primary-container font-bold rounded-lg scale-95 duration-150 shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="chat" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span class="font-body-md">Chat</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="folder_open">folder_open</span>
+<span class="font-body-md">Library</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="font-body-md">Cases</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md">Settings</span>
+</a>
+</nav>
+<div class="pt-md border-t border-border-subtle space-y-1">
+<a class="flex items-center gap-3 p-2 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help_outline">help_outline</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 p-2 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="archive">archive</span>
+<span>Archive</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-surface">
+<!-- TopNavBar Shell -->
+<header class="h-16 border-b border-border-subtle flex justify-between items-center px-gutter shrink-0 bg-surface">
+<div class="flex items-center gap-gutter">
+<div class="hidden md:flex gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Documents</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Workflows</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Analytics</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-1.5 bg-surface-container-low border border-border-subtle rounded-lg text-sm focus:ring-2 focus:ring-focus focus:border-primary outline-none w-64" placeholder="Search workspace..." type="text"/>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="translate">translate</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Chat Area (Scrollable) -->
+<section class="flex-1 overflow-y-auto relative flex flex-col items-center justify-center p-gutter">
+<!-- Empty State Center Content -->
+<div class="max-w-2xl w-full text-center space-y-lg animate-in fade-in slide-in-from-bottom-4 duration-700">
+<div class="flex justify-center">
+<div class="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center border border-primary/10">
+<span class="material-symbols-outlined text-primary text-[32px]" data-icon="description" style="font-variation-settings: 'FILL' 1;">description</span>
+</div>
+</div>
+<div class="space-y-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Ask a question about your documents or the EU corpus</h2>
+<p class="font-body-md text-on-surface-variant max-w-md mx-auto">EvidenceEU AI provides contextual answers based on your private document library and official EU legislative databases.</p>
+</div>
+<!-- Example Prompts (Bento-lite style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md pt-lg">
+<button class="text-left p-md border border-border-subtle rounded-xl hover:border-primary hover:bg-primary/5 transition-all group">
+<p class="font-label-md text-primary mb-1">Documents</p>
+<p class="font-body-md text-on-surface-variant group-hover:text-on-surface">"Summarize my employment contract"</p>
+</button>
+<button class="text-left p-md border border-border-subtle rounded-xl hover:border-primary hover:bg-primary/5 transition-all group">
+<p class="font-label-md text-primary mb-1">Translation</p>
+<p class="font-body-md text-on-surface-variant group-hover:text-on-surface">"Translate the visa requirements from German"</p>
+</button>
+<button class="text-left p-md border border-border-subtle rounded-xl hover:border-primary hover:bg-primary/5 transition-all group">
+<p class="font-label-md text-primary mb-1">Legislation</p>
+<p class="font-body-md text-on-surface-variant group-hover:text-on-surface">"How does GDPR Article 17 affect my storage policy?"</p>
+</button>
+<button class="text-left p-md border border-border-subtle rounded-xl hover:border-primary hover:bg-primary/5 transition-all group">
+<p class="font-label-md text-primary mb-1">Analysis</p>
+<p class="font-body-md text-on-surface-variant group-hover:text-on-surface">"Compare the 2023 amendment with the previous version"</p>
+</button>
+</div>
+</div>
+<!-- Annotation -->
+<div class="absolute bottom-4 right-gutter">
+<p class="font-code text-[11px] text-outline uppercase tracking-wider opacity-60">Source: chat-first acceptance criteria</p>
+</div>
+</section>
+<!-- Composer Area (Fixed Bottom) -->
+<section class="border-t border-border-subtle bg-surface-container-lowest px-gutter py-lg">
+<div class="max-w-4xl mx-auto space-y-md">
+<!-- Status Badge & Indicator -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="flex h-2 w-2 rounded-full bg-success animate-pulse"></span>
+<span class="text-sm font-label-md text-success">Logged in: personal corpus enabled</span>
+</div>
+<div class="flex items-center gap-xs text-outline text-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="search">search</span>
+<span>Personal corpus search active</span>
+</div>
+</div>
+<!-- Composer Main Box -->
+<div class="bg-white border-2 border-border-subtle rounded-xl p-xs focus-within:border-primary transition-colors shadow-sm">
+<div class="flex items-center gap-sm px-md py-sm border-b border-border-subtle/50 mb-xs overflow-x-auto no-scrollbar">
+<!-- Quick Actions -->
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant text-sm transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]" data-icon="translate">translate</span>
+<span>Translate</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant text-sm transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]" data-icon="compare_arrows">compare_arrows</span>
+<span>Compare</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant text-sm transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]" data-icon="visibility">visibility</span>
+<span>Open Viewer</span>
+</button>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-surface-container-low text-on-surface-variant text-sm transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]" data-icon="share">share</span>
+<span>Share via Matrix</span>
+</button>
+<div class="h-4 w-[1px] bg-border-subtle mx-1"></div>
+<button class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-primary bg-primary/5 hover:bg-primary/10 text-sm font-bold transition-colors whitespace-nowrap">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_circle">add_circle</span>
+<span>Attach Document</span>
+</button>
+</div>
+<div class="relative flex items-end">
+<textarea class="w-full px-md py-sm bg-transparent border-none focus:ring-0 text-body-md resize-none custom-scrollbar" placeholder="Message EvidenceEU AI..." rows="3"></textarea>
+<div class="flex items-center gap-sm pr-md pb-md">
+<button class="p-2 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="attach_file">attach_file</span>
+</button>
+<button class="bg-primary text-white p-2.5 rounded-lg shadow-sm hover:bg-primary-container transition-all active:scale-95 flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="text-center">
+<p class="text-[11px] text-outline font-label-sm">AI can hallucinate. Verify critical legal information against the source documents.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 pb-safe bg-surface border-t border-border-subtle shadow-md z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-label-sm text-[10px]">Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-sm text-[10px]">Docs</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+<span class="font-label-sm text-[10px]">Translate</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-[10px]">Me</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for the composer
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if (this.scrollHeight > 200) {
+                this.style.height = '200px';
+                this.style.overflowY = 'auto';
+            }
+        });
+
+        // Search logic placeholder
+        document.querySelector('input[type="text"]').addEventListener('focus', (e) => {
+            e.target.parentElement.classList.add('scale-[1.02]');
+        });
+        document.querySelector('input[type="text"]').addEventListener('blur', (e) => {
+            e.target.parentElement.classList.remove('scale-[1.02]');
+        });
+    </script>
+</body></html>

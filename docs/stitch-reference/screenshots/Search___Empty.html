@@ -1,0 +1,298 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>LegalIntel AI | Search</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#a55a00",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-container": "#efeeed",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a0caff",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface-bright": "#faf9f8",
+                    "border-subtle": "#B1B4B6",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-surface": "#2f3130",
+                    "primary": "#005796",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c7d2",
+                    "surface-container-low": "#f4f3f2",
+                    "on-background": "#1a1c1c",
+                    "secondary-container": "#e1dfdf",
+                    "on-primary-fixed": "#001c37",
+                    "surface-tint": "#0061a6",
+                    "on-surface": "#1a1c1c",
+                    "warning": "#F47738",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "surface-container-highest": "#e3e2e1",
+                    "error": "#D4351C",
+                    "on-surface-variant": "#414751",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#626262",
+                    "outline": "#717782",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dadad9",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e3e2e1",
+                    "surface-container-high": "#e9e8e7",
+                    "on-primary-container": "#e9f1ff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "on-tertiary-container": "#ffede2",
+                    "focus": "#FFDD00",
+                    "background": "#faf9f8",
+                    "secondary": "#5e5e5e",
+                    "tertiary": "#824600",
+                    "primary-container": "#1d70b8",
+                    "on-primary-fixed-variant": "#00497e",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "success": "#00703C",
+                    "surface": "#faf9f8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "container-max": "1280px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl-mobile": ["Public Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .wireframe-pattern {
+            background-image: radial-gradient(#B1B4B6 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen overflow-hidden flex">
+<!-- Side Navigation Bar -->
+<aside class="flex flex-col h-full py-md px-sm gap-unit bg-surface-container-low dark:bg-inverse-surface border-r border-border-subtle dark:border-outline w-64 shrink-0 z-50">
+<div class="px-md py-sm mb-md">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Enterprise Suite</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Legal Intelligence</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Navigation Items mapped from JSON -->
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="">Dashboard</span>
+</a>
+<!-- ACTIVE TAB: Search History (Closest match for current screen purpose) -->
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary font-bold rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="">Search History</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="bookmarks">bookmarks</span>
+<span class="">Saved Research</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="">Legal Corpus</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-border-subtle pt-md space-y-1">
+<div class="px-md mb-sm">
+<button class="w-full bg-primary text-on-primary py-sm rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-95 transition-all">
+                    New Search
+                </button>
+</div>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="">Settings</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-high transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col relative wireframe-pattern overflow-hidden">
+<!-- Top Bar -->
+<header class="flex justify-between items-center w-full px-lg h-16 z-50 bg-surface dark:bg-inverse-surface border-b border-border-subtle dark:border-outline">
+<div class="flex items-center gap-sm">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">LegalIntel AI</span>
+<span class="bg-surface-container-high px-sm py-xs rounded text-[10px] font-bold uppercase tracking-widest text-outline border border-outline-variant">Enterprise Beta</span>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full transition-colors" data-icon="settings">settings</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low p-sm rounded-full transition-colors" data-icon="help">help</button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-label-md text-label-md hover:bg-opacity-90 transition-opacity">
+                    Sign In
+                </button>
+</div>
+</header>
+<!-- Empty State Search UI -->
+<div class="flex-1 flex flex-col items-center justify-center p-lg max-w-4xl mx-auto w-full">
+<!-- Annotation Box -->
+<div class="absolute top-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-sm pointer-events-none opacity-60">
+<div class="flex items-center gap-xs px-md py-xs bg-surface-container-highest border border-outline-variant rounded-full">
+<span class="material-symbols-outlined text-sm" data-icon="info">info</span>
+<span class="text-[12px] font-code text-on-surface-variant">Reached from chat: Search composer</span>
+</div>
+<div class="w-px h-8 bg-outline-variant"></div>
+</div>
+<!-- Central Content -->
+<div class="w-full space-y-xl text-center">
+<div class="space-y-md">
+<h2 class="font-headline-xl text-headline-xl text-on-surface">Legal Intelligence Engine</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Access our comprehensive library of legislative acts, judicial precedents, and regulatory frameworks in EN, DE, and FR powered by specialized AI.</p>
+</div>
+<!-- Search Composer Container -->
+<div class="bg-surface border border-border-subtle rounded-xl shadow-sm hover:border-primary transition-colors p-sm group" style="border-color: rgb(226, 232, 240); border-radius: 8px;">
+<div class="flex flex-col gap-sm">
+<div class="flex items-center gap-md px-md py-sm">
+<span class="material-symbols-outlined text-primary" data-icon="gavel">gavel</span>
+<input class="flex-1 bg-transparent border-none focus:ring-0 font-body-md text-body-md placeholder:text-on-surface-variant/50" placeholder="Search EU directives, laws, or your documents..." type="text" aria-label="Search EU directives, laws, or documents">
+<div class="flex gap-sm">
+<button class="p-sm hover:bg-surface-container-low rounded-lg transition-colors material-symbols-outlined text-on-surface-variant" data-icon="attach_file">attach_file</button>
+<button class="p-sm hover:bg-surface-container-low rounded-lg transition-colors material-symbols-outlined text-on-surface-variant" data-icon="mic">mic</button>
+</div>
+</div>
+<div class="flex items-center justify-between border-t border-border-subtle/30 pt-sm px-sm">
+<div class="flex gap-sm">
+<span class="bg-secondary-container px-sm py-xs rounded font-label-sm text-label-sm text-on-secondary-container flex items-center gap-xs border border-outline-variant/20">
+<span class="material-symbols-outlined text-sm" data-icon="lock_open">lock_open</span>
+                                    Logged out: Public corpus only
+                                </span>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md flex items-center gap-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                                Execute Search
+                            </button>
+</div>
+</div>
+</div>
+<!-- Suggested Filters / Bento Grid Fragments -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg pt-xl opacity-80">
+<div class="bg-surface-container-low border border-border-subtle p-lg rounded-lg flex flex-col items-start gap-md text-left group cursor-pointer hover:bg-white transition-colors" style="border: 1px solid rgb(226, 232, 240); border-radius: 16px; color: rgb(71, 85, 105); background-color: transparent;">
+<div class="bg-primary-fixed p-sm rounded-lg">
+<span class="material-symbols-outlined text-primary" data-icon="policy">policy</span>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface text-sm">EU Directives</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs text-sm">Analyze recent 2024 compliance updates</p>
+</div>
+</div>
+<div class="bg-surface-container-low border border-border-subtle p-lg rounded-lg flex flex-col items-start gap-md text-left group cursor-pointer hover:bg-white transition-colors" style="border: 1px solid rgb(226, 232, 240); border-radius: 16px; color: rgb(71, 85, 105); background-color: transparent;">
+<div class="bg-tertiary-fixed p-sm rounded-lg">
+<span class="material-symbols-outlined text-tertiary" data-icon="history_edu">history_edu</span>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface text-sm">Case Law</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs text-sm">High Court precedents from past 5 years</p>
+</div>
+</div>
+<div class="bg-surface-container-low border border-border-subtle p-lg rounded-lg flex flex-col items-start gap-md text-left group cursor-pointer hover:bg-white transition-colors" style="border: 1px solid rgb(226, 232, 240); border-radius: 16px; color: rgb(71, 85, 105); background-color: transparent;">
+<div class="bg-secondary-fixed p-sm rounded-lg">
+<span class="material-symbols-outlined text-secondary" data-icon="contract">contract</span>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface text-sm">Standard Forms</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs text-sm">Access verified institutional templates</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Technical Data (Low-fi touch) -->
+<footer class="mt-auto px-lg py-md border-t border-border-subtle bg-surface-container-lowest flex justify-between items-center text-[11px] font-code text-outline uppercase tracking-wider">
+<div class="flex gap-lg">
+<span class="">Node: LegalIntel-Cluster-04</span>
+<span class="">Latency: 42ms</span>
+</div>
+<div class="flex gap-lg">
+<span class="">Public Corpus Ver: 2024.11.02</span>
+<span class="text-success font-bold">● System Online</span>
+</div>
+</footer>
+</main>
+<!-- Floating Action Background Animation Element -->
+<div class="fixed bottom-0 right-0 w-96 h-96 -z-10 opacity-5 pointer-events-none">
+
+</div>
+<script>
+        // Micro-interaction for the search composer focus
+        const searchInput = document.querySelector('input[type="text"]');
+        const composer = searchInput?.closest('.bg-surface');
+        
+        searchInput?.addEventListener('focus', () => {
+            composer.classList.add('ring-2', 'ring-focus', 'border-primary');
+        });
+        
+        searchInput?.addEventListener('blur', () => {
+            composer.classList.remove('ring-2', 'ring-focus', 'border-primary');
+        });
+
+        // Simulating keyboard shortcut focus
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput?.focus();
+            }
+        });
+    </script>
+
+
+</body></html>

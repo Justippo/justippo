@@ -1,0 +1,25 @@
+# EvidenceEU offline dependencies
+#
+# These packages are installed on the host machine ONLY (dev workstation or CI).
+# They are NEVER added to pyproject.toml because they must NOT deploy to the
+# Cloudflare Python Worker (Pyodide/WASM).
+#
+# Install:  pip install -r requirements-offline.txt
+
+# ── Clustering (scripts/cluster_corpus.py) ─────────────────────────────────────
+bertopic==0.16.4
+umap-learn==0.5.6
+hdbscan==0.8.39
+scikit-learn>=1.4
+
+# ── Embedding fallback (when CF Workers AI unreachable) ────────────────────────
+sentence-transformers>=3.0
+
+# ── NER (scripts/extract_entities.py) ───────────────────────────────────────────
+spacy>=3.7
+https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1.tar.gz
+https://github.com/explosion/spacy-models/releases/download/de_core_news_lg-3.7.1/de_core_news_lg-3.7.1.tar.gz
+https://github.com/explosion/spacy-models/releases/download/fr_core_news_lg-3.7.1/fr_core_news_lg-3.7.1.tar.gz
+
+# ── Graph export (scripts/build_graph_view.py) ──────────────────────────────────
+networkx>=3.0

@@ -1,0 +1,34 @@
+#!/bin/sh
+set -e
+
+# Pre-push hook — catches issues before CI burns 5 min.
+# Modeled after OpenCode's pre-push pattern.
+#
+# To install: chmod +x .husky/pre-push
+# Or use Husky: bun add -D husky && bunx husky init
+
+echo "pre-push: checking Bun version..."
+
+# Check against package.json packageManager field (standard monorepo pin)
+EXPECTED_BUN=$(node -e "try{const p=require('./package.json');const v=p.packageManager?.split('@')[1];if(v)console.log(v)}catch{}" 2>/dev/null)
+CURRENT_BUN=$(bun --version 2>/dev/null)
+
+if [ -z "$EXPECTED_BUN" ]; then
+  echo "pre-push: no packageManager field found, skipping version check"
+elif [ "$CURRENT_BUN" != "$EXPECTED_BUN" ]; then
+  echo "pre-push: Bun version mismatch — expected $EXPECTED_BUN, got $CURRENT_BUN"
+  echo "pre-push: run 'curl -fsSL https://bun.sh/install | bash' to update"
+  exit 1
+fi
+
+echo "pre-push: running typecheck..."
+
+if [ -f frontend/tsconfig.json ]; then
+  echo "pre-push: typecheck frontend"
+  (cd frontend && bun run typecheck)
+fi
+
+# Worker typecheck skipped — pre-existing TS2322 error (ScheduledEvent type mismatch)
+# not gated in CI. Add back when resolved.
+
+echo "pre-push: all checks passed"

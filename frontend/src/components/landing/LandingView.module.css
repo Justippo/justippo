@@ -1,0 +1,42 @@
+.loading {
+  display: grid;
+  gap: var(--space-lg);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-md);
+}
+
+.statePanel {
+  max-width: 36rem;
+  margin: var(--space-2xl) auto;
+  padding: var(--space-xl);
+  text-align: center;
+}
+
+.stateTitle {
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-headline-lg);
+  line-height: var(--leading-headline-lg);
+  color: var(--color-on-surface);
+}
+
+.stateBody {
+  margin: 0 0 var(--space-lg);
+  color: var(--color-on-surface-variant);
+  font-size: var(--text-body-md);
+  line-height: var(--leading-body-md);
+}
+
+.stateAction {
+  display: inline-flex;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: var(--stitch-weight-bold);
+  text-decoration: none;
+}
+.migrationCard {
+  margin: var(--stitch-spacing-xl) auto;
+  max-width: var(--container-max);
+}

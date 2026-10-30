@@ -1,0 +1,230 @@
+name: Backfill Notion Board (Manual)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: notion-backfill
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: [self-hosted, macOS, ARM64]
+    permissions:
+      contents: read
+      issues: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure SSL certificates
+        run: |
+          python3 -m pip install --quiet --break-system-packages certifi
+          echo "SSL_CERT_FILE=$(python3 -c 'import certifi; print(certifi.where())')" >> $GITHUB_ENV
+
+      - name: Backfill all Notion pages with full issue data
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import sys
+          import time
+          import urllib.request
+          import urllib.error
+
+          sys.path.insert(0, "scripts")
+          from notion_helpers import notion_request, notion_query_all, find_page_by_issue_number
+
+          GH_TOKEN = os.environ["GH_TOKEN"]
+          REPO = os.environ["REPO"]
+
+          def gh_request(method, path, payload=None):
+              data = json.dumps(payload).encode() if payload else None
+              headers = {
+                  "Authorization": f"Bearer {GH_TOKEN}",
+                  "Accept": "application/vnd.github+json",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              }
+              if data:
+                  headers["Content-Type"] = "application/json"
+              req = urllib.request.Request(
+                  f"https://api.github.com/repos/{REPO}{path}",
+                  data=data, method=method, headers=headers,
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      raw = resp.read().decode("utf-8")
+                      return json.loads(raw) if raw else {}
+              except urllib.error.HTTPError as exc:
+                  raw = exc.read().decode("utf-8", errors="replace")
+                  print(f"GitHub {method} {path} failed HTTP {exc.code}: {raw[:300]}")
+                  raise
+
+          def _priority_from_labels(labels):
+              label_set = {l.lower() for l in labels}
+              if "priority: critical" in label_set or "p0" in label_set:
+                  return "Critical"
+              if "priority: high" in label_set or "p1" in label_set:
+                  return "High"
+              if "priority: medium" in label_set or "p2" in label_set:
+                  return "Medium"
+              if "priority: low" in label_set or "p3" in label_set:
+                  return "Low"
+              return "Medium"
+
+          def _sprint_from_labels(labels):
+              """Map sprint-N labels to Notion Sprint select values."""
+              label_set = {l.lower() for l in labels}
+              if "sprint-1" in label_set:
+                  return "Sprint 1"
+              if "sprint-2" in label_set:
+                  return "Sprint 2"
+              if "sprint-3" in label_set:
+                  return "Sprint 3"
+              return None
+
+          # Sprint end dates (used for Due Date column)
+          SPRINT_DUE_DATES = {
+              "Sprint 1": "2026-06-14",
+              "Sprint 2": "2026-06-28",
+              "Sprint 3": "2026-07-22",
+          }
+
+          def _story_points_from_labels(labels):
+              """Estimate story points from type + priority labels."""
+              label_set = {l.lower() for l in labels}
+              is_bug = "type:bug" in label_set
+              is_feature = "type:feature" in label_set
+              is_chore = "type:chore" in label_set
+              is_docs = "type:docs" in label_set
+              is_test = "type:test" in label_set
+              is_high = "priority:high" in label_set
+              is_medium = "priority:medium" in label_set
+              is_low = "priority:low" in label_set
+
+              if is_docs:
+                  return 1
+              if is_test:
+                  return 2
+              if is_bug:
+                  return 3 if is_high else 2
+              if is_feature:
+                  if is_high:
+                      return 8
+                  if is_medium:
+                      return 5
+                  if is_low:
+                      return 3
+                  return 5  # default feature
+              if is_chore:
+                  return 3 if is_high else 2
+              return 3  # default
+
+          # ── Query Notion DB schema to discover available properties ──
+          DB_ID = os.environ.get("NOTION_DATABASE_ID", "38cbf1cf330681b484d0c68d7fc9505c")
+          _, db_schema = notion_request("GET", f"/databases/{DB_ID}")
+          available_props = set(db_schema.get("properties", {}).keys())
+          print(f"Notion DB properties: {sorted(available_props)}")
+
+          # Map our property names to what actually exists on the board
+          PROP_SPRINT = "Sprint" if "Sprint" in available_props else None
+          PROP_DESC = "Description" if "Description" in available_props else None
+          PROP_CONTRIB = "Actual Contributors" if "Actual Contributors" in available_props else None
+          PROP_DUE = "Due Date" if "Due Date" in available_props else None
+          PROP_POINTS = "Story Points" if "Story Points" in available_props else None
+
+          # Check property types for Due Date and Story Points
+          prop_types = {k: v.get("type", "") for k, v in db_schema.get("properties", {}).items()}
+          print(f"  Property types: Due={prop_types.get('Due Date', '?')}, Points={prop_types.get('Story Points', '?')}")
+          print(f"  Sprint prop: {PROP_SPRINT}, Desc: {PROP_DESC}, Contributors: {PROP_CONTRIB}, Due: {PROP_DUE}, Points: {PROP_POINTS}")
+
+          # Fetch ALL issues (open + closed)
+          all_issues = []
+          page = 1
+          while True:
+              batch = gh_request("GET", f"/issues?state=all&per_page=100&page={page}&direction=asc")
+              if not batch:
+                  break
+              all_issues.extend(batch)
+              page += 1
+              time.sleep(0.3)
+
+          print(f"Fetched {len(all_issues)} issues from GitHub")
+
+          updated = 0
+          created = 0
+          errors = 0
+
+          for issue in all_issues:
+              if "pull_request" in issue:
+                  continue
+              num = issue["number"]
+              title = issue.get("title", "Untitled")
+              state = issue.get("state", "unknown")
+              labels = [l.get("name", "") for l in issue.get("labels", [])]
+              assignees = [a.get("login", "") for a in issue.get("assignees", [])]
+              body = issue.get("body", "") or ""
+              completed = state == "closed"
+              task_status = "Done" if completed else "To Do"
+              priority = _priority_from_labels(labels)
+              sprint = _sprint_from_labels(labels)
+
+              try:
+                  page_id = find_page_by_issue_number(num)
+                  props = {
+                      "Name": {"title": [{"text": {"content": title}}]},
+                      "Task Status": {"status": {"name": task_status}},
+                      "Completed": {"checkbox": completed},
+                      "Priority": {"select": {"name": priority}},
+                      "Tags": {"multi_select": [{"name": l} for l in labels[:10] if l]},
+                  }
+                  if assignees:
+                      props["Assignees"] = {"multi_select": [{"name": a} for a in assignees[:10]]}
+                  if PROP_SPRINT and sprint:
+                      props[PROP_SPRINT] = {"select": {"name": sprint}}
+                  if PROP_DESC:
+                      # Notion rich_text limit: 2000 chars (use 1900 for safety)
+                      desc = body[:1900]
+                      props[PROP_DESC] = {"rich_text": [{"text": {"content": desc}}]}
+                  if PROP_CONTRIB:
+                      # Solo submission — only Mihai Chindriș
+                      props[PROP_CONTRIB] = {"rich_text": [{"text": {"content": "Mihai Chindriș"}}]}
+                  if PROP_DUE and sprint and sprint in SPRINT_DUE_DATES:
+                      due_date = SPRINT_DUE_DATES[sprint]
+                      due_type = prop_types.get("Due Date", "date")
+                      if due_type == "date":
+                          props[PROP_DUE] = {"date": {"start": due_date}}
+                  if PROP_POINTS:
+                      points = _story_points_from_labels(labels)
+                      points_type = prop_types.get("Story Points", "number")
+                      if points_type == "number":
+                          props[PROP_POINTS] = {"number": points}
+                      elif points_type == "select":
+                          props[PROP_POINTS] = {"select": {"name": str(points)}}
+                      elif points_type == "rich_text":
+                          props[PROP_POINTS] = {"rich_text": [{"text": {"content": str(points)}}]}
+
+                  if page_id:
+                      notion_request("PATCH", f"/pages/{page_id}", {"properties": props})
+                      updated += 1
+                      if updated % 10 == 0:
+                          print(f"  Updated {updated} pages...")
+                      time.sleep(0.35)
+                  else:
+                      props["GitHub"] = {"rich_text": [{"text": {"content": f"#{num}"}}]}
+                      notion_request("POST", "/pages", {
+                          "parent": {"database_id": DB_ID},
+                          "properties": props,
+                      })
+                      created += 1
+                      time.sleep(0.35)
+              except Exception as e:
+                  print(f"  ❌ Issue #{num} failed: {e}")
+                  errors += 1
+
+          print(f"\nSummary: updated={updated} created={created} errors={errors}")
+          PY

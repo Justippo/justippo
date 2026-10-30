@@ -1,0 +1,124 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-2xl) var(--space-md);
+  overflow: hidden;
+  /* Hero overlay — token-based scrim over photography */
+  --hero-overlay-top: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  --hero-overlay-mid: color-mix(in srgb, var(--color-surface) 94%, transparent);
+}
+
+.imageWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.heroImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--hero-overlay-top) 0%,
+    var(--hero-overlay-mid) 55%,
+    var(--color-surface) 100%
+  );
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .imageOverlay {
+    background: var(--color-surface);
+    opacity: 0.92;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 48rem;
+  text-align: center;
+}
+
+.headline {
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-headline-xl);
+  line-height: var(--leading-headline-xl);
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+
+@media (min-width: 768px) {
+  .headline {
+    font-size: var(--text-headline-xl);
+    line-height: var(--leading-headline-xl);
+  }
+}
+
+.subheadline {
+  margin: 0 0 var(--space-xl);
+  font-size: var(--text-body-lg);
+  line-height: var(--leading-body-lg);
+  color: var(--color-on-surface-variant);
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.primaryCta,
+.secondaryCta {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--text-label-md);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.primaryCta {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.primaryCta:hover {
+  background-color: var(--color-primary-container);
+}
+
+.secondaryCta {
+  background: var(--glass-fill);
+  border: var(--glass-border);
+  color: var(--color-primary);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-highlight);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .secondaryCta {
+    background: var(--color-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+}
+
+.primaryCta:focus-visible,
+.secondaryCta:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}

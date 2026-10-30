@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Profile & Security</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#dadad9",
+                        "on-primary-container": "#e9f1ff",
+                        "success": "#00703C",
+                        "warning": "#F47738",
+                        "on-background": "#1a1c1c",
+                        "primary-container": "#1d70b8",
+                        "error-container": "#ffdad6",
+                        "background": "#faf9f8",
+                        "surface": "#faf9f8",
+                        "tertiary-fixed": "#ffdcc2",
+                        "on-primary-fixed-variant": "#00497e",
+                        "surface-tint": "#0061a6",
+                        "on-primary-fixed": "#001c37",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f1f0ef",
+                        "on-error": "#ffffff",
+                        "focus": "#FFDD00",
+                        "surface-container-low": "#f4f3f2",
+                        "primary-fixed-dim": "#a0caff",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "inverse-surface": "#2f3130",
+                        "on-surface": "#1a1c1c",
+                        "on-secondary-container": "#626262",
+                        "outline-variant": "#c1c7d2",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efeeed",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "outline": "#717782",
+                        "inverse-primary": "#a0caff",
+                        "surface-container-high": "#e9e8e7",
+                        "error": "#D4351C",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "on-secondary-fixed-variant": "#464747",
+                        "on-surface-variant": "#414751",
+                        "tertiary-container": "#a55a00",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e3e2e1",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ffede2",
+                        "border-subtle": "#B1B4B6",
+                        "surface-variant": "#e3e2e1",
+                        "primary": "#005796",
+                        "on-tertiary-fixed": "#2e1500",
+                        "secondary": "#5e5e5e",
+                        "secondary-fixed": "#e4e2e1",
+                        "secondary-container": "#e1dfdf",
+                        "tertiary": "#824600",
+                        "primary-fixed": "#d2e4ff",
+                        "surface-bright": "#faf9f8",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "container-max": "1280px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Public Sans"],
+                        "headline-xl-mobile": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "label-sm": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "code": ["Courier Prime"],
+                        "body-lg": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .focus-visible:focus {
+            outline: 3px solid #FFDD00;
+            outline-offset: 1px;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .bento-item {
+            border: 1px solid #B1B4B6;
+            border-radius: 12px;
+            background-color: #ffffff;
+            padding: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- TopNavBar Shell -->
+<nav class="bg-surface border-b border-border-subtle fixed top-0 left-0 right-0 z-50">
+<div class="flex justify-between items-center w-full px-lg h-16 max-w-container-max mx-auto">
+<div class="flex items-center gap-xl">
+<span class="text-headline-md font-headline-xl text-primary">EvidenceEU</span>
+<div class="hidden md:flex gap-md">
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-primary px-sm py-xs transition-colors duration-200" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-primary px-sm py-xs transition-colors duration-200" href="#">Workspaces</a>
+<a class="text-on-surface-variant hover:bg-surface-container hover:text-primary px-sm py-xs transition-colors duration-200" href="#">Directory</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary">help</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary">settings</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of an administrator in a formal legal setting. The portrait is high-contrast with soft daylight lighting, featuring a neutral background that emphasizes clarity and authority. The person is dressed in corporate attire, reflecting an enterprise environment with a clean, light-mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN1UvlUopcZohd5sS5uzedbEiSQXKHwU2pGNwrvp5OoKR_2hg6poOe0DcapID-gRQcVm-ZjYiM9wow80q4YvSS2pwkofZCl5UAUylFP-FaXevL4Qf27luIM6EqfrKM_B5ReuTR64XpeOSRtnxVym_sQooILzONXSr1GWUzatCxkrMGJUbnpX0Vrn9gWRSvtAhaK4SSxOU_v242GA6DOqDpDnqqBqJDmUC2mEhuFFAvD223p3WvcK7EdA"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar Shell -->
+<aside class="flex flex-col h-screen fixed left-0 top-16 w-64 bg-surface-container-low border-r border-border-subtle py-lg hidden md:flex">
+<div class="px-md mb-xl">
+<h2 class="font-headline-md text-on-surface">Enterprise Settings</h2>
+<p class="font-body-sm text-on-surface-variant">Admin Console</p>
+</div>
+<nav class="flex-1 px-sm space-y-xs">
+<a class="flex items-center gap-sm px-md py-sm bg-primary-container text-on-primary-container font-bold rounded-xl scale-95 active:scale-100 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield_person</span>
+<span class="font-label-md">Profile & Security</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-xl scale-95 active:scale-100 duration-150" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-md">Data Mapping</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-xl scale-95 active:scale-100 duration-150" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-md">Compliance</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-xl scale-95 active:scale-100 duration-150" href="#">
+<span class="material-symbols-outlined">accessibility_new</span>
+<span class="font-label-md">Accessibility</span>
+</a>
+</nav>
+<div class="mt-auto px-sm pt-lg border-t border-border-subtle space-y-xs">
+<div class="px-md py-xs mb-sm">
+<span class="inline-flex items-center gap-xs px-sm py-xs bg-success/10 text-success text-[12px] font-bold rounded uppercase">
+<span class="w-2 h-2 rounded-full bg-success"></span> System Status: Active
+                </span>
+</div>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-xl" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm text-on-surface-variant hover:bg-surface-container-high rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="md:ml-64 mt-16 p-lg max-w-container-max mx-auto">
+<div aria-live="polite" class="mb-xl" id="notification-region">
+<h1 class="font-headline-xl text-on-surface mb-xs">Profile & Security</h1>
+<p class="text-on-surface-variant font-body-lg">Manage your professional identity and cryptographic credentials.</p>
+</div>
+<div class="bento-grid">
+<!-- Section 1: User Profile -->
+<section class="bento-item col-span-12 lg:col-span-4 flex flex-col items-center text-center">
+<div class="relative group">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/10 mb-md relative">
+<img class="w-full h-full object-cover" data-alt="A portrait of A. Sterling, a senior legal professional. The lighting is sophisticated and directional, creating a clean executive look. The color palette is composed of soft whites and professional blues, set against a blurred modern law office background with ample natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGfiVdQ_hQkY_RmTSOjR4kG0bGUl6t8YUvhPrk6jk1ZZmLCZN-nrTr8Pkdk0sWn7WtO95HhVpnWcgKotW4SUqzWIEFH2FZs1-0HAqnMmms6L6OikJZgpcYhZqL3iJjzadYnD1vLgucVfR5K6V8wZV5OcssgQTZdGnplx-QokNB7pYWw_K5IN4xK4uZGsrY2jXa63CbPVzW2zwul2xA8D78nRzjFSmdmuJerWifs87aV8M8Owlei9442A"/>
+</div>
+<button class="absolute bottom-4 right-0 bg-primary text-on-primary p-xs rounded-full shadow-lg border-2 border-white hover:scale-110 transition-transform focus-visible">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</div>
+<h2 class="font-headline-lg text-on-surface mt-xs">A. Sterling</h2>
+<span class="bg-primary/10 text-primary px-md py-xs rounded-full font-label-sm mb-md inline-block">Senior Counsel</span>
+<div class="w-full text-left bg-surface-container-low p-md rounded-xl mt-md">
+<div class="flex justify-between items-center mb-sm">
+<span class="font-label-sm text-on-surface-variant">Matrix ID</span>
+<span class="material-symbols-outlined text-primary text-[18px]">verified_user</span>
+</div>
+<div class="font-code text-on-surface select-all">@sterling:matrix.eu</div>
+</div>
+<button class="mt-xl w-full py-md px-lg bg-white border-2 border-primary text-primary font-label-md hover:bg-primary/5 transition-colors rounded-lg focus-visible">
+                    Update Profile Details
+                </button>
+</section>
+<!-- Section 2: Security & Encryption -->
+<section class="bento-item col-span-12 lg:col-span-8">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+<h2 class="font-headline-lg text-on-surface">Security Credentials</h2>
+</div>
+<div class="space-y-md">
+<!-- eIDAS Status -->
+<div class="flex flex-col md:flex-row md:items-center justify-between p-lg bg-surface-container-lowest border border-border-subtle rounded-xl hover:border-primary/50 transition-colors">
+<div class="flex items-start gap-md mb-md md:mb-0">
+<div class="p-sm bg-success/10 rounded-lg">
+<span class="material-symbols-outlined text-success">verified</span>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface">eIDAS 2.0 Qualified Electronic Signature</h3>
+<p class="text-on-surface-variant font-body-md">Legally binding signatures enabled for EU court submissions.</p>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<span class="inline-flex items-center gap-xs px-md py-sm bg-success text-on-primary font-label-sm rounded">
+                                ACTIVE / VERIFIED
+                            </span>
+</div>
+</div>
+<!-- Matrix E2EE -->
+<div class="flex flex-col md:flex-row md:items-center justify-between p-lg bg-surface-container-lowest border border-border-subtle rounded-xl hover:border-primary/50 transition-colors">
+<div class="flex items-start gap-md mb-md md:mb-0">
+<div class="p-sm bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">key</span>
+</div>
+<div>
+<h3 class="font-label-md text-on-surface">Matrix E2EE Recovery</h3>
+<p class="text-on-surface-variant font-body-md">Cryptographic keys are securely synchronized with the central vault.</p>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<span class="text-success flex items-center gap-xs font-label-md">
+<span class="material-symbols-outlined text-[20px]">cloud_done</span>
+                                Key backed up
+                            </span>
+</div>
+</div>
+</div>
+<div class="mt-xl p-md border-t border-border-subtle border-dashed">
+<p class="text-on-surface-variant font-label-sm italic flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                        Encryption keys are generated locally and never leave your device unencrypted.
+                    </p>
+</div>
+</section>
+<!-- Section 3: Session Management -->
+<section class="bento-item col-span-12">
+<div class="flex justify-between items-center mb-lg">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">devices</span>
+<h2 class="font-headline-lg text-on-surface">Active Sessions</h2>
+</div>
+<button class="text-error font-label-md hover:underline focus-visible">Revoke All Others</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-border-subtle">
+<th class="px-lg py-md font-label-md text-on-surface">Device & Browser</th>
+<th class="px-lg py-md font-label-md text-on-surface">Location</th>
+<th class="px-lg py-md font-label-md text-on-surface">Last Activity</th>
+<th class="px-lg py-md font-label-md text-on-surface text-right">Actions</th>
+</tr>
+</thead>
+<tbody>
+<!-- Current Session -->
+<tr class="border-b border-border-subtle hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-lg">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary">laptop_mac</span>
+<div>
+<div class="font-label-md text-on-surface">Chrome on macOS <span class="ml-sm bg-primary/10 text-primary px-sm py-xs text-[10px] rounded font-bold uppercase">This Device</span></div>
+<div class="text-on-surface-variant text-[12px]">EvidenceEU Desktop App v2.4.1</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg font-body-md text-on-surface-variant">Brussels, BE</td>
+<td class="px-lg py-lg font-body-md text-on-surface-variant">Active Now</td>
+<td class="px-lg py-lg text-right">
+<button class="px-md py-sm bg-surface-dim text-on-surface-variant rounded-lg font-label-sm opacity-50 cursor-not-allowed" disabled="">Current</button>
+</td>
+</tr>
+<!-- Other Session -->
+<tr class="border-b border-border-subtle hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-lg">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">smartphone</span>
+<div>
+<div class="font-label-md text-on-surface">Element Mobile on iPhone 15</div>
+<div class="text-on-surface-variant text-[12px]">Matrix Native Client</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg font-body-md text-on-surface-variant">Berlin, DE</td>
+<td class="px-lg py-lg font-body-md text-on-surface-variant">2 hours ago</td>
+<td class="px-lg py-lg text-right">
+<button aria-label="Revoke session on iPhone 15" class="px-md py-sm border-2 border-error text-error hover:bg-error hover:text-on-error transition-all rounded-lg font-label-sm focus-visible active:scale-95 revoke-btn">
+                                        Revoke
+                                    </button>
+</td>
+</tr>
+<!-- Another Session -->
+<tr class="border-b border-border-subtle hover:bg-surface-container-lowest transition-colors">
+<td class="px-lg py-lg">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant">public</span>
+<div>
+<div class="font-label-md text-on-surface">Firefox on Windows 11</div>
+<div class="text-on-surface-variant text-[12px]">Web Portal Access</div>
+</div>
+</div>
+</td>
+<td class="px-lg py-lg font-body-md text-on-surface-variant">Paris, FR</td>
+<td class="px-lg py-lg font-body-md text-on-surface-variant">Oct 24, 2023</td>
+<td class="px-lg py-lg text-right">
+<button aria-label="Revoke session on Firefox Windows" class="px-md py-sm border-2 border-error text-error hover:bg-error hover:text-on-error transition-all rounded-lg font-label-sm focus-visible active:scale-95 revoke-btn">
+                                        Revoke
+                                    </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual Footer (Help Link Only) -->
+<footer class="md:ml-64 p-lg text-center border-t border-border-subtle mt-xl">
+<p class="text-on-surface-variant font-label-sm">
+            © 2024 EvidenceEU - Distributed by European Legal Technology Alliance. 
+            <a class="text-primary hover:underline ml-sm" href="#">Privacy Policy</a>
+</p>
+</footer>
+<script>
+        // Simple Interaction logic
+        document.querySelectorAll('.revoke-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const row = this.closest('tr');
+                const deviceName = row.querySelector('.font-label-md').innerText;
+                
+                if(confirm(`Are you sure you want to revoke the session for: ${deviceName}?`)) {
+                    // Visual feedback
+                    row.style.opacity = '0.5';
+                    row.style.pointerEvents = 'none';
+                    this.innerText = 'Revoking...';
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        row.remove();
+                        const notification = document.getElementById('notification-region');
+                        const status = document.createElement('div');
+                        status.className = 'mt-md p-md bg-success/10 text-success border border-success rounded-lg font-label-sm';
+                        status.innerText = `Session for ${deviceName} successfully revoked.`;
+                        notification.appendChild(status);
+                        
+                        setTimeout(() => status.remove(), 5000);
+                    }, 1000);
+                }
+            });
+        });
+
+        // Hover animation for cards
+        document.querySelectorAll('.bento-item').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)';
+                card.style.transition = 'all 0.3s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU | Secure Login Required</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-surface-variant": "#414751",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#faf9f8",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-high": "#e9e8e7",
+                    "on-surface": "#1a1c1c",
+                    "focus": "#FFDD00",
+                    "surface-tint": "#0061a6",
+                    "primary-fixed": "#d2e4ff",
+                    "tertiary": "#824600",
+                    "on-background": "#1a1c1c",
+                    "surface-container-low": "#f4f3f2",
+                    "inverse-surface": "#2f3130",
+                    "on-tertiary-container": "#ffede2",
+                    "on-primary": "#ffffff",
+                    "warning": "#F47738",
+                    "surface-variant": "#e3e2e1",
+                    "surface-dim": "#dadad9",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "error": "#D4351C",
+                    "on-primary-fixed-variant": "#00497e",
+                    "secondary-fixed": "#e4e2e1",
+                    "tertiary-fixed": "#ffdcc2",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#464747",
+                    "inverse-on-surface": "#f1f0ef",
+                    "surface-bright": "#faf9f8",
+                    "border-subtle": "#B1B4B6",
+                    "outline-variant": "#c1c7d2",
+                    "background": "#faf9f8",
+                    "success": "#00703C",
+                    "surface-container-highest": "#e3e2e1",
+                    "secondary": "#5e5e5e",
+                    "on-tertiary-fixed": "#2e1500",
+                    "primary": "#005796",
+                    "inverse-primary": "#a0caff",
+                    "on-secondary-container": "#626262",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#e9f1ff",
+                    "tertiary-container": "#a55a00",
+                    "secondary-container": "#e1dfdf",
+                    "outline": "#717782",
+                    "on-primary-fixed": "#001c37",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#1d70b8",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface-container": "#efeeed"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "lg": "24px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-lg": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "label-sm": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .error-shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+        .bg-matrix-grid {
+            background-image: 
+                linear-gradient(to right, rgba(0, 87, 150, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 87, 150, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col selection:bg-focus selection:text-on-surface">
+<!-- TopAppBar suppression: Login screens are linear/transactional -->
+<main class="flex-grow flex items-center justify-center relative overflow-hidden bg-matrix-grid px-md">
+<!-- Background Atmospheric Element -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-20">
+
+</div>
+<div class="relative z-10 w-full max-w-[480px]">
+<!-- Brand Anchor -->
+<div class="mb-xl flex flex-col items-center">
+<div class="w-16 h-16 bg-primary rounded-lg flex items-center justify-center mb-md shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-on-primary text-[40px]">shield_lock</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-tight">EvidenceEU</h1>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Secure Matrix Node</p>
+</div>
+<!-- Login Container (Level 1 Surface) -->
+<div class="bg-surface-container-lowest border border-border-subtle p-xl shadow-sm rounded-none">
+<div class="flex flex-col gap-lg">
+<header class="border-b border-surface-variant pb-md">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Secure Authentication</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Verify credentials for legal corpus access.</p>
+</header>
+<!-- Form Section -->
+<form class="flex flex-col gap-md" onsubmit="event.preventDefault();">
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface block" for="matrix-id">Matrix Identity</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">person</span>
+<input class="w-full pl-xl pr-md py-md bg-surface-container-low border border-border-subtle font-body-md focus:outline-none focus:ring-3 focus:ring-focus focus:border-on-surface transition-all cursor-not-allowed text-on-surface-variant" id="matrix-id" readonly="" type="text" value="@user:evidence.eu"/>
+</div>
+</div>
+<div class="space-y-xs">
+<label class="font-label-md text-label-md text-on-surface block" for="pass-key">Passphrase</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">key</span>
+<input class="w-full pl-xl pr-md py-md bg-surface-container-low border border-border-subtle font-body-md focus:outline-none focus:ring-3 focus:ring-focus focus:border-on-surface transition-all cursor-not-allowed text-on-surface-variant" id="pass-key" readonly="" type="password" value="••••••••••••"/>
+</div>
+</div>
+<!-- GDPR CONSENT ERROR STATE -->
+<div class="mt-md p-md bg-error-container border-2 border-error rounded-none error-shake">
+<div class="flex items-start gap-md">
+<div class="mt-xs">
+<span class="material-symbols-outlined text-error font-bold">report</span>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-sm mb-xs">
+<input class="w-6 h-6 border-2 border-error text-primary focus:ring-3 focus:ring-focus rounded-none cursor-pointer" id="gdpr-consent" type="checkbox"/>
+<label class="font-label-md text-label-md text-on-error-container cursor-pointer" for="gdpr-consent">
+                                            I agree to the GDPR data processing agreement for legal documents
+                                        </label>
+</div>
+<p class="font-label-sm text-label-sm text-error font-bold flex items-center gap-xs">
+                                        Consent is required to enable secure personal corpus features.
+                                    </p>
+</div>
+</div>
+</div>
+<div class="mt-lg flex flex-col gap-md">
+<button class="w-full py-md bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-all flex items-center justify-center gap-sm active:opacity-80 shadow-md">
+<span class="material-symbols-outlined">login</span>
+                                Authorize Access
+                            </button>
+<button class="w-full py-md border-2 border-primary text-primary font-label-md text-label-md hover:bg-surface-container-high transition-all flex items-center justify-center gap-sm">
+                                Cancel Session
+                            </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Footer Links -->
+<div class="mt-xl flex flex-wrap justify-center gap-gutter text-on-surface-variant">
+<a class="font-label-sm text-label-sm hover:text-primary hover:underline transition-colors" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm hover:text-primary hover:underline transition-colors" href="#">GDPR Transparency</a>
+<a class="font-label-sm text-label-sm hover:text-primary hover:underline transition-colors" href="#">Contact Node Support</a>
+</div>
+</div>
+</main>
+<!-- Global Footer -->
+<footer class="bg-surface-container-lowest border-t border-border-subtle py-lg">
+<div class="max-w-container-max mx-auto px-gutter flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-contain bg-center bg-no-repeat" data-alt="A professional close-up of a holographic European Union seal rendered in a digital, circuit-board style. The background is a clean, corporate white with soft blue gradients, emphasizing high-security legal tech aesthetics. The image conveys institutional reliability and modern cryptographic safety for government data." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAg8Dtko1bbryElG9KlFnFVogGBMgptEnBYFUPXCDhkkUD7FzBmDrKdnDeQCQJMF2HRALbIvzggLwlRUZCehL_F1VdnjLaJGcC1NXYsI3OPHCEIlc-8vcIvyhnGRxG60CXFclwCDCYZn-X1D3bC1k8WdO-GsTxjHxbr3sXNFy4foZd73DKETHFnXFgt1v0qmnSvmhS9oJ22wydPd95gWPceqEZFgBHGucrb1vhwYHGl8VNy8VkTmpmQTyD1sSwKKNV_BFu4Jw1M8m1w')"></div>
+<p class="font-label-md text-label-md font-bold text-on-surface">EvidenceEU Secure Identity Framework</p>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 EvidenceEU Secure Identity Framework. All rights reserved.</p>
+<div class="flex gap-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-opacity" href="#">Matrix Protocol</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-opacity" href="#">Security Audit</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple interactivity for demonstration
+        document.getElementById('gdpr-consent').addEventListener('change', function(e) {
+            const container = e.target.closest('.bg-error-container');
+            const errorMsg = container.querySelector('.text-error.font-bold:last-child');
+            
+            if(this.checked) {
+                container.classList.remove('bg-error-container', 'border-error', 'error-shake');
+                container.classList.add('bg-surface-container-high', 'border-primary');
+                errorMsg.classList.add('hidden');
+                e.target.classList.remove('border-error');
+                e.target.classList.add('border-primary');
+            } else {
+                container.classList.add('bg-error-container', 'border-error', 'error-shake');
+                container.classList.remove('bg-surface-container-high', 'border-primary');
+                errorMsg.classList.remove('hidden');
+                e.target.classList.add('border-error');
+                e.target.classList.remove('border-primary');
+            }
+        });
+    </script>
+</body></html>

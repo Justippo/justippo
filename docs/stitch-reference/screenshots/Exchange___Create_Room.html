@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Create Secure Room</title>
+<!-- Google Fonts: Public Sans for Typography Authority -->
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols for Literal Icon Transcription -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#a0caff",
+                    "on-background": "#1a1c1c",
+                    "secondary": "#5e5e5e",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f1f0ef",
+                    "tertiary-fixed": "#ffdcc2",
+                    "border-subtle": "#B1B4B6",
+                    "surface-container-low": "#f4f3f2",
+                    "primary-container": "#1d70b8",
+                    "surface-container": "#efeeed",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-secondary-container": "#626262",
+                    "on-tertiary-container": "#ffede2",
+                    "on-primary-container": "#e9f1ff",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "inverse-primary": "#a0caff",
+                    "on-surface-variant": "#414751",
+                    "outline-variant": "#c1c7d2",
+                    "on-tertiary": "#ffffff",
+                    "success": "#00703C",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-bright": "#faf9f8",
+                    "warning": "#F47738",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#e1dfdf",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#464747",
+                    "tertiary-container": "#a55a00",
+                    "surface-container-highest": "#e3e2e1",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-primary-fixed": "#001c37",
+                    "tertiary": "#824600",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-primary-fixed-variant": "#00497e",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#2f3130",
+                    "surface-tint": "#0061a6",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "background": "#faf9f8",
+                    "surface-container-high": "#e9e8e7",
+                    "error": "#D4351C",
+                    "primary": "#005796",
+                    "on-surface": "#1a1c1c",
+                    "surface-dim": "#dadad9",
+                    "surface-variant": "#e3e2e1",
+                    "focus": "#FFDD00",
+                    "surface": "#faf9f8",
+                    "outline": "#717782",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "sm": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "code": ["Courier Prime"]
+            },
+            "fontSize": {
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for data density */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #B1B4B6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #717782; }
+
+        .glass-overlay {
+            backdrop-filter: blur(4px);
+            background-color: rgba(26, 28, 28, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface overflow-hidden">
+<!-- Main Workspace Background (Document Viewer Context) -->
+<div class="flex h-screen w-full">
+<!-- Predicted SideNavBar (Locked Identity) -->
+<aside class="hidden md:flex flex-col h-screen p-md space-y-sm bg-surface-container-low border-r border-border-subtle w-64 shrink-0">
+<div class="mb-lg px-xs">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EvidenceEU</h1>
+<p class="font-body-md text-label-sm text-secondary">Legal Workspace</p>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-md">Home</span>
+</div>
+<div class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-body-md">Chat</span>
+</div>
+<div class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-body-md">Library</span>
+</div>
+<div class="flex items-center gap-md p-md bg-primary-container text-on-primary-container font-bold rounded-lg cursor-default">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-body-md">Cases</span>
+</div>
+<div class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg cursor-pointer transition-all">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md">Settings</span>
+</div>
+</nav>
+<button class="w-full py-md px-lg bg-primary text-white font-label-md rounded-lg mb-xl hover:opacity-90 transition-opacity flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">upload_file</span>
+                Upload Document
+            </button>
+<div class="pt-md border-t border-border-subtle space-y-1">
+<div class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-body-md">Support</span>
+</div>
+<div class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">archive</span>
+<span class="font-body-md">Archive</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas (The "Document Viewer" being overlaid) -->
+<main class="flex-1 flex flex-col relative overflow-hidden bg-white">
+<!-- TopNavBar (Predicted) -->
+<header class="flex justify-between items-center w-full px-gutter h-16 border-b border-border-subtle bg-surface">
+<div class="flex items-center gap-xl">
+<span class="font-headline-lg text-headline-lg font-black text-primary">EvidenceEU</span>
+<nav class="hidden md:flex gap-lg">
+<span class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Dashboard</span>
+<span class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1">Documents</span>
+<span class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Workflows</span>
+<span class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Analytics</span>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary cursor-pointer hover:bg-surface-container rounded-full p-2">translate</span>
+<span class="material-symbols-outlined text-secondary cursor-pointer hover:bg-surface-container rounded-full p-2">notifications</span>
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-bold text-xs cursor-pointer">JD</div>
+</div>
+</header>
+<!-- Mock Document Viewer Content (Blurred background effect) -->
+<div class="flex-1 p-lg grid grid-cols-2 gap-lg overflow-auto opacity-40">
+<div class="border border-border-subtle p-lg space-y-md">
+<div class="h-8 bg-surface-container-highest w-3/4 rounded"></div>
+<div class="space-y-sm">
+<div class="h-4 bg-surface-container w-full rounded"></div>
+<div class="h-4 bg-surface-container w-full rounded"></div>
+<div class="h-4 bg-surface-container w-5/6 rounded"></div>
+</div>
+<div class="w-full h-64 bg-cover rounded-lg border border-border-subtle" data-alt="A macro photography shot of complex legal document watermarks on high-quality parchment, highlighting security features and legislative stamps. The lighting is cold and clinical, emphasizing the official and high-stakes nature of the content. Soft blue tones dominate the shadows while pristine whites define the paper surface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDj3oCMdS6EIlP_6p6rXyEJwP0__mu66CEZnr0HFsXSVoOpvpskc1riE5G0vuKwYoLsbWs9QTZdRxWc-1naeXJTGJsYxvAkvqQx8XGJ2Tt4REf7fLsxlpdFR5AtiUnIRYYIp3l56rziW5DqNyJSJNane7Ksczyd0K2y83oXBIZ7YDE2raCG5SmKKf6BL_f2146oSgmQR8TyngpkkVFt3jvIWtXpSztjzRQfgILVXCBTqMmGsHsZmfumyw')"></div>
+</div>
+<div class="border border-border-subtle p-lg space-y-md">
+<div class="h-8 bg-surface-container-highest w-2/3 rounded"></div>
+<div class="space-y-sm">
+<div class="h-4 bg-surface-container w-full rounded"></div>
+<div class="h-4 bg-surface-container w-11/12 rounded"></div>
+<div class="h-4 bg-surface-container w-full rounded"></div>
+</div>
+<div class="p-md bg-surface-container-low border border-border-subtle rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-success">check_circle</span>
+<span class="font-label-md text-on-surface">Compliance Verified</span>
+</div>
+<span class="text-xs text-secondary">98% Match</span>
+</div>
+</div>
+</div>
+<!-- MODAL OVERLAY: Step 9 - Exchange / Create Room -->
+<div class="absolute inset-0 glass-overlay flex items-center justify-center z-50 p-md">
+<div class="w-full max-w-lg bg-white rounded-lg shadow-xl border border-border-subtle overflow-hidden flex flex-col animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="p-lg border-b border-border-subtle bg-surface-container-low flex justify-between items-start">
+<div>
+<div class="flex items-center gap-sm mb-xs">
+<span class="bg-primary text-white p-xs rounded">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'opsz' 20;">share</span>
+</span>
+<span class="text-xs font-bold uppercase tracking-wider text-primary">Step 9: Document Exchange</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Create Secure Room</h2>
+<p class="font-body-md text-secondary mt-1">Initiate a Matrix-encrypted session to share legal intelligence.</p>
+</div>
+<button class="p-xs hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined text-secondary">close</span>
+</button>
+</div>
+<!-- Modal Body / Form -->
+<div class="p-lg space-y-lg">
+<!-- Recipient Matrix ID -->
+<div class="space-y-sm">
+<label class="block font-label-md text-on-surface" for="recipient">Recipient (Matrix ID)</label>
+<div class="relative">
+<span class="absolute left-md top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary">alternate_email</span>
+<input class="w-full pl-xl pr-md py-md border border-border-subtle focus:border-primary focus:ring-3 focus:ring-focus rounded transition-all outline-none" id="recipient" placeholder="@user:server.org" type="text" value="@prosecutor_central:matrix.eu"/>
+</div>
+<p class="text-xs text-secondary px-xs">Ensure the identity is verified via the cross-signing protocol.</p>
+</div>
+<!-- Room Title -->
+<div class="space-y-sm">
+<label class="block font-label-md text-on-surface" for="room-title">Room Title</label>
+<input class="w-full px-md py-md border border-border-subtle focus:border-primary focus:ring-3 focus:ring-focus rounded transition-all outline-none" id="room-title" type="text" value="Case #2024-EU-882: Evidence Exchange"/>
+</div>
+<!-- Security Configuration -->
+<div class="p-md bg-primary-container/10 border border-primary/20 rounded-lg flex gap-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">security</span>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-md text-primary">Security Level</span>
+<span class="bg-primary text-on-primary-container text-[10px] px-sm py-xs rounded-full font-bold uppercase">Mandatory</span>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm">
+<strong>End-to-End Encrypted:</strong> This room utilizes Megolm cryptographic ratchet. No party, including EvidenceEU, can access the plaintext.
+                                </p>
+</div>
+</div>
+<!-- Advanced Toggle -->
+<details class="group">
+<summary class="list-none flex items-center gap-xs cursor-pointer text-sm font-medium text-secondary hover:text-primary">
+<span class="material-symbols-outlined transition-transform group-open:rotate-90">chevron_right</span>
+                                Advanced Room Settings
+                            </summary>
+<div class="mt-md space-y-md pl-lg">
+<div class="flex items-center gap-md">
+<input checked="" class="w-4 h-4 text-primary border-border-subtle rounded focus:ring-focus" id="history" type="checkbox"/>
+<label class="text-sm text-on-surface" for="history">Enable message history for new participants</label>
+</div>
+<div class="flex items-center gap-md">
+<input checked="" class="w-4 h-4 text-primary border-border-subtle rounded focus:ring-focus" id="invite" type="checkbox"/>
+<label class="text-sm text-on-surface" for="invite">Require manual invite for all users</label>
+</div>
+</div>
+</details>
+</div>
+<!-- Modal Footer -->
+<div class="p-lg border-t border-border-subtle bg-surface-container flex flex-col sm:flex-row justify-end gap-md">
+<button class="px-xl py-md font-label-md text-primary border-2 border-primary hover:bg-primary/5 rounded transition-colors order-2 sm:order-1">
+                            Cancel
+                        </button>
+<button class="px-xl py-md font-label-md bg-primary text-white hover:opacity-90 active:scale-[0.98] transition-all rounded shadow-sm order-1 sm:order-2 flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined">add_moderator</span>
+                            Create Secure Room
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Predicted - Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 pb-safe bg-surface border-t border-border-subtle shadow-md z-50">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-100 cursor-pointer">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-sm text-[12px]">Chat</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary font-bold transition-all active:scale-90 duration-100 cursor-default">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-sm text-[12px]">Docs</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-100 cursor-pointer">
+<span class="material-symbols-outlined">language</span>
+<span class="font-label-sm text-[12px]">Translate</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-all active:scale-90 duration-100 cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[12px]">Me</span>
+</div>
+</nav>
+<script>
+        // Micro-interactions for form focus and button states
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('scale-[1.01]');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('scale-[1.01]');
+            });
+        });
+
+        // Simple modal close logic (visual only)
+        const closeBtn = document.querySelector('button.order-2');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                document.querySelector('.glass-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.querySelector('.glass-overlay').style.display = 'none';
+                    document.querySelector('main > div.grid').style.opacity = '1';
+                }, 300);
+            });
+        }
+    </script>
+</body></html>

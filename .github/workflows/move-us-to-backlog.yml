@@ -1,0 +1,57 @@
+name: Move US Stories to Backlog (Manual)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: notion-us-backlog
+  cancel-in-progress: false
+
+jobs:
+  move:
+    runs-on: [self-hosted, macOS, ARM64]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure SSL certificates
+        run: |
+          python3 -m pip install --quiet --break-system-packages certifi
+          echo "SSL_CERT_FILE=$(python3 -c 'import certifi; print(certifi.where())')" >> $GITHUB_ENV
+
+      - name: Move US stories to backlog
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          python3 <<'PY'
+          import os, sys, time
+          sys.path.insert(0, "scripts")
+          from notion_helpers import notion_request, find_page_by_issue_number
+
+          # US story issues to move to backlog (clear Sprint property)
+          US_ISSUES = [219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231]
+
+          moved = 0
+          errors = 0
+          for num in US_ISSUES:
+              try:
+                  page_id = find_page_by_issue_number(num)
+                  if page_id:
+                      notion_request("PATCH", f"/pages/{page_id}", {
+                          "properties": {
+                              "Sprint": {"select": {"name": "Product Backlog"}}
+                          }
+                      })
+                      print(f"  ✅ #{num} → Product Backlog")
+                      moved += 1
+                      time.sleep(0.35)
+                  else:
+                      print(f"  ⚠️ #{num} — no Notion page found")
+              except Exception as e:
+                  print(f"  ❌ #{num} failed: {e}")
+                  errors += 1
+
+          print(f"\nSummary: moved={moved} errors={errors}")
+          PY

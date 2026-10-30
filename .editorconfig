@@ -1,0 +1,32 @@
+# EditorConfig — cross-editor baseline formatting
+# https://editorconfig.org
+# Works alongside Prettier (TS/JS) and Ruff (Python).
+# Prettier can read this via "editorconfig": true in .prettierrc.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.py]
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
+
+[*.{sh,bash,zsh}]
+end_of_line = lf
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.json]
+indent_size = 2

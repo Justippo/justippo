@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU | Translation Truncated</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#717782",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#001c37",
+                    "surface-bright": "#faf9f8",
+                    "tertiary-container": "#a55a00",
+                    "on-background": "#1a1c1c",
+                    "warning": "#F47738",
+                    "on-tertiary-fixed": "#2e1500",
+                    "surface-container-high": "#e9e8e7",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "surface-tint": "#0061a6",
+                    "surface-dim": "#dadad9",
+                    "inverse-on-surface": "#f1f0ef",
+                    "success": "#00703C",
+                    "tertiary": "#824600",
+                    "border-subtle": "#B1B4B6",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1d70b8",
+                    "background": "#faf9f8",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "on-primary-fixed-variant": "#00497e",
+                    "surface-container-low": "#f4f3f2",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-primary": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-container": "#efeeed",
+                    "on-tertiary-container": "#ffede2",
+                    "surface-container-highest": "#e3e2e1",
+                    "error-container": "#ffdad6",
+                    "focus": "#FFDD00",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#e1dfdf",
+                    "on-surface-variant": "#414751",
+                    "outline-variant": "#c1c7d2",
+                    "secondary": "#5e5e5e",
+                    "on-secondary-fixed-variant": "#464747",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface": "#faf9f8",
+                    "on-surface": "#1a1c1c",
+                    "inverse-primary": "#a0caff",
+                    "on-primary-container": "#e9f1ff",
+                    "primary": "#005796",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "on-secondary-container": "#626262",
+                    "inverse-surface": "#2f3130",
+                    "surface-variant": "#e3e2e1",
+                    "primary-fixed-dim": "#a0caff",
+                    "error": "#D4351C"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "lg": "24px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-md": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "label-md": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #B1B4B6; border-radius: 10px; }
+        
+        /* Shimmer Effect for Truncated Content */
+        .truncate-fade {
+            position: relative;
+        }
+        .truncate-fade::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, #ffffff);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen py-md space-y-2 bg-surface-container-low border-r border-border-subtle w-64 flex-shrink-0">
+<div class="px-md mb-lg">
+<div class="font-headline-lg text-headline-lg font-black text-primary">EvidenceEU</div>
+<div class="font-label-md text-label-md text-on-surface-variant">Legal Translation</div>
+</div>
+<nav class="flex-1 px-sm">
+<a class="flex items-center gap-md px-md py-sm font-label-md text-label-md text-on-surface-variant hover:bg-secondary-container transition-all duration-200 ease-in-out rounded" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm font-label-md text-label-md text-primary font-bold bg-surface-container-high transition-all duration-200 ease-in-out rounded" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span>Chat</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm font-label-md text-label-md text-on-surface-variant hover:bg-secondary-container transition-all duration-200 ease-in-out rounded" href="#">
+<span class="material-symbols-outlined">library_books</span>
+<span>Library</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm font-label-md text-label-md text-on-surface-variant hover:bg-secondary-container transition-all duration-200 ease-in-out rounded" href="#">
+<span class="material-symbols-outlined">work</span>
+<span>Cases</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm font-label-md text-label-md text-on-surface-variant hover:bg-secondary-container transition-all duration-200 ease-in-out rounded" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="px-md pt-lg border-t border-border-subtle">
+<div class="flex items-center gap-md p-sm bg-surface-container-high rounded-lg">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary font-bold">JD</div>
+<div class="overflow-hidden">
+<div class="text-label-sm font-bold truncate">John Doe</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wider">Logged In</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 bg-surface">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-lg h-16 border-b border-border-subtle bg-surface">
+<div class="flex items-center gap-lg">
+<div class="font-headline-md text-headline-md font-bold text-primary">EvidenceEU</div>
+<div class="h-6 w-px bg-border-subtle"></div>
+<div class="flex items-center gap-sm px-md py-xs bg-surface-container rounded-lg border border-border-subtle">
+<span class="material-symbols-outlined text-on-surface-variant">chat_bubble</span>
+<span class="text-label-sm">Chat Ref: "Translate this section to DE"</span>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-secondary-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged legal professional with a neutral expression, wearing a navy blue suit and glasses. The background is a blurred office environment with soft, natural lighting. The image maintains a high-contrast, corporate aesthetic consistent with government and legal tech standards." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDELQV-6__F6LxUxvSwDVIH7fSTceN5IDvgNVi8-tAeR_iTn_xffe-DmxCnB362uvGhFnHPwKwNViZDA_tJbO8xLC1gSEVkwn_aPFGxPmCktNChx5Y2kOy2EPILTb_L3NCIy5L75zCymqE3TuvC9i6__jgpDyMXMjUIgIT1IB-Vsc8NPID1zZOPCaqfHYgsBHz_gevH8AY0AINH-9ktxXnFLnQG3R-R3hlBAxygjk566b2q1I65SUC6zI1LnpMbH9WYR8PbJgDq8tWT"/>
+</div>
+</div>
+</header>
+<!-- Warning Banner -->
+<div class="bg-error-container border-b border-error px-lg py-md flex items-center justify-between animate-pulse">
+<div class="flex items-center gap-md text-on-error-container">
+<span class="material-symbols-outlined">warning</span>
+<p class="font-label-md">Text truncated due to document size limits. <span class="font-bold">Pro users can translate up to 500 pages.</span></p>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm font-label-md hover:opacity-90 transition-opacity focus:outline focus:outline-3 focus:outline-focus" style="outline-color: #1d70b8;">
+                    Upgrade to Pro
+                </button>
+</div>
+<!-- Editor View -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Source Panel (EN) -->
+<section class="flex-1 border-r border-border-subtle flex flex-col bg-surface-container-lowest">
+<div class="px-lg py-sm bg-surface-container-low border-b border-border-subtle flex justify-between items-center">
+<span class="font-label-md text-on-surface-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-sm">description</span>
+                            Source (English)
+                        </span>
+<span class="text-label-sm text-outline">Section 4.1.2 — 1,240 words</span>
+</div>
+<div class="flex-1 p-lg overflow-y-auto custom-scrollbar font-body-md leading-relaxed text-on-surface selection:bg-focus/30">
+<h2 class="font-headline-md mb-md">4.1.2 Procedural Safeguards</h2>
+<p class="mb-md">The relevant authorities shall ensure that any evidence obtained during the preliminary investigation phase is handled in strict accordance with the digital chain of custody protocols defined in Regulation (EU) 2024/789. This includes the mandatory hashing of all files upon seizure and the continuous logging of access credentials.</p>
+<p class="mb-md">Furthermore, the defendant's legal representative must be granted immediate access to the metadata associated with the evidence in question. Failure to provide such access within the prescribed forty-eight (48) hour window shall be deemed a procedural irregularity, potentially leading to the inadmissibility of the evidence in court.</p>
+<p class="mb-md">It is imperative that the translation of these technical specifications maintains the precise legal nuance intended by the drafting committee, particularly concerning the distinction between "immediate access" and "expedited review" as categorized under Annex III of the Directive.</p>
+<p class="mb-md">In the event of a conflict between the digital logs and the physical inventory, the digital records shall prevail unless clear and convincing evidence of tampering is presented by the defense or an independent forensic auditor appointed by the magistrate.</p>
+<!-- Truncation Point -->
+<div class="truncate-fade py-lg">
+<p class="mb-md text-outline" style="color: #71717A;">The subsequent paragraphs detailing the encryption standards and the cross-border data transfer protocols are omitted in this preview due to current subscription constraints. Please upgrade to view the full document and its corresponding translation.</p>
+<p class="mb-md text-outline" style="color: #71717A;">Authentication of the cryptographic keys used during the transmission phase must be verified by a certified European Cybersecurity Agency (ENISA) representative...</p>
+</div>
+</div>
+</section>
+<!-- Translation Panel (DE) -->
+<section class="flex-1 flex flex-col bg-surface">
+<div class="px-lg py-sm bg-surface-container-low border-b border-border-subtle flex justify-between items-center">
+<span class="font-label-md text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined text-sm text-primary">translate</span>
+                            Translation (Deutsch)
+                        </span>
+<div class="flex items-center gap-sm">
+<span class="px-xs py-[2px] bg-success/10 text-success text-[10px] font-bold rounded uppercase">AI Verified</span><span class="text-[10px] text-outline ml-xs">Verified on 2024-01-24 14:30 UTC</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary transition-colors text-primary">content_copy</span>
+</div>
+</div>
+<div class="flex-1 p-lg overflow-y-auto custom-scrollbar font-body-md leading-relaxed text-on-surface selection:bg-focus/30">
+<h2 class="font-headline-md mb-md">4.1.2 Verfahrensrechtliche Garantien</h2>
+<p class="mb-md">Die zuständigen Behörden stellen sicher, dass alle während der vorläufigen Ermittlungsphase erlangten Beweismittel unter strikter Einhaltung der in der Verordnung (EU) 2024/789 definierten digitalen Beweissicherungskette behandelt werden. Dies umfasst das obligatorische Hashing aller Dateien bei der Beschlagnahme und die kontinuierliche Protokollierung der Zugriffsberechtigungen.</p>
+<p class="mb-md">Des Weiteren muss dem Rechtsbeistand des Beklagten unverzüglicher Zugang zu den mit den fraglichen Beweismitteln verbundenen Metadaten gewährt werden. Wird dieser Zugang nicht innerhalb des vorgeschriebenen Zeitfensters von achtundvierzig (48) Stunden gewährt, gilt dies als Verfahrensfehler, der potenziell zur Unzulässigkeit der Beweismittel vor Gericht führt.</p>
+<p class="mb-md">Es ist von entscheidender Bedeutung, dass die Übersetzung dieser technischen Spezifikationen die präzisen rechtlichen Nuancen beibehält, die vom Redaktionsausschuss beabsichtigt waren, insbesondere im Hinblick auf die Unterscheidung zwischen „unverzüglichem Zugang“ und „beschleunigter Prüfung“ gemäß Anhang III der Richtlinie.</p>
+<p class="mb-md">Im Falle eines Konflikts zwischen den digitalen Protokollen und dem physischen Inventar haben die digitalen Aufzeichnungen Vorrang, es sei denn, die Verteidigung oder ein vom Friedensrichter ernannter unabhängiger forensischer Prüfer legt klare und überzeugende Beweise für Manipulationen vor.</p>
+<!-- Truncation Point -->
+<div class="truncate-fade py-lg">
+<div class="bg-surface-container border border-dashed border-outline-variant p-lg rounded text-center">
+<span class="material-symbols-outlined text-primary text-headline-lg mb-sm">lock</span>
+<p class="font-label-md text-on-surface">Translation Locked</p>
+<p class="text-label-sm text-on-surface-variant mb-md">This section exceeds the 5,000 character limit for Standard users.</p>
+<button class="bg-primary text-on-primary px-lg py-sm font-label-md hover:bg-primary-container transition-colors shadow-sm focus:outline focus:outline-3" style="outline-color: #1d70b8;">
+                                    Unlock with Pro
+                                </button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Stats -->
+<footer class="h-10 border-t border-border-subtle bg-surface-container-low px-lg flex items-center justify-between text-label-sm text-on-surface-variant">
+<div class="flex gap-lg">
+<span>Characters: <span class="font-bold">4,992 / 5,000</span></span>
+<span>Pages: <span class="font-bold">1 / 48</span></span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span>Systems Operational</span>
+</div>
+</footer>
+</main>
+</div>
+<!-- Background Decoration -->
+<div class="fixed inset-0 pointer-events-none -z-10 opacity-20">
+</div>
+<script>
+        // Simple Micro-interaction for hover states on panels
+        document.querySelectorAll('section').forEach(panel => {
+            panel.addEventListener('mouseenter', () => {
+                panel.classList.add('bg-white');
+                panel.classList.remove('bg-surface-container-lowest');
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.classList.add('bg-surface-container-lowest');
+                panel.classList.remove('bg-white');
+            });
+        });
+    </script>
+</body></html>

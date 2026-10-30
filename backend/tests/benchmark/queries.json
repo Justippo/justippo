@@ -1,0 +1,24 @@
+{
+  "_meta": {
+    "description": "Shared query fixtures for performance tests (Locust + k6). DRY: single source of truth.",
+    "endpoint": "GET /api/v1/search/?q={query}&top_k={top_k}",
+    "categories": ["legal", "administrative", "multilingual", "edge_case"]
+  },
+  "queries": [
+    {"id": "perf-001", "q": "EU residence permit renewal requirements", "top_k": 5, "category": "legal", "language": "en"},
+    {"id": "perf-002", "q": "GDPR data subject access request template", "top_k": 10, "category": "legal", "language": "en"},
+    {"id": "perf-003", "q": "cross-border worker social security coordination", "top_k": 5, "category": "legal", "language": "en"},
+    {"id": "perf-004", "q": "Aufenthaltstitel Verlängerung Unterlagen", "top_k": 5, "category": "administrative", "language": "de"},
+    {"id": "perf-005", "q": "carte de séjour renouvellement documents", "top_k": 5, "category": "administrative", "language": "fr"},
+    {"id": "perf-006", "q": "Arbeitnehmerfreizügigkeit Sozialversicherung", "top_k": 3, "category": "legal", "language": "de"},
+    {"id": "perf-007", "q": "document apostille legalization process", "top_k": 10, "category": "administrative", "language": "en"},
+    {"id": "perf-008", "q": "traduction assermentée documents officiels", "top_k": 5, "category": "multilingual", "language": "fr"},
+    {"id": "perf-009", "q": "EU regulation 2016/679 article 17 right to erasure", "top_k": 5, "category": "legal", "language": "en"},
+    {"id": "perf-010", "q": "Meldebescheinigung Anmeldung neue Adresse", "top_k": 5, "category": "administrative", "language": "de"},
+    {"id": "perf-011", "q": "a", "top_k": 1, "category": "edge_case", "language": "en"},
+    {"id": "perf-012", "q": "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", "top_k": 50, "category": "edge_case", "language": "en"},
+    {"id": "perf-013", "q": "权利 données personnelles プライバシー", "top_k": 5, "category": "edge_case", "language": "en"},
+    {"id": "perf-014", "q": "family reunification visa Schengen zone", "top_k": 5, "category": "legal", "language": "en"},
+    {"id": "perf-015", "q": "reconnaissance diplôme étranger Allemagne", "top_k": 5, "category": "multilingual", "language": "fr"}
+  ]
+}

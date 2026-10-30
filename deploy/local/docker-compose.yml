@@ -1,0 +1,98 @@
+# Without `name:` Compose derives the project from this folder, which produced
+# a project literally called `local`. Containers keep a stable justippo identity.
+name: justippo-local
+
+# Docker's default json-file driver never rotates; cap each service at 3 x 10 MB.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  hindsight:
+    image: ghcr.io/vectorize-io/hindsight:latest
+    container_name: justippo-hindsight
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8600:8600"
+    volumes:
+      - ~/.hindsight-data:/home/hindsight/.pg0
+    environment:
+      # LLM — Mistral via OpenAI-compatible provider
+      - HINDSIGHT_API_LLM_PROVIDER=openai
+      - HINDSIGHT_API_LLM_BASE_URL=https://api.mistral.ai/v1
+      - HINDSIGHT_API_LLM_MODEL=mistral-small-latest
+      - HINDSIGHT_API_LLM_API_KEY=${MISTRAL_API_KEY}
+      - HINDSIGHT_API_LLM_MAX_INPUT_TOKENS=16000
+      - HINDSIGHT_API_LLM_MAX_OUTPUT_TOKENS=2048
+      - HINDSIGHT_API_LLM_TEMPERATURE=0.7
+      # Embeddings and reranker (local models, no API key needed)
+      - HINDSIGHT_API_EMBEDDING_MODEL=BAAI/bge-small-en-v1.5
+      - HINDSIGHT_API_EMBEDDING_DIMENSION=384
+      - HINDSIGHT_API_RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
+      # ── Local CPU recall tuning (Vectorize perf guide) ──────────────────
+      # Recall bottleneck on a GPU-less Docker box is the cross-encoder
+      # reranker. Defaults (300 candidates) push recall to ~10s; these
+      # quality-neutral knobs bring it under the NFR-01 5s ceiling.
+      - HINDSIGHT_API_RERANKER_LOCAL_BUCKET_BATCHING=true
+      - HINDSIGHT_API_RERANKER_MAX_CANDIDATES=100
+      - HINDSIGHT_API_RERANKER_LOCAL_MAX_CONCURRENT=2
+      - HINDSIGHT_API_LLM_MAX_CONCURRENT=4
+      # Worker and DB
+      - HINDSIGHT_API_PORT=8600
+      - HINDSIGHT_API_WORKER_ID=justippo-local
+      - HINDSIGHT_API_DB_POOL_MIN_SIZE=2
+      - HINDSIGHT_API_DB_POOL_MAX_SIZE=100
+      - HINDSIGHT_API_WORKER_POLL_INTERVAL_MS=5000
+      # Features
+      - HINDSIGHT_API_GRAPH_RETRIEVER=link_expansion
+      - HINDSIGHT_API_ADMIN_ENABLED=false
+      - HINDSIGHT_API_SKIP_LLM_VERIFICATION=false
+      - HINDSIGHT_API_LLM_TRACE_ENABLED=false
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: "2.0"
+    logging: *default-logging
+
+  # BabelDOC translation service
+  babeldoc:
+    # Built from the repo, so the image is reproducible and not a hand-tagged leftover.
+    build: ../../sidecars/babeldoc
+    image: justippo/babeldoc:local
+    container_name: justippo-babeldoc
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8750:8750"
+    environment:
+      - BABELDOC_OPENAI_BASE_URL=https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/v1
+      - BABELDOC_OPENAI_API_KEY=${CLOUDFLARE_AI_GATEWAY_TOKEN}
+      - BABELDOC_OPENAI_MODEL=@cf/meta/llama-3.3-70b-instruct-fp8-fast
+      - BABELDOC_AUTH_TOKEN=${BABELDOC_AUTH_TOKEN}
+    deploy:
+      resources:
+        limits:
+          memory: 7G
+          cpus: "2.0"
+    logging: *default-logging
+
+  # Matrix Synapse homeserver (self-hosted, rate limits disabled)
+  synapse:
+    image: matrixdotorg/synapse:latest
+    container_name: justippo-synapse
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8008:8008"
+    volumes:
+      - ./synapse/data:/data
+    environment:
+      - SYNAPSE_SERVER_NAME=evidenceeu.eu.mihai.codes
+      - SYNAPSE_REPORT_STATS=no
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1.0"
+    logging: *default-logging

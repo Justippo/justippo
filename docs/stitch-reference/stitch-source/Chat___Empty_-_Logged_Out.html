@@ -1,0 +1,277 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>EvidenceEU - Chat / Empty - Logged Out</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#a0caff",
+                        "primary-fixed-dim": "#a0caff",
+                        "warning": "#F47738",
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "secondary": "#5e5e5e",
+                        "on-surface-variant": "#414751",
+                        "inverse-on-surface": "#f1f0ef",
+                        "surface-container-low": "#f4f3f2",
+                        "on-background": "#1a1c1c",
+                        "secondary-fixed": "#e4e2e1",
+                        "error-container": "#ffdad6",
+                        "outline": "#717782",
+                        "primary-container": "#1d70b8",
+                        "on-surface": "#1a1c1c",
+                        "primary": "#005796",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf9f8",
+                        "success": "#00703C",
+                        "background": "#faf9f8",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "surface-container-high": "#e9e8e7",
+                        "tertiary-fixed": "#ffdcc2",
+                        "primary-fixed": "#d2e4ff",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#a55a00",
+                        "surface-container-highest": "#e3e2e1",
+                        "outline-variant": "#c1c7d2",
+                        "border-subtle": "#B1B4B6",
+                        "surface-container-lowest": "#ffffff",
+                        "focus": "#FFDD00",
+                        "on-primary-fixed-variant": "#00497e",
+                        "on-primary-container": "#e9f1ff",
+                        "tertiary": "#824600",
+                        "surface-variant": "#e3e2e1",
+                        "on-secondary-fixed-variant": "#464747",
+                        "surface-tint": "#0061a6",
+                        "on-primary-fixed": "#001c37",
+                        "error": "#D4351C",
+                        "surface-dim": "#dadad9",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "surface": "#faf9f8",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#ffede2",
+                        "secondary-container": "#e1dfdf",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#efeeed",
+                        "inverse-surface": "#2f3130",
+                        "on-secondary-container": "#626262"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "container-max": "1280px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "headline-lg": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "code": ["Courier Prime"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .wireframe-locked {
+            opacity: 0.4;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-border-subtle dark:border-outline flex justify-between items-center px-lg w-full h-16 sticky top-0 z-50 transition-colors duration-200">
+<div class="flex items-center gap-xl">
+<span class="text-headline-lg font-headline-lg text-primary dark:text-inverse-primary">EvidenceEU</span>
+<nav class="hidden md:flex gap-md" aria-label="Primary navigation">
+<a class="text-primary dark:text-inverse-primary border-b-2 border-primary dark:border-inverse-primary pb-1 font-body-md text-body-md transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2" href="#">Public Corpus</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-on-surface-variant font-body-md text-body-md px-sm transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2" href="#">Legal Explorer</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-on-surface-variant font-body-md text-body-md px-sm transition-colors duration-200 focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2" href="#">Help &amp; FAQ</a>
+</nav>
+</div>
+<div class="flex items-center gap-md"><div class="flex items-center gap-xs mr-md border border-outline-variant rounded px-xs py-1 text-label-sm font-bold"><button class="text-primary hover:underline focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">EN</button><span class="text-outline-variant">|</span><button class="text-secondary hover:underline focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">DE</button><span class="text-outline-variant">|</span><button class="text-secondary hover:underline focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">FR</button></div>
+<button class="text-primary dark:text-inverse-primary px-md py-xs font-label-md text-label-md border-2 border-transparent hover:bg-surface-container-low transition-colors focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">Sign In</button>
+<button class="bg-primary-container text-on-primary-container px-md py-xs font-label-md text-label-md rounded-lg hover:brightness-110 transition-all focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2" style="background-color: rgb(29, 78, 216); color: rgb(255, 255, 255);">Join Now</button>
+</div>
+</header>
+<div class="flex h-[calc(100vh-64px)]">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-low dark:bg-surface-container border-r border-border-subtle dark:border-outline h-full w-64 flex flex-col py-md px-sm fixed left-0 top-16 transition-all duration-200 ease-in-out">
+<div class="mb-xl px-sm">
+<p class="text-headline-md font-headline-md text-primary dark:text-inverse-primary">EvidenceEU</p>
+<p class="text-label-sm font-label-sm text-secondary" style="color: rgb(100, 116, 139);">Guest Access</p>
+</div>
+<div class="flex flex-col gap-xs flex-grow">
+<button class="bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-lg font-bold flex items-center gap-sm px-sm py-md text-label-md transition-all focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+<span class="material-symbols-outlined">public</span>
+                    Public Corpus
+                </button>
+<button class="text-on-surface-variant dark:text-on-secondary-fixed-variant flex items-center gap-sm px-sm py-md text-label-md hover:bg-surface-container-high dark:hover:bg-surface-dim transition-all focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+<span class="material-symbols-outlined">gavel</span>
+                    Legal Explorer
+                </button>
+<button class="text-on-surface-variant dark:text-on-secondary-fixed-variant flex items-center gap-sm px-sm py-md text-label-md hover:bg-surface-container-high dark:hover:bg-surface-dim transition-all focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+<span class="material-symbols-outlined">translate</span>
+                    Multilingual Chat
+                </button>
+<button class="text-on-surface-variant dark:text-on-secondary-fixed-variant flex items-center gap-sm px-sm py-md text-label-md hover:bg-surface-container-high dark:hover:bg-surface-dim transition-all focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+<span class="material-symbols-outlined">help</span>
+                    Help &amp; FAQ
+                </button>
+
+</div>
+<div class="mt-auto space-y-md">
+<button class="w-full bg-primary text-on-primary font-bold py-md rounded-lg hover:brightness-110 transition-all focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+                    Upgrade to Pro
+                </button>
+<div class="flex gap-md justify-center border-t border-border-subtle pt-md">
+<a class="text-on-surface-variant text-label-sm hover:underline flex items-center gap-xs focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2" href="#">
+<span class="material-symbols-outlined text-sm">description</span> Terms
+                    </a>
+<a class="text-on-surface-variant text-label-sm hover:underline flex items-center gap-xs focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2" href="#">
+<span class="material-symbols-outlined text-sm">policy</span> Privacy
+                    </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-grow relative flex flex-col bg-[#F3F2F1]">
+<!-- Annotation -->
+<div class="absolute bottom-4 right-4 text-[10px] font-code text-secondary opacity-50 z-10">
+                Source: chat-first acceptance criteria
+            </div>
+<!-- Empty Chat Center Content -->
+<div class="flex-grow flex flex-col items-center justify-center px-lg">
+<div class="text-center max-w-2xl w-full">
+<span class="material-symbols-outlined text-[64px] text-primary-container opacity-20 mb-md">chat_bubble</span>
+<h1 class="font-headline-xl text-headline-xl text-primary mb-sm font-bold">Ask a question about European documents</h1>
+<p class="text-secondary mb-xl" style="color: rgb(100, 116, 139);">Explore the public EU corpus using our enterprise AI assistant. Secure, transparent, and accurate.</p>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md text-left">
+<!-- Example Card 1 -->
+<button class="p-md bg-surface border border-border-subtle rounded-lg hover:border-primary hover:bg-surface-container-lowest transition-all group hover:shadow-lg focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+<span class="material-symbols-outlined text-primary mb-xs block group-hover:scale-110 transition-transform">article</span>
+<span class="text-label-md block mb-xs">"How do I renew my Aufenthaltstitel?"</span>
+<span class="text-label-sm text-secondary">Immigration and residence laws in Germany.</span>
+</button>
+<!-- Example Card 2 -->
+<button class="p-md bg-surface border border-border-subtle rounded-lg hover:border-primary hover:bg-surface-container-lowest transition-all group hover:shadow-lg focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+<span class="material-symbols-outlined text-primary mb-xs block group-hover:scale-110 transition-transform">medical_services</span>
+<span class="text-label-md block mb-xs">"Can I use my prescription in France?"</span>
+<span class="text-label-sm text-secondary">Cross-border healthcare regulations.</span>
+</button>
+<!-- Example Card 3 -->
+<button class="p-md bg-surface border border-border-subtle rounded-lg hover:border-primary hover:bg-surface-container-lowest transition-all group hover:shadow-lg focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+<span class="material-symbols-outlined text-primary mb-xs block group-hover:scale-110 transition-transform">gavel</span>
+<span class="text-label-md block mb-xs">"What rights do long-term residents have?"</span>
+<span class="text-label-sm text-secondary">EU directive 2003/109/EC details.</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer Composer Area -->
+<div class="w-full max-w-4xl mx-auto px-lg pb-xl pt-md">
+<div class="flex justify-center mb-md">
+<div class="flex items-center gap-xs px-sm py-xs bg-secondary-container text-on-secondary-container rounded-full text-label-sm font-bold border border-outline-variant">
+<span class="material-symbols-outlined text-sm">visibility_off</span>
+                        Logged out: public corpus only
+                    </div>
+</div>
+<div class="relative bg-surface border border-border-subtle shadow-sm rounded-xl p-xs focus-within:ring-2 focus-within:ring-focus focus-within:border-primary transition-all">
+<textarea class="w-full bg-transparent border-none focus:ring-0 p-md resize-none min-h-[120px] font-body-md" placeholder="Type your question about EU law, directives, or member state regulations..."></textarea>
+<div class="flex items-center justify-between p-sm border-t border-border-subtle mt-xs">
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-xs px-sm py-xs text-secondary wireframe-locked">
+<span class="material-symbols-outlined text-md">attach_file</span>
+<span class="text-label-sm">Upload</span>
+</div>
+<div class="flex items-center gap-xs px-sm py-xs text-secondary wireframe-locked">
+<span class="material-symbols-outlined text-md">translate</span>
+<span class="text-label-sm">Translate</span>
+</div>
+<div class="h-4 w-[1px] bg-border-subtle"></div>
+<div class="flex items-center gap-xs px-sm py-xs text-on-surface-variant font-bold">
+<span class="material-symbols-outlined text-md text-primary" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="text-label-sm">Search public EU corpus</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary p-md rounded-lg flex items-center justify-center hover:brightness-110 transition-all focus-visible:ring-[3px] focus-visible:ring-[#2563eb] focus-visible:ring-offset-2">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+<div class="mt-md flex justify-center gap-xl text-label-sm text-on-surface-variant opacity-60">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+                        Official EU Sources Only
+                    </div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">security</span>
+                        GDPR Compliant
+                    </div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+                        Transparency Reports
+                    </div>
+</div>
+</div>
+</main>
+</div>
+<!-- Micro-interaction for the example cards -->
+<script>
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', function() {
+                this.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+
+
+</body></html>

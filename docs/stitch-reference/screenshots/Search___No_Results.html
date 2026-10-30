@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LegalIntel AI - Search No Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#a55a00",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-container": "#efeeed",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a0caff",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface-bright": "#faf9f8",
+                    "border-subtle": "#B1B4B6",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-surface": "#2f3130",
+                    "primary": "#005796",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c7d2",
+                    "surface-container-low": "#f4f3f2",
+                    "on-background": "#1a1c1c",
+                    "secondary-container": "#e1dfdf",
+                    "on-primary-fixed": "#001c37",
+                    "surface-tint": "#0061a6",
+                    "on-surface": "#1a1c1c",
+                    "warning": "#F47738",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "surface-container-highest": "#e3e2e1",
+                    "error": "#D4351C",
+                    "on-surface-variant": "#414751",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#626262",
+                    "outline": "#717782",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dadad9",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e3e2e1",
+                    "surface-container-high": "#e9e8e7",
+                    "on-primary-container": "#e9f1ff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "on-tertiary-container": "#ffede2",
+                    "focus": "#FFDD00",
+                    "background": "#faf9f8",
+                    "secondary": "#5e5e5e",
+                    "tertiary": "#824600",
+                    "primary-container": "#1d70b8",
+                    "on-primary-fixed-variant": "#00497e",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "success": "#00703C",
+                    "surface": "#faf9f8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "container-max": "1280px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl-mobile": ["Public Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background-color: #F3F2F1;
+        }
+        .focus-ring:focus {
+            outline: 3px solid #FFDD00;
+            outline-offset: 1px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="bg-surface border-b border-border-subtle flex justify-between items-center w-full px-lg h-16 z-50 fixed top-0 left-0">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">LegalIntel AI</span>
+</div>
+<div class="hidden md:flex items-center gap-xl">
+<div class="flex gap-lg">
+<a class="font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-sm py-xs" href="#">Dashboard</a>
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1" href="#">Search</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:bg-surface-container-low transition-colors px-sm py-xs" href="#">Corpus</a>
+</div>
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-xs rounded transition-colors" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-xs rounded transition-colors" data-icon="settings">settings</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:bg-surface-container-low p-xs rounded transition-colors" data-icon="help">help</span>
+<button class="bg-primary text-on-primary px-md py-xs font-label-md text-label-md rounded focus-ring transition-opacity active:opacity-80">Sign In</button>
+</div>
+</div>
+<div class="md:hidden">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</div>
+</nav>
+<div class="flex flex-1 pt-16">
+<!-- SideNavBar (Hidden on small screens) -->
+<aside class="hidden md:flex flex-col h-full py-md px-sm gap-unit w-64 bg-surface-container-low border-r border-border-subtle fixed left-0 top-16 h-[calc(100vh-64px)]">
+<div class="mb-lg px-md">
+<div class="flex items-center gap-sm mb-xs">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-[18px]" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-primary leading-tight">Enterprise Suite</div>
+<div class="text-[11px] uppercase tracking-wider text-on-surface-variant font-bold">Legal Intelligence</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-xs">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container font-bold rounded-lg scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Search History</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="bookmarks">bookmarks</span>
+<span class="font-label-md text-label-md">Saved Research</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="font-label-md text-label-md">Legal Corpus</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</nav>
+<button class="mt-md mx-sm bg-primary text-on-primary py-sm rounded-lg font-label-md text-label-md flex items-center justify-center gap-sm shadow hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+                New Search
+            </button>
+<div class="mt-auto flex flex-col gap-xs border-t border-border-subtle pt-md">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-lg bg-background min-h-screen">
+<div class="max-w-4xl mx-auto">
+<!-- Search Header -->
+<div class="mb-xl">
+<div class="flex items-center gap-sm mb-md">
+<span class="bg-success text-on-primary text-[11px] px-sm py-1 rounded-full font-bold uppercase tracking-widest flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="verified_user">verified_user</span>
+                            Logged in: Personal corpus plus public corpus
+                        </span>
+</div>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+</div>
+<input class="block w-full pl-xl pr-md py-md bg-surface-container-lowest border border-border-subtle rounded-lg font-body-md text-body-md text-on-surface focus:ring-primary focus:border-primary focus-ring transition-all" readonly="" type="text" value="Obscure law 123456789"/>
+<div class="absolute inset-y-0 right-0 pr-md flex items-center gap-sm">
+<button class="text-on-surface-variant hover:text-primary p-xs"><span class="material-symbols-outlined" data-icon="close">close</span></button>
+<button class="bg-primary text-on-primary px-lg py-sm rounded font-label-md text-label-md">Search</button>
+</div>
+</div>
+</div>
+<!-- Empty State Content -->
+<div class="flex flex-col items-center justify-center py-xl px-lg bg-surface-container-lowest border border-border-subtle rounded-xl text-center">
+<!-- Empty State Illustration -->
+<div class="mb-lg relative w-64 h-64 flex items-center justify-center">
+<div class="absolute inset-0 bg-surface-container-low rounded-full scale-110 opacity-40"></div>
+<div class="z-10 bg-surface-container rounded-full p-xl shadow-sm border border-border-subtle">
+<span class="material-symbols-outlined text-outline text-[96px]" data-icon="search_off">search_off</span>
+</div>
+<!-- Animated atmosphere via inline SVG pulse -->
+<div class="absolute inset-0 flex items-center justify-center">
+<svg class="w-full h-full animate-pulse opacity-20" viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" fill="none" r="80" stroke="#005796" stroke-width="0.5"></circle>
+<circle cx="100" cy="100" fill="none" r="60" stroke="#005796" stroke-width="0.5"></circle>
+</svg>
+</div>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">No results found</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-xl">
+                        Your search for <strong class="text-on-surface">"Obscure law 123456789"</strong> did not match any documents in your private corpus or the public EU legal database.
+                    </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg w-full max-w-2xl text-left">
+<!-- Suggestion Card 1 -->
+<div class="p-lg bg-surface border border-border-subtle rounded-lg flex gap-md hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-12 h-12 bg-primary-fixed text-on-primary-fixed rounded flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-xs">Try different keywords</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Broaden your search by using more general terms or checking the citation format.</p>
+</div>
+</div>
+<!-- Suggestion Card 2 -->
+<div class="p-lg bg-surface border border-border-subtle rounded-lg flex gap-md hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-12 h-12 bg-primary-fixed text-on-primary-fixed rounded flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-xs">Upload a document</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Import a related PDF or case file to expand your searchable corpus instantly.</p>
+</div>
+</div>
+</div>
+<div class="mt-xl pt-lg border-t border-border-subtle w-full flex flex-col items-center">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-md uppercase tracking-widest font-bold">Recommended Topics</p>
+<div class="flex flex-wrap justify-center gap-sm">
+<span class="px-md py-xs bg-surface-container-high border border-outline-variant rounded-full text-label-sm font-body-md text-on-surface-variant hover:border-primary hover:text-primary transition-all cursor-pointer">Constitutional Law</span>
+<span class="px-md py-xs bg-surface-container-high border border-outline-variant rounded-full text-label-sm font-body-md text-on-surface-variant hover:border-primary hover:text-primary transition-all cursor-pointer">EU Directives</span>
+<span class="px-md py-xs bg-surface-container-high border border-outline-variant rounded-full text-label-sm font-body-md text-on-surface-variant hover:border-primary hover:text-primary transition-all cursor-pointer">Case Precedents 2024</span>
+<span class="px-md py-xs bg-surface-container-high border border-outline-variant rounded-full text-label-sm font-body-md text-on-surface-variant hover:border-primary hover:text-primary transition-all cursor-pointer">Intellectual Property</span>
+</div>
+</div>
+</div>
+<!-- Context Information -->
+<div class="mt-xl grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-success" data-icon="check_circle">check_circle</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Private Corpus</p>
+<p class="text-[12px] text-on-surface-variant">4,203 documents indexed</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-success" data-icon="check_circle">check_circle</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Public EU Database</p>
+<p class="text-[12px] text-on-surface-variant">EUR-Lex Live Sync Active</p>
+</div>
+</div>
+<div class="flex items-start gap-md">
+<span class="material-symbols-outlined text-outline" data-icon="info">info</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Help Desk</p>
+<p class="text-[12px] text-on-surface-variant">Contact research assistant</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Visible only on mobile) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-border-subtle flex justify-around items-center h-16 px-md z-50">
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-primary">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="text-[10px] font-bold">Search</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="text-[10px] font-bold">History</span>
+</button>
+<button class="flex flex-col items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-[10px] font-bold">Settings</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction for result cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.classList.add('scale-95');
+            });
+            card.addEventListener('mouseup', () => {
+                card.classList.remove('scale-95');
+            });
+        });
+
+        // Simple mock search input clear
+        const closeBtn = document.querySelector('[data-icon="close"]').parentElement;
+        const searchInput = document.querySelector('input[type="text"]');
+        closeBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            searchInput.focus();
+        });
+    </script>
+</body></html>

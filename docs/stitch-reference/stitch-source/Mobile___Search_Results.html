@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>EvidenceEU - Search Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#efeeed",
+                    "on-surface": "#1a1c1c",
+                    "on-secondary-fixed-variant": "#464747",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "surface": "#faf9f8",
+                    "secondary-fixed": "#e4e2e1",
+                    "surface-container-high": "#e9e8e7",
+                    "background": "#faf9f8",
+                    "on-secondary-container": "#626262",
+                    "warning": "#F47738",
+                    "surface-container-low": "#f4f3f2",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "secondary": "#5e5e5e",
+                    "success": "#00703C",
+                    "primary-fixed-dim": "#a0caff",
+                    "inverse-surface": "#2f3130",
+                    "focus": "#FFDD00",
+                    "outline": "#717782",
+                    "on-primary": "#ffffff",
+                    "primary": "#005796",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#0061a6",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#1d70b8",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface-container-highest": "#e3e2e1",
+                    "secondary-container": "#e1dfdf",
+                    "tertiary": "#824600",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "error": "#D4351C",
+                    "border-subtle": "#B1B4B6",
+                    "surface-bright": "#faf9f8",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#a0caff",
+                    "on-surface-variant": "#414751",
+                    "surface-dim": "#dadad9",
+                    "on-primary-container": "#e9f1ff",
+                    "outline-variant": "#c1c7d2",
+                    "on-background": "#1a1c1c",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-tertiary-container": "#ffede2",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#a55a00",
+                    "on-primary-fixed-variant": "#00497e",
+                    "on-primary-fixed": "#001c37",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e3e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .search-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        body {
+            background-color: #F3F2F1; /* GOV style background */
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface border-b border-border-subtle flex items-center justify-between px-md py-sm">
+<div class="flex items-center gap-md">
+<button class="p-xs hover:bg-surface-container-low active:bg-surface-container-high transition-colors duration-200">
+<span class="material-symbols-outlined text-primary" data-icon="menu">menu</span>
+</button>
+<span class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary">EvidenceEU</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-xs hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-primary" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pb-24 px-md max-w-lg mx-auto">
+<!-- Search Input Context -->
+<section class="mt-lg">
+<div class="relative flex items-center w-full bg-white border-2 border-primary p-md shadow-sm">
+<span class="material-symbols-outlined text-primary mr-sm" data-icon="manage_search">manage_search</span>
+<span class="font-headline-md text-headline-md">Aufenthaltstitel verlängern</span>
+<span class="absolute right-md material-symbols-outlined text-outline" data-icon="close">close</span>
+</div>
+<div class="mt-xs flex gap-xs">
+<span class="bg-surface-container-high px-sm py-1 rounded-sm font-label-sm text-label-sm text-on-surface-variant border border-border-subtle">Berlin, DE</span>
+<span class="bg-surface-container-high px-sm py-1 rounded-sm font-label-sm text-label-sm text-on-surface-variant border border-border-subtle">EU-Recht</span>
+</div>
+</section>
+<!-- Search Insights Summary Section -->
+<section class="mt-xl">
+<div class="bg-primary-container text-on-primary-container p-md rounded-lg shadow-sm border-l-4 border-primary">
+<div class="flex items-center gap-sm mb-sm">
+<span class="material-symbols-outlined" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<h2 class="font-headline-md text-headline-md">Search Insights</h2>
+</div>
+<p class="font-body-md text-body-md leading-relaxed opacity-90">
+                    Extension requests for residence permits in Germany must be submitted <strong>8 weeks before expiry</strong>. Recent amendments to the 'Aufenthaltsgesetz' prioritize digital portal submissions to reduce processing times.
+                </p>
+<div class="mt-md flex justify-between items-center pt-md border-t border-on-primary-container/20">
+<span class="font-label-sm text-label-sm">Legal Verification: Active</span>
+<button class="bg-white/10 hover:bg-white/20 px-sm py-1 font-label-sm text-label-sm transition-colors">Show more</button>
+</div>
+</div>
+</section>
+<!-- Search Results List -->
+<section class="mt-xl space-y-md">
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">42 Results found</h3>
+<!-- Result Card 1 -->
+<article class="bg-white border border-border-subtle p-md hover:bg-surface-container-low transition-colors duration-200">
+<div class="flex items-start gap-md">
+<div class="font-code text-label-sm text-outline pt-1">#01</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-primary hover:underline cursor-pointer">EU long-term residence guidance</h4>
+<p class="mt-sm font-body-md text-body-md text-on-surface-variant">Comprehensive guide on legal requirements for extending an EU long-term residence permit in Germany (Erlaubnis zum Daueraufenthalt-EU). Includes checklists and fee structures.</p>
+<div class="mt-md flex items-center gap-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" data-icon="description">description</span>
+<span class="font-label-sm text-label-sm text-secondary">bmi.bund.de</span>
+</div>
+<span class="bg-success/10 text-success px-sm py-xs font-label-sm text-label-sm rounded-sm">Official Document</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Result Card 2 -->
+<article class="bg-white border border-border-subtle p-md hover:bg-surface-container-low transition-colors duration-200">
+<div class="flex items-start gap-md">
+<div class="font-code text-label-sm text-outline pt-1">#02</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-primary hover:underline cursor-pointer">Berlin LEA - Online Extension Portal</h4>
+<p class="mt-sm font-body-md text-body-md text-on-surface-variant">Direct link to the Landesamt für Einwanderung Berlin portal for online permit extensions. Current waiting times: 12-16 weeks. Electronic application required.</p>
+<div class="mt-md flex items-center gap-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" data-icon="link">link</span>
+<span class="font-label-sm text-label-sm text-secondary">service.berlin.de</span>
+</div>
+<span class="bg-warning/10 text-warning px-sm py-xs font-label-sm text-label-sm rounded-sm">Service Link</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Image Asset Injection -->
+<div class="relative w-full h-48 overflow-hidden rounded-xl border border-border-subtle my-xl group">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A professional, high-end photograph of a modern glass government building reflecting a clear blue sky. The lighting is crisp and even, emphasizing clean lines and institutional authority. The palette consists of cool blues, greys, and crisp white highlights, embodying a stable, corporate atmosphere for a legal technology application. Minimalist composition with focus on architectural transparency." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDJorM6Y_XZjp-KKUNpbIGMo28WNOh43ylvDFVPVNyXYqttzjtfzZ7FkfVKxRxoiJab7Rl7OSiwwkHi5H1HDIQanGJXWePbSTFGqRNIxPOubw8OK_tIaMqj5hKDK3iz08GDonHdgqMB_z3iVlwJz7uNKb7jSEJhIRvDB6UFdhUEj26m8NzXzUsAtHNEOZRpjH8Bwbjr7HUGLPGkgEF9gDooTx8VOxQpxclxXzRnrPWzTLosmJzl6LoiI4fSxhYlqyQj0r4KqWGZgLNO')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-md">
+<span class="text-white font-label-md text-label-md">LEA Headquarters, Berlin Friedrichstraße</span>
+</div>
+</div>
+<!-- Result Card 3 -->
+<article class="bg-white border border-border-subtle p-md hover:bg-surface-container-low transition-colors duration-200">
+<div class="flex items-start gap-md">
+<div class="font-code text-label-sm text-outline pt-1">#03</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-primary hover:underline cursor-pointer">§ 81 AufenthG - Legal Definitions</h4>
+<p class="mt-sm font-body-md text-body-md text-on-surface-variant">Legal text regarding the 'Fiktionswirkung' of extension applications. Explains how your current permit remains valid until a decision is reached.</p>
+<div class="mt-md flex items-center gap-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" data-icon="gavel">gavel</span>
+<span class="font-label-sm text-label-sm text-secondary">gesetze-im-internet.de</span>
+</div>
+<span class="bg-primary/10 text-primary px-sm py-xs font-label-sm text-label-sm rounded-sm">Legislative Text</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Result Card 4 (High Density) -->
+<article class="bg-white border border-border-subtle p-md hover:bg-surface-container-low transition-colors duration-200">
+<div class="flex items-start gap-md">
+<div class="font-code text-label-sm text-outline pt-1">#04</div>
+<div class="flex-1">
+<h4 class="font-headline-md text-headline-md text-primary hover:underline cursor-pointer">Processing Fee Schedule 2024</h4>
+<p class="mt-sm font-body-md text-body-md text-on-surface-variant">Updated costs for residence permit extensions. Standard fee: €93.00. Reductions available for students and benefit recipients.</p>
+<div class="mt-md flex items-center gap-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm" data-icon="euro">euro</span>
+<span class="font-label-sm text-label-sm text-secondary">bundesanzeiger.de</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+</section>
+<!-- Pagination / Load More -->
+<div class="mt-xl flex justify-center">
+<button class="w-full py-md border-2 border-primary text-primary font-label-md text-label-md hover:bg-primary hover:text-white transition-all duration-200 flex items-center justify-center gap-sm">
+<span>View More Results</span>
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-container border-t border-border-subtle flex justify-around items-center h-16 pb-safe px-sm">
+<!-- Chat Tab -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:text-primary transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-sm text-label-sm mt-xs">Chat</span>
+</a>
+<!-- Documents Tab -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:text-primary transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-sm text-label-sm mt-xs">Documents</span>
+</a>
+<!-- Search Tab (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-sm py-xs transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="manage_search" style="font-variation-settings: 'FILL' 1;">manage_search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</a>
+<!-- Translate Tab -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:text-primary transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="g_translate">g_translate</span>
+<span class="font-label-sm text-label-sm mt-xs">Translate</span>
+</a>
+<!-- Settings Tab -->
+<a class="flex flex-col items-center justify-center text-on-secondary-container hover:text-primary transition-transform duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm mt-xs">Settings</span>
+</a>
+</nav>
+<!-- Interactive micro-feedback script -->
+<script>
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('click', () => {
+                // Flash feedback for interaction
+                card.classList.add('bg-surface-container-high');
+                setTimeout(() => card.classList.remove('bg-surface-container-high'), 300);
+            });
+        });
+
+        // Simple scroll observer for header shadow
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                header.classList.add('shadow-md');
+                header.classList.remove('border-b');
+            } else {
+                header.classList.remove('shadow-md');
+                header.classList.add('border-b');
+            }
+        });
+    </script>
+</body></html>

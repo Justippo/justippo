@@ -1,0 +1,1216 @@
+name: CI
+# ── Speed history ──────────────────────────────────────────────────────────────
+# R0 (baseline):  ~8.5 min — pip/run, PW DL every run, double frontend build
+# R1 (Jun 2026):  ~7.5 min — setup-uv, PW cache, artifact reuse, --check, parallel secrets
+# R2 (Jun 2026):  ~5.8 min — paths-filter, next cache, Chromium-only E2E, mypy cache, ci-ok
+# R3 (Jun 2026):  ~4.0 min target (superseded by R6 measurements below)
+#   + .venv cached → uv sync: 35s→1s on hit
+#   + Storybook storybook-static/ cached → build: 25s→2s on hit
+#   + PW cache key: chromium-only → install: 57s→12s on hit
+#   + Parallel pywrangler + proxy deploy: 32s→25s
+#   + Codecov skip on PR: 5s→0s
+#   + Parallel smoke.sh: 25s→12s (moved to scripts/smoke.sh)
+# R4 (Jun 2026):  Bun 1.3.14 + Turborepo — npm ci→bun install, turbo cache
+#   + bun install: 45s→6s on miss, ~2s on hit (setup-bun cache)
+#   + Turborepo .turbo/cache shared across runs
+#   + Playwright still uses npx (Bun unsupported)
+# R5 (Jul 2026):  E2E isolation + dedup + wider uv cache key
+#   + Playwright E2E moved OUT of frontend job into its own non-blocking `e2e` job
+#     — reuses the frontend-pages artifact (no rebuild) → frontend job: ~90s→~65s
+#     — e2e job never gates deploy (continue-on-error, not in deploy `needs:`)
+#   + test-storybook removed (redundant with Chromatic smoke+visual+a11y coverage)
+#   + uv cache-dependency-glob widened to pyproject.toml + uv.lock (uv.lock is
+#     gitignored — see Install dependencies step below — so this hash is a no-op
+#     in CI today, but keeps the key correct if uv.lock is ever committed)
+#   + Deploy job gained Bun + uv caches (jobs are separate runners so installs
+#     cannot be eliminated, only made cache-fast — ~30-40s → ~10-15s on hit)
+#   NOTE: Turborepo remote cache (R2/Vercel) and Depot runners were evaluated
+#   and NOT adopted (10s cold-start negates short-task savings; Depot is $20/mo
+#   for private repos with no critical-path benefit here).
+# R6 (Jul 13, 2026): measured controlled production runs, same commit
+#   attempt 1: backend 122s, frontend 100s, deploy 113s → 267s to deployed
+#   attempt 2: backend 131s, frontend 76s,  deploy 110s → 275s to deployed
+#   Warm evidence: Next build 29s→18s and smoke 26s→18s on attempt 2.
+#   The old ≤115s target is not achievable on the current self-hosted runner:
+#   backend tests alone take 69-73s and the deploy job takes 110-113s.
+#   Revised controlled target: ≤300s (5 min) from workflow creation to green deploy.
+#   E2E, Chromatic, Lighthouse, BrowserStack, and live E2E remain off this path.
+#   Evidence: perf NFR-01/NFR-02 verified in docs/testing/performance-report.md
+
+env:
+  # DRY: single source of truth for the live frontend URL.
+  # Used by smoke test and BrowserStack E2E job.
+  LIVE_FRONTEND_URL: https://evidence-eu-frontend.pages.dev
+  LIVE_API_URL: https://evidence-eu-worker.mc146.workers.dev
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 3 * * 1"  # Weekly Monday 03:00 UTC
+
+jobs:
+  # ── Change detection (<5s) ───────────────────────────────────────────────────
+  changes:
+    name: Detect changes
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 2
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      sidecar: ${{ steps.filter.outputs.sidecar }}
+    steps:
+      # Self-hosted runner workspace hygiene — persistent workspaces can carry
+      # stale git state (detached HEAD, orphaned refs) across workflow runs.
+      # This step ensures the runner's local main matches the upstream main
+      # before paths-filter runs, so git-based fallbacks (if any) compare
+      # against the correct base rather than a stale local main from a
+      # previous run on a different actor's branch.
+      # Self-hosted runner workspace hygiene — persistent workspaces can carry
+      # stale untracked files (build artifacts, caches) across workflow runs.
+      # We only clean working-tree state here; we deliberately do NOT run
+      # `git fetch`/`git reset` because the checkout step below uses
+      # persist-credentials:false and the runner has no stored Git credentials,
+      # so an unauthenticated `git fetch origin` fails with
+      # "could not read Username for 'https://github.com'". The actions/checkout
+      # step already resets the tree to the correct ref via the GitHub API, so
+      # resetting from origin/main would be redundant AND would break here.
+      - name: Clean runner workspace (self-hosted hygiene)
+        run: |
+          if [ -d ".git" ]; then
+            # Remove untracked + ignored files/dirs left by prior runs, but do
+            # NOT touch tracked files (checkout@v6 handles those via API).
+            git clean -ffdx
+            echo "Cleaned untracked/ignored files from persistent workspace."
+          else
+            echo "No .git directory — workspace already clean (fresh runner)"
+          fi
+
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # For pull_request events dorny/paths-filter uses the GitHub API to list
+      # the PR's changed files by default (scoped to the triggering PR), which is
+      # what we want on the persistent self-hosted runner — it does not silently
+      # fall back to a local git diff against a stale base. We pin `base`/`ref`
+      # explicitly so the comparison is deterministic regardless of what the
+      # runner's local checkout happens to be. (Note: the action has no `diff`
+      # input — that was an error and is removed.)
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          base: ${{ github.event.pull_request.base.ref || 'main' }}
+          filters: |
+            backend:
+              - 'backend/**'
+              - 'codecov.yml'
+              - '.github/workflows/ci.yml'
+            frontend:
+              - 'frontend/**'
+              - 'worker/**'
+              - '.github/workflows/ci.yml'
+            sidecar:
+              - 'sidecars/babeldoc/**'
+              - 'sidecars/pii-redactor/**'
+              - 'docker-compose.yml'
+              - 'Makefile'
+              - '.github/workflows/ci.yml'
+
+  # ── BabelDOC Sidecar ────────────────────────────────────────────────────────
+  babeldoc_sidecar:
+    name: BabelDOC Sidecar
+    needs: changes
+    if: needs.changes.outputs.sidecar == 'true'
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.1.0
+        env:
+          # Self-hosted jobs run concurrently under the same macOS user. Keep
+          # this environment out of the backend job's shared uv cache.
+          UV_CACHE_DIR: ${{ runner.temp }}/uv-cache-babeldoc
+        with:
+          enable-cache: false
+          python-version: "3.12"
+
+      - name: Run sidecar contract tests
+        working-directory: sidecars/babeldoc
+        env:
+          UV_CACHE_DIR: ${{ runner.temp }}/uv-cache-babeldoc
+        run: >
+          uv run
+          --with fastapi==0.115.6
+          --with httpx==0.28.1
+          --with uvicorn==0.34.0
+          python -m unittest discover -s tests -v
+
+  # ── PII Redactor Sidecar ─────────────────────────────────────────────────────
+  pii_redactor_sidecar:
+    name: PII Redactor Sidecar
+    needs: changes
+    if: needs.changes.outputs.sidecar == 'true'
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Check Docker availability
+        id: docker
+        run: |
+          if docker info >/dev/null 2>&1; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Docker daemon not available on this runner — skipping PII redactor sidecar contract tests"
+          fi
+
+      - name: Pre-pull base image
+        if: steps.docker.outputs.available == 'true'
+        run: |
+          for i in 1 2 3; do
+            docker pull python:3.12-slim && break
+            echo "Pull attempt $i failed, retrying..."
+            sleep 10
+          done
+
+      - name: Build sidecar image
+        if: steps.docker.outputs.available == 'true'
+        run: docker compose --profile pii-redaction build pii-redactor
+
+      - name: Run sidecar contract tests
+        if: steps.docker.outputs.available == 'true'
+        run: docker run --rm evidence-eu-pii-redactor python -m pytest tests/ -v
+
+  # ── Backend ──────────────────────────────────────────────────────────────────
+  backend:
+    name: Backend (Python 3.12)
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write  # for Codecov OIDC
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v6
+
+      # setup-uv caches uv's wheel download cache (not the .venv itself).
+      # Cache key includes both pyproject.toml and uv.lock hashes (R5) — uv.lock
+      # is currently gitignored (see Install dependencies step below), so the
+      # glob match on it is a no-op today, but the key stays correct/DRY if the
+      # lockfile policy ever changes without needing another edit here.
+      - name: Set up uv + Python 3.12
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            backend/pyproject.toml
+            backend/uv.lock
+          python-version: "3.12"
+
+      - name: Install dependencies
+        # No --frozen/--locked: backend/uv.lock is gitignored (pyproject.toml is
+        # the source of truth). Plain uv sync resolves and installs from
+        # pyproject.toml, creating a fresh lockfile each run.
+        run: uv sync --extra dev
+
+      # Cache mypy incremental state. Hit: ~3s. Miss: ~12s.
+      - name: Cache mypy
+        uses: actions/cache@v5
+        with:
+          path: backend/.mypy_cache
+          key: mypy-${{ runner.os }}-${{ hashFiles('backend/pyproject.toml') }}-${{ hashFiles('backend/app/**/*.py') }}
+          restore-keys: |
+            mypy-${{ runner.os }}-${{ hashFiles('backend/pyproject.toml') }}-
+            mypy-${{ runner.os }}-
+
+      - name: Lint (Ruff)
+        # Only check git-tracked files — self-hosted runners may have
+        # untracked files that would trigger false CI failures.
+        run: uv run ruff check $(git ls-files 'app/**/*.py' 'tests/**/*.py')
+
+      - name: Format check (Ruff)
+        run: uv run ruff format --check $(git ls-files 'app/**/*.py' 'tests/**/*.py')
+
+      - name: Type check (mypy)
+        run: uv run mypy $(git ls-files 'app/**/*.py') --ignore-missing-imports --explicit-package-bases
+
+      - name: Security — no direct LLM provider URLs (REM-8)
+        run: |
+          if grep -rn "https://api\.mistral\|https://api\.openai\|https://api\.groq\|https://openrouter\.ai/api" app/ \
+            | grep -v "gateway\.py"; then
+            echo "FAIL: Direct LLM provider URL found outside gateway.py"
+            exit 1
+          fi
+          echo "OK: No direct provider URLs found."
+
+      - name: Test with coverage
+        run: uv run pytest tests/ -q --tb=short --cov=app --cov-branch --cov-report=xml --cov-report=term-missing
+        env:
+          APP_SECRET_KEY: ci-test-secret
+          APP_ENV: test
+
+      # Only upload coverage on push to main — not on PRs.
+      # Codecov upload is ~5s of pure network I/O with no PR benefit.
+      - name: Upload coverage report
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: codecov/codecov-action@v5
+        continue-on-error: true
+        with:
+          files: coverage.xml
+          flags: backend
+          use_oidc: true
+          verbose: true
+          fail_ci_if_error: false
+
+  # ── Frontend ─────────────────────────────────────────────────────────────────
+  frontend:
+    name: Frontend (Node 22)
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: frontend/.bun-version
+        # setup-bun caches ~/.bun/install/cache by default.
+        # Fallback: to revert to Node.js, remove this step and re-enable setup-node cache.
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          # npm cache disabled — Bun handles all installs.
+          # Node.js kept for Playwright (Bun unsupported by Playwright).
+
+      - name: Remove stale workspace dependencies
+        # Persistent self-hosted runners can retain incompatible root and nested
+        # dependency trees. A frozen install does not always prune those trees,
+        # causing duplicate @types/react packages and false tsc failures.
+        run: rm -rf node_modules frontend/node_modules
+        working-directory: .
+
+      - name: Install dependencies
+        # Keep each workspace's declared React runtime and types paired. A
+        # hoisted monorepo install can combine React 19 with ReactDOM 18.
+        run: bun install --frozen-lockfile --linker isolated
+        working-directory: .
+
+      - name: Validate frontend architecture
+        run: node scripts/validate.js
+
+      - name: Cache Turborepo
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.turbo/cache
+          key: turbo-${{ runner.os }}-${{ hashFiles('bun.lock') }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ hashFiles('bun.lock') }}-
+            turbo-${{ runner.os }}-
+
+      - name: Lint (ESLint)
+        run: bun run lint
+
+      - name: Format check (Prettier)
+        # Pin the formatter version and repository config so persistent
+        # self-hosted runners cannot reuse an incompatible global binary.
+        run: bunx prettier@3.8.4 --check src --config .prettierrc
+
+      - name: Type check (tsc)
+        run: bun run typecheck
+
+      - name: Unit tests (Vitest)
+        run: bun run test
+
+      # Cache Next.js incremental compiler output only for an exact source match.
+      # Cross-source restore keys can reuse stale webpack snapshots on persistent
+      # self-hosted runners, causing the exported artifact to differ from HEAD.
+      - name: Cache Next.js build
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/frontend/.next/cache
+          key: nextjs-${{ runner.os }}-${{ hashFiles('bun.lock') }}-${{ hashFiles('frontend/src/**') }}
+
+      - name: Build
+        run: bun run build
+        env:
+          NEXT_EXPORT: "true"
+          NEXT_PUBLIC_API_URL: https://evidence-eu-worker.mc146.workers.dev
+          # Matrix OAuth/PKCE is the production credential authority (ADR-019).
+          NEXT_PUBLIC_MATRIX_AUTH_PREVIEW_ENABLED: "true"
+          NEXT_PUBLIC_SUPPORTED_LANGUAGES: en,de,fr
+          NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.SENTRY_DSN || '' }}  # Frontend project DSN
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN || '' }}
+          SENTRY_SUPPRESS_GLOBAL_ERROR_HANDLER_FILE_WARNING: '1'
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG || '' }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT || '' }}
+          NEXT_PUBLIC_DATADOG_APPLICATION_ID: ${{ secrets.NEXT_PUBLIC_DATADOG_APPLICATION_ID || '' }}
+          NEXT_PUBLIC_DATADOG_CLIENT_TOKEN: ${{ secrets.NEXT_PUBLIC_DATADOG_CLIENT_TOKEN || '' }}
+          NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.POSTHOG_PROJECT_TOKEN || '' }}
+          NEXT_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
+          NEXT_PUBLIC_NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEXT_PUBLIC_NEW_RELIC_ACCOUNT_ID || '' }}
+          NEXT_PUBLIC_NEW_RELIC_APPLICATION_ID: ${{ secrets.NEXT_PUBLIC_NEW_RELIC_APPLICATION_ID || '' }}
+          NEXT_PUBLIC_NEW_RELIC_LICENSE_KEY: ${{ secrets.NEXT_PUBLIC_NEW_RELIC_LICENSE_KEY || '' }}
+          NEXT_PUBLIC_NEW_RELIC_AGENT_ID: ${{ secrets.NEXT_PUBLIC_NEW_RELIC_AGENT_ID || '' }}
+          NEXT_PUBLIC_NEW_RELIC_TRUST_KEY: ${{ secrets.NEXT_PUBLIC_NEW_RELIC_TRUST_KEY || '' }}
+          NEXT_PUBLIC_TOLGEE_API_KEY: ${{ secrets.NEXT_PUBLIC_TOLGEE_API_KEY || '' }}
+          NEXT_PUBLIC_TOLGEE_API_URL: https://app.tolgee.io
+          # ADD: Langfuse — browser-safe project public key for frontend tracing
+          NEXT_PUBLIC_LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY || '' }}
+          NEXT_PUBLIC_LANGFUSE_ENABLED: ${{ secrets.LANGFUSE_PUBLIC_KEY && 'true' || 'false' }}
+          # END ADD
+
+      - name: Upload frontend artifact for deploy
+        uses: actions/upload-artifact@v7
+        with:
+          name: frontend-pages-${{ github.sha }}
+          path: frontend/out
+          retention-days: 1
+          if-no-files-found: error
+
+  # ── E2E (Playwright, Chromium) ──────────────────────────────────────────────
+  # R5: split out of `frontend` so it never blocks/delays the `deploy` job's
+  # gating decision. Downloads the already-built `frontend/out` artifact instead
+  # of rebuilding (DRY — rebuilding here would cost ~90s and erase the entire win).
+  # continue-on-error + absent from `ci-ok`/`deploy` needs: E2E failures are
+  # visible (job shows red in the Actions tab, report uploaded) but non-blocking,
+  # matching the existing pattern already used for Storybook/Chromatic/BrowserStack.
+  # Saves ~25s off the frontend job's critical path (E2E ~15s + PW install ~12s
+  # no longer serialize behind lint/test/build/Storybook).
+  e2e:
+    name: E2E (Playwright — Chromium)
+    needs: [changes, frontend]
+    if: |
+      needs.frontend.result == 'success' &&
+      needs.changes.outputs.frontend == 'true'
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    continue-on-error: true
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      # Self-hosted runner workspace hygiene — persistent workspaces can carry
+      # stale git state (detached HEAD, orphaned refs) across workflow runs.
+      # `actions/checkout@v6` does git clean + reset internally, but on macOS
+      # ARM64 runners the workspace dir can accumulate cruft that checkout's
+      # clean logic doesn't fully clear. This step nukes everything except .git.
+      # No-op if .git doesn't exist (fresh runner).
+      - name: Clean runner workspace (self-hosted hygiene)
+        run: |
+          if [ -d ".git" ]; then
+            git clean -ffdx && git reset --hard HEAD
+          else
+            echo "No .git directory — workspace already clean (fresh runner)"
+          fi
+
+      # Shallow checkout — this job doesn't need Chromatic's full-history requirement.
+      - uses: actions/checkout@v6
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: frontend/.bun-version
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          # Node.js kept for Playwright (Bun unsupported by Playwright).
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+        working-directory: .
+
+      # Overwrite, don't merge — stale out/ content from a prior run with a
+      # different artifact name (e.g. after force-push) would shadow the fresh
+      # download. actions/download-artifact unpacks into the target dir but only
+      # overwrites files named in the artifact — leftover files survive.
+      - name: Clean stale artifact directory
+        run: rm -rf out
+
+      - name: Download frontend build artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: frontend-pages-${{ github.sha }}
+          path: frontend/out
+
+      # Fail fast if artifact download failed or is empty — npx serve would hang
+      # for 120s before timeout. Prevents cryptic "element not found" test failures.
+      - name: Validate frontend artifact
+        run: |
+          if [ ! -d "out" ] || [ -z "$(ls -A out 2>/dev/null)" ]; then
+            echo "ERROR: frontend/out is missing or empty after artifact download"
+            echo "Artifact name: frontend-pages-${{ github.sha }}"
+            ls -la out 2>/dev/null || true
+            exit 1
+          fi
+          echo "frontend/out exists with $(ls out | wc -l) entries"
+
+      # Cache Chromium-only Playwright binaries (~170 MB vs 310 MB for all 3 browsers).
+      # Firefox and WebKit visual parity is covered by Chromatic + BrowserStack.
+      # Cache hit: only system deps needed (~12s vs 57s for all 3 browsers).
+      # Keyed on bun.lock, not package-lock.json — bun.lock is what actually
+      # resolves the installed @playwright/test version in this job (Bun is the
+      # primary installer since R4). package-lock.json can drift to a different
+      # pinned version, which would produce a false cache hit and skip
+      # `playwright install` for a browser build that doesn't match the CLI
+      # actually in use — a real bug flagged in PR #74 review, fixed here.
+      - name: Cache Playwright browsers (Chromium only)
+        id: playwright-cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('bun.lock') }}-${{ runner.os }}
+
+      # Cache miss: download Chromium (+ system deps on Linux only — Playwright's
+      # --with-deps/install-deps use apt, which is unavailable on macOS).
+      - name: Install Playwright Chromium (cache miss)
+        run: npx playwright install chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+
+      - name: Install Playwright system deps (Linux, cache miss)
+        if: runner.os == 'Linux' && steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install-deps chromium
+
+      # Cache hit: binaries present — reinstall OS-level system deps (Linux only).
+      - name: Install Playwright system deps (Linux, cache hit)
+        if: runner.os == 'Linux' && steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      # Persistent self-hosted runners can leak a static server process on :3000
+      # from a cancelled/failed prior run. Playwright's webServer uses
+      # reuseExistingServer:false in CI and errors ("port already used"), so free
+      # the port first. No-op when nothing is listening.
+      - name: Free port 3000 (self-hosted runner hygiene)
+        run: lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+
+      # Chromium only — saves ~83s. Chromatic/BrowserStack cover Firefox/WebKit.
+      # PLAYWRIGHT_BASE_URL unset here — playwright.config.ts webServer block
+      # serves the downloaded `out/` directory locally (matches prior in-job behavior).
+      - name: End-to-end tests (Playwright — Chromium)
+        run: npx playwright test --project=chromium
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report-${{ github.sha }}
+          path: frontend/playwright-report/
+          retention-days: 30
+          if-no-files-found: warn
+
+  # ── Chromatic visual testing ────────────────────────────────────────────────
+  # Split out of `frontend` job to avoid blocking CI OK / deploy.
+  # Chromatic takes 20-30min (partial snapshot + review). It has its own
+  # Storybook build and is fully self-contained.
+  # continue-on-error + absent from ci-ok/deploy needs: visual regressions
+  # are visible (job shows red) but never gate deployment.
+  chromatic:
+    name: Chromatic visual testing
+    needs: [changes, frontend]
+    if: |
+      needs.frontend.result == 'success' &&
+      needs.changes.outputs.frontend == 'true' &&
+      github.event_name != 'schedule'
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    continue-on-error: true
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0  # Chromatic requires full git history
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: frontend/.bun-version
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+        working-directory: .
+
+      - name: Cache Storybook static
+        id: storybook-cache
+        uses: actions/cache@v5
+        with:
+          path: frontend/storybook-static
+          key: storybook-${{ runner.os }}-${{ hashFiles('bun.lock') }}-${{ hashFiles('frontend/src/**/*.stories.*', 'frontend/.storybook/**') }}
+          restore-keys: |
+            storybook-${{ runner.os }}-${{ hashFiles('bun.lock') }}-
+
+      - name: Build Storybook
+        id: build-storybook
+        if: steps.storybook-cache.outputs.cache-hit != 'true'
+        continue-on-error: true
+        run: bun run build-storybook
+
+      - name: Chromatic visual testing
+        if: steps.storybook-cache.outputs.cache-hit == 'true' || steps.build-storybook.outcome == 'success'
+        continue-on-error: true
+        uses: chromaui/action@v16
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          onlyChanged: true
+          exitZeroOnChanges: true
+          exitOnceUploaded: true
+          autoAcceptChanges: true
+          # TEMPORARY: skip snapshot tests until Chromatic plan is upgraded.
+          # Free plan snapshot limit (5,000/month) is exhausted — without
+          # skip, the "UI Tests" GitHub check stays pending because no
+          # snapshots are taken. skip publishes Storybook without running
+          # tests, marking the check as "skipped" (neutral, not pending).
+          # Remove `skip` when Chromatic is upgraded to a paid plan.
+          skip: true
+          workingDir: frontend
+          storybookBuildDir: storybook-static
+
+  # ── CI summary ───────────────────────────────────────────────────────────────
+  # Single required status check compatible with path-filter skipping.
+  # Set "CI OK" in branch protection — not "Backend" or "Frontend".
+  # Matrix: success/skipped → pass. failure/cancelled → fail.
+  # BabelDOC is intentionally absent: it is informational and non-blocking.
+  ci-ok:
+    name: CI OK
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 1
+    needs: [backend, frontend]
+    if: always()
+    steps:
+      - name: Check all jobs passed or were skipped
+        env:
+          BACKEND: ${{ needs.backend.result }}
+          FRONTEND: ${{ needs.frontend.result }}
+        run: |
+          echo "backend:  $BACKEND"
+          echo "frontend: $FRONTEND"
+          for result in "$BACKEND" "$FRONTEND"; do
+            if [[ "$result" == "failure" || "$result" == "cancelled" ]]; then
+              echo "❌ CI failed — see job logs above"
+              exit 1
+            fi
+          done
+          echo "✅ All CI checks passed or were skipped"
+
+  # ── Badge update ─────────────────────────────────────────────────────────────
+  # Writes shields.io-compatible JSON to a public gist so the README badge
+  # reflects the real CI status. Runs on every push to main (success or fail).
+  badge:
+    name: Update CI badge
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 1
+    needs: [ci-ok]
+    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Configure SSL certificates
+        run: |
+          python3 -m pip install --quiet --break-system-packages certifi
+          echo "SSL_CERT_FILE=$(python3 -c 'import certifi; print(certifi.where())')" >> $GITHUB_ENV
+
+      - name: Update gist with CI status
+        env:
+          CI_OK: ${{ needs.ci-ok.result }}
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+        run: |
+          python3 << 'PYEOF'
+          import urllib.request, json, os
+          ci_ok = os.environ['CI_OK']
+          msg = 'passing' if ci_ok in ('success', 'skipped') else 'failing'
+          color = 'brightgreen' if ci_ok in ('success', 'skipped') else 'red'
+          token = os.environ['GIST_TOKEN']
+          body = json.dumps({'files': {'ci-status.json': {'content': json.dumps({'schemaVersion':1,'label':'CI','message':msg,'color':color})}}})
+          req = urllib.request.Request(
+              'https://api.github.com/gists/e09c40f47c85bd57411d4e25899f2eed',
+              data=body.encode(),
+              headers={'Authorization': f'token {token}', 'Accept': 'application/vnd.github+json'},
+              method='PATCH'
+          )
+          urllib.request.urlopen(req)
+          print(f'Badge updated: {msg} ({color})')
+          PYEOF
+
+  # ── Deploy ───────────────────────────────────────────────────────────────────
+  deploy:
+    name: Deploy to Cloudflare
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    needs: [ci-ok, backend, frontend]
+    if: |
+      always() &&
+      github.ref == 'refs/heads/main' &&
+      github.event_name == 'push' &&
+      needs.ci-ok.result == 'success' &&
+      (needs.backend.result == 'success' || needs.backend.result == 'skipped') &&
+      (needs.frontend.result == 'success' || needs.frontend.result == 'skipped') &&
+      (needs.backend.result == 'success' || needs.frontend.result == 'success')
+    concurrency:
+      group: deploy-production
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Verify Cloudflare API token is active
+        run: |
+          for ATTEMPT in 1 2 3; do
+            STATUS=$(curl --silent --output /dev/null --write-out "%{http_code}" \
+              --connect-timeout 10 --max-time 30 \
+              -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+              -H "Content-Type: application/json" \
+              "https://api.cloudflare.com/client/v4/user/tokens/verify") || STATUS="000"
+
+            if [ "$STATUS" = "200" ]; then
+              echo "  [✓] Cloudflare API token is active"
+              exit 0
+            fi
+
+            if [ "$STATUS" = "000" ] || [ "$STATUS" = "429" ] || [ "$STATUS" -ge 500 ]; then
+              if [ "$ATTEMPT" -lt 3 ]; then
+                DELAY=$((ATTEMPT * 5))
+                echo "::warning title=Cloudflare verification unavailable::HTTP $STATUS on attempt $ATTEMPT/3; retrying in ${DELAY}s"
+                sleep "$DELAY"
+                continue
+              fi
+            fi
+
+            echo "  [✗] Cloudflare API token verification failed (HTTP $STATUS)"
+            exit 1
+          done
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Warn on stale compatibility_date
+        run: |
+          STALE_DATE="2024-05-02"
+          for FILE in backend/wrangler.toml worker/wrangler.toml frontend/wrangler.toml; do
+            if [ -f "$FILE" ] && grep -q "^compatibility_date" "$FILE"; then
+              DATE=$(grep "^compatibility_date" "$FILE" | sed 's/.*= *"\(.*\)"/\1/')
+              if [ "$DATE" = "$STALE_DATE" ]; then
+                echo "::warning title=Stale compatibility_date::$FILE has compatibility_date = $DATE"
+              fi
+            fi
+          done
+
+      - name: Verify security headers file exists
+        run: |
+          if [ -f "frontend/public/_headers" ]; then
+            echo "  [✓] frontend/public/_headers found"
+          else
+            echo "  [✗] frontend/public/_headers missing"
+            exit 1
+          fi
+
+      # R5: setup-bun's built-in cache (~/.bun/install/cache, keyed on bun.lock)
+      # de-dupes the "cold Bun install" cost that this job previously paid from
+      # scratch on every deploy — the frontend job already primed this cache on
+      # the same bun.lock, so deploy now gets a warm hit here too (~30-40s → ~5-10s).
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: frontend/.bun-version
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          # Node.js kept for wrangler CLI (npx wrangler deploy).
+
+      - name: Install worker dependencies
+        # Bun workspace install at root covers both frontend + worker.
+        # npm ci fails because root package.json (workspaces) has no package-lock.json.
+        # With hoisted node_modules, wrangler is at root node_modules/.bin/.
+        run: |
+          bun install --frozen-lockfile
+          echo "$PWD/node_modules/.bin" >> $GITHUB_PATH
+
+      # R5: setup-uv's built-in cache (uv's wheel download cache) de-dupes the
+      # resolve+download cost across jobs sharing the same lockfile inputs.
+      # Cache key widened to match backend job (pyproject.toml + uv.lock) — see
+      # R5 note on backend job's uv step for why uv.lock is currently a no-op glob.
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: |
+            backend/pyproject.toml
+            backend/uv.lock
+
+      # Install backend deps — always fresh (no .venv cache, avoids stale venv across OS/runner changes).
+      - name: Install backend deps (deploy)
+        working-directory: backend
+        run: uv sync --group workers
+
+      - name: Apply D1 migrations
+        working-directory: backend
+        run: wrangler d1 migrations apply evidence-eu-db --remote
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Verify D1 migrations applied
+        working-directory: backend
+        run: wrangler d1 migrations list evidence-eu-db --remote
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # Deploy backend Python Worker + proxy Worker in parallel.
+      # Each has its own working-directory; use subshells to switch.
+      # Serial: 25s (backend) + 7s (proxy) = 32s. Parallel: max(25, 7) = ~25s.
+      #
+      # CRITICAL: Clean stale pywrangler artifacts before deploy to avoid
+      # stale .synced marker causing incomplete uploads.
+      - name: Deploy backend + proxy Workers in parallel
+        run: |
+          rm -rf backend/.venv-workers backend/python_modules
+          (cd backend && uv run --group workers pywrangler deploy) &
+          BACKEND_PID=$!
+          (cd worker && npx wrangler deploy --env production) &
+          PROXY_PID=$!
+          # Capture each deploy's exit code independently. A bare `wait` returns
+          # only the LAST job's status, which previously masked a failed backend
+          # deploy behind a successful proxy deploy (stale API Worker shipped green).
+          FAIL=0
+          wait "$BACKEND_PID" || { echo "::error title=Backend deploy failed::pywrangler deploy (evidence-eu-api) exited non-zero"; FAIL=1; }
+          wait "$PROXY_PID"   || { echo "::error title=Proxy deploy failed::wrangler deploy (evidence-eu-worker) exited non-zero"; FAIL=1; }
+          exit $FAIL
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # Push secrets in parallel. Use printf (not echo) to avoid trailing newlines.
+      - name: Push secrets to backend Worker
+        run: |
+          if [ -n "${BABELDOC_SIDECAR_URL:-}" ]; then
+            # BabelDOC EU sidecar (issue #239)
+            printf '%s' "$BABELDOC_SIDECAR_URL" | wrangler secret put BABELDOC_SIDECAR_URL --name evidence-eu-api &
+            # BabelDOC EU sidecar (issue #239)
+            printf '%s' "${BABELDOC_AUTH_TOKEN:-}" | wrangler secret put BABELDOC_AUTH_TOKEN --name evidence-eu-api &
+          else
+            echo "::notice title=BabelDOC disabled::No sidecar URL configured; continuing with the feature gate off"
+          fi
+          printf '%s' "$APP_SECRET_KEY"       | wrangler secret put APP_SECRET_KEY       --name evidence-eu-api &
+          printf '%s' "$CLOUDFLARE_ACCOUNT_ID"| wrangler secret put CLOUDFLARE_ACCOUNT_ID --name evidence-eu-api &
+          printf '%s' "$MISTRAL_API_KEY"      | wrangler secret put MISTRAL_API_KEY      --name evidence-eu-api &
+          printf '%s' "$CF_AIG_AUTHORIZATION" | wrangler secret put CF_AIG_AUTHORIZATION --name evidence-eu-api &
+          printf '%s' "$CLOUDFLARE_API_TOKEN" | wrangler secret put CLOUDFLARE_API_TOKEN --name evidence-eu-api &
+          printf '%s' "$CF_WORKERS_AI_API_TOKEN" | wrangler secret put CF_WORKERS_AI_API_TOKEN --name evidence-eu-api &
+          printf '%s' "$AZURE_DOCUMENT_INTELLIGENCE_KEY" | wrangler secret put AZURE_DOCUMENT_INTELLIGENCE_KEY --name evidence-eu-api &
+          printf '%s' "${MATRIX_ACCESS_TOKEN:-}"  | wrangler secret put MATRIX_ACCESS_TOKEN  --name evidence-eu-api &
+          printf '%s' "${MATRIX_DEVICE_ID:-}"     | wrangler secret put MATRIX_DEVICE_ID     --name evidence-eu-api &
+          printf '%s' "${MATRIX_CLIENT_ID:-}"     | wrangler secret put MATRIX_CLIENT_ID     --name evidence-eu-api &
+          printf '%s' "${MATRIX_CLIENT_SECRET:-}" | wrangler secret put MATRIX_CLIENT_SECRET --name evidence-eu-api &
+          printf '%s' 'true' | wrangler secret put ENABLE_MATRIX_AUTH --name evidence-eu-api &
+          printf '%s' "$FASTAPI_ORIGIN"       | wrangler secret put FASTAPI_ORIGIN       --name evidence-eu-worker &
+          printf '%s' "$SENTRY_DSN_BACKEND" | wrangler secret put SENTRY_DSN --name evidence-eu-api &
+          printf '%s' "$SENTRY_DSN_WORKER"  | wrangler secret put SENTRY_DSN --name evidence-eu-worker &
+          printf '%s' "$DATADOG_API_KEY"     | wrangler secret put DATADOG_API_KEY --name evidence-eu-api &
+          printf '%s' "$HF_API_TOKEN"       | wrangler secret put HF_API_TOKEN --name evidence-eu-api &
+          printf '%s' "${HINDSIGHT_ACCESS_KEY:-}" | wrangler secret put HINDSIGHT_ACCESS_KEY --name evidence-eu-api &
+          printf '%s' "${NOT_DIAMOND_API_KEY:-}" | wrangler secret put NOT_DIAMOND_API_KEY --name evidence-eu-api &
+          printf '%s' "${NOT_DIAMOND_PREFERENCE_ID:-}" | wrangler secret put NOT_DIAMOND_PREFERENCE_ID --name evidence-eu-api &
+          printf '%s' "${NOT_DIAMOND_ENABLED:-}" | wrangler secret put NOT_DIAMOND_ENABLED --name evidence-eu-api &
+          # ADD: Laminar — project API key for backend OTLP/HTTP/json forwarder
+          printf '%s' "$LMNR_PROJECT_API_KEY" | wrangler secret put LMNR_PROJECT_API_KEY --name evidence-eu-api &
+          printf '%s' 'true' | wrangler secret put LMNR_ENABLED --name evidence-eu-api &
+          # ADD: Langfuse — Basic Auth keys for LLM call quality tracing
+          printf '%s' "$LANGFUSE_PUBLIC_KEY" | wrangler secret put LANGFUSE_PUBLIC_KEY --name evidence-eu-api &
+          printf '%s' "$LANGFUSE_SECRET_KEY" | wrangler secret put LANGFUSE_SECRET_KEY --name evidence-eu-api &
+          printf '%s' 'true' | wrangler secret put LANGFUSE_ENABLED --name evidence-eu-api &
+          # END ADD
+          # PostHog EU analytics (issue #218)
+          printf '%s' "$POSTHOG_PROJECT_TOKEN" | wrangler secret put POSTHOG_PROJECT_TOKEN --name evidence-eu-api &
+          wait
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          CF_AIG_AUTHORIZATION: ${{ secrets.CF_AIG_AUTHORIZATION }}
+          CF_WORKERS_AI_API_TOKEN: ${{ secrets.CF_WORKERS_AI_API_TOKEN || '' }}
+          AZURE_DOCUMENT_INTELLIGENCE_KEY: ${{ secrets.AZURE_DOCUMENT_INTELLIGENCE_KEY }}
+          BABELDOC_SIDECAR_URL: ${{ secrets.BABELDOC_SIDECAR_URL || '' }}
+          BABELDOC_AUTH_TOKEN: ${{ secrets.BABELDOC_AUTH_TOKEN || '' }}
+          MATRIX_ACCESS_TOKEN: ${{ secrets.MATRIX_ACCESS_TOKEN || '' }}
+          MATRIX_DEVICE_ID: ${{ secrets.MATRIX_DEVICE_ID || '' }}
+          MATRIX_CLIENT_ID: ${{ secrets.MATRIX_CLIENT_ID || '' }}
+          MATRIX_CLIENT_SECRET: ${{ secrets.MATRIX_CLIENT_SECRET || '' }}
+          FASTAPI_ORIGIN: ${{ secrets.FASTAPI_ORIGIN }}
+          SENTRY_DSN_BACKEND: ${{ secrets.SENTRY_DSN_BACKEND || '' }}
+          SENTRY_DSN_WORKER: ${{ secrets.SENTRY_DSN_WORKER || '' }}
+          DATADOG_API_KEY: ${{ secrets.DATADOG_API_KEY || '' }}
+          HF_API_TOKEN: ${{ secrets.HF_API_TOKEN || '' }}
+          HINDSIGHT_ACCESS_KEY: ${{ secrets.HINDSIGHT_ACCESS_KEY || '' }}
+          NOT_DIAMOND_API_KEY: ${{ secrets.NOT_DIAMOND_API_KEY || '' }}
+          NOT_DIAMOND_PREFERENCE_ID: ${{ secrets.NOT_DIAMOND_PREFERENCE_ID || '' }}
+          NOT_DIAMOND_ENABLED: ${{ secrets.NOT_DIAMOND_ENABLED || 'false' }}
+          POSTHOG_PROJECT_TOKEN: ${{ secrets.POSTHOG_PROJECT_TOKEN || '' }}
+          # ADD: Laminar
+          LMNR_PROJECT_API_KEY: ${{ secrets.LMNR_PROJECT_API_KEY || '' }}
+          # ADD: Langfuse
+          LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY || '' }}
+          LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY || '' }}
+
+      - name: Download frontend artifact
+        if: needs.frontend.result == 'success'
+        uses: actions/download-artifact@v8
+        with:
+          name: frontend-pages-${{ github.sha }}
+          path: frontend/out
+
+      - name: Deploy frontend to Cloudflare Pages
+        if: needs.frontend.result == 'success'
+        working-directory: frontend
+        run: npx wrangler pages deploy out --project-name evidence-eu-frontend --branch main
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      # Best-effort: a failed purge must never block a deploy. The purge API is
+      # zone-scoped (/zones/{id}/purge_cache), so resolve the zone id by name.
+      - name: Purge Cloudflare cache for OG image
+        if: needs.frontend.result == 'success'
+        continue-on-error: true
+        run: |
+          API="https://api.cloudflare.com/client/v4"
+          AUTH="Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"
+          ZONE_ID=$(curl -fsS -H "$AUTH" "$API/zones?name=justippo.tech" | jq -r '.result[0].id // empty')
+          if [ -z "$ZONE_ID" ]; then
+            echo "::warning title=OG cache purge skipped::zone justippo.tech not found or token lacks Zone:Read"
+            exit 0
+          fi
+          curl -fsS -X POST "$API/zones/$ZONE_ID/purge_cache" \
+            -H "$AUTH" \
+            -H "Content-Type: application/json" \
+            -d '{"files":["https://justippo.tech/opengraph-image.jpg"]}'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      # Parallel smoke test — all 5 checks run concurrently (~12s vs ~25s serial).
+      - name: Post-deploy smoke test
+        run: |
+          scripts/smoke.sh \
+            "$LIVE_API_URL" \
+            "$LIVE_FRONTEND_URL"
+
+  # ── Post-deployment live E2E ────────────────────────────────────────────────
+  # A separate deployed-browser suite that stubs only the opaque Matrix session
+  # status boundary. OCR, translation, and SSE search use the real deployed APIs.
+  e2e-live:
+    name: Post-deploy live E2E
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    needs: [deploy]
+    if: |
+      always() &&
+      github.ref == 'refs/heads/main' &&
+      github.event_name == 'push' &&
+      needs.deploy.result == 'success'
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: frontend/.bun-version
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Cache Playwright Chromium
+        id: playwright-live-cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ hashFiles('bun.lock') }}-${{ runner.os }}
+
+      - name: Install Playwright Chromium
+        if: steps.playwright-live-cache.outputs.cache-hit != 'true'
+        working-directory: frontend
+        run: npx playwright install chromium
+
+      - name: Run live pipeline suite
+        working-directory: frontend
+        env:
+          LIVE_FRONTEND_URL: ${{ env.LIVE_FRONTEND_URL }}
+        run: npx playwright test --config=playwright.live.config.ts
+
+      - name: Upload live Playwright report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-live-report-${{ github.sha }}
+          path: frontend/playwright-live-report/
+          retention-days: 30
+          if-no-files-found: warn
+
+  # ── Lighthouse performance audit (G7 / NFR-09) ───────────────────────────────
+  # Runs Lighthouse against the deployed Pages URL after a successful deploy
+  # (main-branch push only). Non-blocking (continue-on-error) — perf scores are
+  # environment-sensitive; this captures G7/NFR-09 evidence without gating the
+  # pipeline. Runs on self-hosted runner to avoid GitHub-hosted billing limits.
+  lighthouse:
+    name: Lighthouse (performance)
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 10
+    needs: [deploy]
+    if: |
+      always() &&
+      github.ref == 'refs/heads/main' &&
+      github.event_name == 'push' &&
+      needs.deploy.result == 'success'
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Ensure Chrome is installed
+        run: |
+          if [[ ! -d "/Applications/Google Chrome.app" ]]; then
+            echo "Chrome not found — installing..."
+            brew install --cask google-chrome
+          else
+            echo "Chrome already installed"
+          fi
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Kill stale Chrome processes (self-hosted runner hygiene)
+        run: |
+          pkill -f "Google Chrome" 2>/dev/null || true
+          pkill -f "chromedriver" 2>/dev/null || true
+          pkill -f "chrome" 2>/dev/null || true
+          # Give Chrome time to fully quit before launching fresh
+          sleep 2
+
+      - name: Run Lighthouse against deployed frontend
+        run: |
+          # Warm the CDN edge cache first so the audit reflects steady state,
+          # not a cold-start fetch (all-miss waterfall inflates FCP/LCP).
+          curl -s -o /dev/null "$LIVE_FRONTEND_URL" || true
+          sleep 3
+
+          # chrome-launcher can finish the audit successfully on macOS and then
+          # exit non-zero because a background Chrome process races cleanup of
+          # its temporary profile (ENOTEMPTY on the Default directory). Preserve
+          # real audit failures, but accept that one cleanup-only error when both
+          # reports exist and the JSON report parses successfully.
+          set +e
+          npx -y lighthouse "$LIVE_FRONTEND_URL" \
+            --only-categories=performance,accessibility \
+            --chrome-flags="--headless=new --no-sandbox --disable-gpu" \
+            --output=json --output=html --output-path=./lighthouse \
+            --quiet --max-wait-for-load=60000 2>&1 | tee lighthouse-cli.log
+          lighthouse_status=${PIPESTATUS[0]}
+          set -e
+
+          reports_valid=false
+          if [[ -s ./lighthouse.report.json && -s ./lighthouse.report.html ]] && \
+            node -e 'JSON.parse(require("node:fs").readFileSync("./lighthouse.report.json", "utf8"))'; then
+            reports_valid=true
+          fi
+
+          if [[ "$lighthouse_status" -ne 0 ]]; then
+            if [[ "$reports_valid" == true ]] && \
+              grep -Eq "ENOTEMPTY: directory not empty, rmdir '.*/lighthouse\..*/Default'" lighthouse-cli.log; then
+              echo "::warning::Lighthouse audit completed, but chrome-launcher hit the known macOS temporary-profile cleanup race"
+            else
+              echo "::error::Lighthouse failed before producing valid JSON and HTML reports"
+              exit "$lighthouse_status"
+            fi
+          elif [[ "$reports_valid" != true ]]; then
+            echo "::error::Lighthouse exited successfully without producing valid JSON and HTML reports"
+            exit 1
+          fi
+
+      - name: Report scores (perf target ≥85, non-blocking)
+        run: |
+          node -e '
+            const d = require("./lighthouse.report.json");
+            const perf = Math.round(d.categories.performance.score * 100);
+            const a11y = Math.round(d.categories.accessibility.score * 100);
+            const m = d.audits;
+            console.log("Lighthouse — Performance: " + perf + " | Accessibility: " + a11y);
+            ["first-contentful-paint", "largest-contentful-paint", "total-blocking-time", "cumulative-layout-shift", "speed-index"]
+              .forEach((k) => m[k] && console.log("  " + k + " = " + m[k].displayValue));
+            if (perf < 85) {
+              console.log("::warning::Lighthouse Performance " + perf + " is below the ≥85 target (G7 / NFR-09)");
+            } else {
+              console.log("::notice::Lighthouse Performance " + perf + " meets the ≥85 target (G7 / NFR-09)");
+            }
+          '
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-report-${{ github.sha }}
+          path: |
+            ./lighthouse.report.html
+            ./lighthouse.report.json
+          if-no-files-found: warn
+
+  # ── BrowserStack cross-browser E2E ───────────────────────────────────────────
+  # Runs Firefox + WebKit on BrowserStack Automate (main-branch push only).
+  # Chromium is already covered in the frontend job above (every push).
+  # This job is complementary, not duplicated.
+  # Uses continue-on-error so BrowserStack rate limits never block deployment.
+  # No BROWSERSTACK_LOCAL tunnel needed — we test the public deployed URL.
+  e2e-browserstack:
+    name: BrowserStack E2E (Firefox + WebKit)
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 20
+    needs: [deploy]
+    if: |
+      always() &&
+      github.ref == 'refs/heads/main' &&
+      github.event_name == 'push' &&
+      needs.deploy.result == 'success'
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: frontend/.bun-version
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          # npm cache disabled — Bun handles all installs.
+          # Node.js kept for Playwright (Bun unsupported by Playwright).
+
+      - name: Install dependencies
+        working-directory: .
+        run: bun install --frozen-lockfile
+
+      - name: Run Playwright on BrowserStack (Firefox + WebKit)
+        working-directory: frontend
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          BROWSERSTACK: "true"
+          PLAYWRIGHT_BASE_URL: ${{ env.LIVE_FRONTEND_URL }}
+          PLAYWRIGHT_HTML_OPEN: "never"
+          PLAYWRIGHT_JOIN_WORKERS: "1"
+        run: |
+          if [ -z "$BROWSERSTACK_USERNAME" ] || [ -z "$BROWSERSTACK_ACCESS_KEY" ]; then
+            echo "::warning::BrowserStack credentials not set — skipping cross-browser E2E"
+            exit 0
+          fi
+          bun run test:e2e:browserstack
+
+      - name: Upload BrowserStack report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: browserstack-report
+          path: frontend/playwright-report/
+          retention-days: 7
+
+  # ── Multilingual RAG Evaluation (informational, non-blocking) ────────────────
+  # Runs weekly or on workflow_dispatch — NOT on every push (slow ~3 min).
+  eval-multilingual:
+    name: Multilingual RAG Eval (EN/DE/FR)
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'schedule' && github.ref == 'refs/heads/main')
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up uv + Python 3.12
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: "backend/pyproject.toml"
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          uv pip install requests
+
+      - name: Run multilingual RAG evaluation
+        env:
+          EVAL_BASE_URL: ${{ env.LIVE_API_URL }}
+          EVAL_TIMEOUT: "30"
+          EVAL_TOP_K: "5"
+        run: |
+          python3 docs/testing/eval/run_eval.py
+
+      - name: Upload evaluation report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: multilingual-eval-report
+          path: docs/testing/multilingual-eval-report.md
+          retention-days: 30

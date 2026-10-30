@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--stitch-spacing-md);
+  padding: var(--stitch-spacing-xl);
+  text-align: center;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.iconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--stitch-radius-full);
+  background: var(--stitch-error-container);
+}
+
+.icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--stitch-error);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--stitch-text-xl);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface-variant);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--stitch-spacing-sm);
+  justify-content: center;
+}
+
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--stitch-spacing-sm) var(--stitch-spacing-lg);
+  border-radius: var(--stitch-radius-xl);
+  border: 1px solid var(--stitch-outline-variant);
+  background: transparent;
+  color: var(--stitch-on-surface);
+  font-size: var(--stitch-text-sm);
+  font-weight: var(--stitch-weight-medium);
+  text-decoration: none;
+}
+
+.secondaryAction:focus-visible {
+  outline: 2px solid var(--stitch-focus);
+  outline-offset: 2px;
+}

@@ -1,0 +1,1 @@
+export { PublicCorpusView } from "./PublicCorpusView";

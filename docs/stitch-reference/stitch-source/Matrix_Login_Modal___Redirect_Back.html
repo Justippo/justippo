@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU | Identity Verified</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-surface-variant": "#414751",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#faf9f8",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-high": "#e9e8e7",
+                    "on-surface": "#1a1c1c",
+                    "focus": "#FFDD00",
+                    "surface-tint": "#0061a6",
+                    "primary-fixed": "#d2e4ff",
+                    "tertiary": "#824600",
+                    "on-background": "#1a1c1c",
+                    "surface-container-low": "#f4f3f2",
+                    "inverse-surface": "#2f3130",
+                    "on-tertiary-container": "#ffede2",
+                    "on-primary": "#ffffff",
+                    "warning": "#F47738",
+                    "surface-variant": "#e3e2e1",
+                    "surface-dim": "#dadad9",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "error": "#D4351C",
+                    "on-primary-fixed-variant": "#00497e",
+                    "secondary-fixed": "#e4e2e1",
+                    "tertiary-fixed": "#ffdcc2",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#464747",
+                    "inverse-on-surface": "#f1f0ef",
+                    "surface-bright": "#faf9f8",
+                    "border-subtle": "#B1B4B6",
+                    "outline-variant": "#c1c7d2",
+                    "background": "#faf9f8",
+                    "success": "#00703C",
+                    "surface-container-highest": "#e3e2e1",
+                    "secondary": "#5e5e5e",
+                    "on-tertiary-fixed": "#2e1500",
+                    "primary": "#005796",
+                    "inverse-primary": "#a0caff",
+                    "on-secondary-container": "#626262",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#e9f1ff",
+                    "tertiary-container": "#a55a00",
+                    "secondary-container": "#e1dfdf",
+                    "outline": "#717782",
+                    "on-primary-fixed": "#001c37",
+                    "on-secondary": "#ffffff",
+                    "primary-container": "#1d70b8",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface-container": "#efeeed"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "lg": "24px",
+                    "xs": "4px"
+            },
+            "fontFamily": {
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-lg": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "label-sm": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F3F2F1;
+            font-family: 'Public Sans', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 4px;
+            background-color: #e9e8e7;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-indeterminate {
+            width: 30%;
+            height: 100%;
+            background-color: #00703C;
+            position: absolute;
+            left: -30%;
+            animation: indeterminate 2s infinite linear;
+        }
+
+        @keyframes indeterminate {
+            0% { left: -30%; width: 30%; }
+            50% { left: 20%; width: 80%; }
+            100% { left: 100%; width: 30%; }
+        }
+
+        .success-tick {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: dash 0.8s ease-in-out forwards;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Subtle Background Shader/Animation -->
+
+<!-- Main Content Canvas (Focused Journey - No Global Shell per Filter Rules) -->
+<main class="flex-grow flex items-center justify-center p-gutter">
+<div class="w-full max-w-md bg-surface-container-lowest border border-border-subtle p-xl shadow-sm fade-in-up">
+<!-- Branding Header -->
+<div class="flex flex-col items-center mb-xl">
+<div class="mb-md">
+<!-- Identity Verification Graphic -->
+<div class="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center text-success">
+<svg fill="none" height="48" viewbox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+<circle class="opacity-20" cx="24" cy="24" r="22" stroke="currentColor" stroke-width="2"></circle>
+<path class="success-tick" d="M14 24L21 31L34 18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+</svg>
+</div>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface text-center">
+                    Identity Verified
+                </h1>
+<p class="font-body-md text-body-md text-on-surface-variant text-center mt-xs">
+                    Redirecting to your secure legal workbench...
+                </p>
+</div>
+<!-- Loading Indicator Section -->
+<div class="space-y-lg">
+<!-- Status List (Bento-style items) -->
+<div class="grid grid-cols-1 gap-sm">
+<div class="flex items-center p-md bg-surface-container-low border border-border-subtle rounded-lg">
+<span class="material-symbols-outlined text-success mr-md" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Matrix Protocol Authenticated</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Secure handshake complete</p>
+</div>
+</div>
+<div class="flex items-center p-md bg-surface-container-low border border-border-subtle rounded-lg">
+<span class="material-symbols-outlined text-success mr-md" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Credentials Validated</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">EU Legal Standards Met</p>
+</div>
+</div>
+<div class="flex items-center p-md bg-surface-container-low border border-border-subtle rounded-lg opacity-60">
+<div class="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin mr-md"></div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Initializing Workspace</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Loading secure document nodes...</p>
+</div>
+</div>
+</div>
+<!-- Indeterminate Progress Bar -->
+<div class="mt-xl">
+<div class="progress-bar-container rounded-full">
+<div class="progress-bar-indeterminate rounded-full"></div>
+</div>
+<div class="flex justify-between mt-sm">
+<span class="font-label-sm text-label-sm text-on-surface-variant">System integrity checked</span>
+<span class="font-label-sm text-label-sm font-bold text-primary">Please wait</span>
+</div>
+</div>
+</div>
+<!-- Security Footer Message -->
+<div class="mt-xl pt-lg border-t border-border-subtle">
+<div class="flex items-center justify-center space-x-sm text-on-surface-variant opacity-75">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span class="font-label-sm text-label-sm">End-to-End Encryption Active (AES-256)</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Context-Specific Footer (Simplified per shell rules for focus journeys) -->
+<footer class="w-full py-lg mt-auto border-t border-border-subtle bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row justify-between items-center px-gutter max-w-container-max mx-auto text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center mb-md md:mb-0">
+<span class="font-bold text-on-surface mr-md">EvidenceEU</span>
+<p>© 2024 EvidenceEU Secure Identity Framework. All rights reserved.</p>
+</div>
+<div class="flex space-x-lg">
+<a class="hover:text-primary transition-colors" href="#">Matrix Protocol</a>
+<a class="hover:text-primary transition-colors" href="#">Security Audit</a>
+</div>
+</div>
+</footer>
+<!-- Security Information Card (Floating Asymmetric Layout) -->
+<div class="fixed bottom-gutter right-gutter hidden xl:block max-w-[280px]">
+<div class="bg-surface-container-high/80 backdrop-blur-md border border-border-subtle p-md rounded-lg shadow-lg">
+<div class="flex items-start">
+<span class="material-symbols-outlined text-primary mr-sm">info</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Secure Session</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">
+                        This session is monitored for compliance. Evidence is cryptographically anchored to the Matrix node.
+                    </p>
+</div>
+</div>
+</div>
+</div>
+<script>
+        // Simulate redirect logic for UI demo
+        window.addEventListener('load', () => {
+            console.log('Identity verified. Session active.');
+            // In a real app, this would be: 
+            // setTimeout(() => window.location.href = '/dashboard', 3000);
+        });
+
+        // Interactive micro-interaction for the verification items
+        const listItems = document.querySelectorAll('.grid > div');
+        listItems.forEach((item, index) => {
+            item.style.animationDelay = `${(index + 1) * 0.2}s`;
+            item.classList.add('fade-in-up');
+        });
+    </script>
+</body></html>

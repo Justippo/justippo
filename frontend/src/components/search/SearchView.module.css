@@ -1,0 +1,186 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--stitch-spacing-sm);
+  margin-bottom: var(--stitch-spacing-md);
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--text-headline-lg);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+}
+
+.emptyHint {
+  margin: var(--stitch-spacing-xs) 0 0;
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface-variant);
+}
+
+.signInLink {
+  color: var(--stitch-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.signInLink:hover {
+  text-decoration: underline;
+}
+
+.container {
+  padding: var(--stitch-spacing-lg) 0;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(190px, 250px) minmax(0, var(--stitch-container-md));
+  gap: var(--stitch-spacing-lg);
+  justify-content: center;
+}
+.historyPanel {
+  padding: var(--stitch-spacing-md);
+  background: var(--stitch-surface-container-lowest);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  align-self: start;
+  margin-top: var(--stitch-spacing-lg);
+}
+.historyPanel h2 {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+  margin: 0 0 var(--stitch-spacing-md);
+  font-size: var(--stitch-text-md);
+}
+.historyPanel ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--stitch-spacing-md) 0 0;
+}
+.historyPanel li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-unit);
+  padding: var(--stitch-spacing-sm) 0;
+  border-bottom: 1px solid var(--stitch-outline-variant);
+}
+.historyPanel a {
+  color: var(--stitch-on-surface);
+  text-decoration: none;
+  font-size: var(--stitch-text-sm);
+}
+.historyPanel span {
+  color: var(--stitch-on-surface-variant);
+  font-size: var(--stitch-text-xs);
+}
+.savedToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+  font-size: var(--stitch-text-sm);
+}
+.citationLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--stitch-unit);
+  margin-top: var(--stitch-spacing-sm);
+  color: var(--stitch-primary);
+  font-size: var(--stitch-text-sm);
+  font-weight: var(--stitch-weight-semibold);
+  text-decoration: none;
+}
+@media (max-width: 767px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  .historyPanel {
+    order: 2;
+  }
+}
+
+.searchForm {
+  display: flex;
+  gap: var(--stitch-spacing-sm);
+  margin-bottom: var(--stitch-spacing-lg);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  padding: var(--stitch-spacing-xs) var(--stitch-spacing-sm);
+  font-size: var(--stitch-text-base);
+  font-family: var(--stitch-font-sans);
+  color: var(--stitch-on-surface);
+  background-color: var(--stitch-surface-container-lowest);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  outline: none;
+  transition: border-color var(--stitch-transition-fast);
+}
+
+.searchInput:focus {
+  border-color: var(--stitch-primary);
+}
+
+.searchInput::placeholder {
+  color: var(--stitch-on-surface-variant);
+}
+
+.emptyState,
+.loadingState,
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--stitch-spacing-md);
+  padding: var(--stitch-spacing-xl);
+  text-align: center;
+}
+
+.emptyText,
+.loadingText {
+  color: var(--stitch-on-surface-variant);
+  font-size: var(--stitch-text-base);
+}
+
+.errorText {
+  color: var(--stitch-error);
+  font-size: var(--stitch-text-base);
+}
+
+.resultsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-md);
+}
+
+.resultCard {
+  padding: var(--stitch-spacing-md);
+  background-color: var(--stitch-surface-container-lowest);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+}
+
+.resultHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-sm);
+  margin-bottom: var(--stitch-spacing-xs);
+}
+
+.rank {
+  font-size: var(--stitch-text-xs);
+  color: var(--stitch-on-surface-variant);
+}
+
+.resultText {
+  font-size: var(--stitch-text-base);
+  line-height: var(--stitch-leading-normal);
+  color: var(--stitch-on-surface);
+  margin: 0;
+}

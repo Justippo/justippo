@@ -1,0 +1,90 @@
+name: License Check
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend/pyproject.toml'
+      - 'backend/uv.lock'
+      - '.github/workflows/license-check.yml'
+
+jobs:
+  check-licenses:
+    name: Dependency License Audit
+    runs-on: [self-hosted, macOS, ARM64]
+    timeout-minutes: 5
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up uv + Python 3.12
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: "backend/pyproject.toml"
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: backend
+        run: uv sync --extra dev
+
+      - name: Install pip-licenses
+        working-directory: backend
+        run: uv pip install pip-licenses
+
+      - name: Generate license report
+        working-directory: backend
+        run: |
+          uv run pip-licenses \
+            --format=markdown \
+            --with-urls \
+            --with-authors \
+            --output-file=license-report.md
+
+          echo "## License Report Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          uv run pip-licenses --format=markdown --with-urls >> $GITHUB_STEP_SUMMARY
+
+      - name: Check for problematic licenses
+        working-directory: backend
+        run: |
+          # Generate CSV for programmatic checking
+          uv run pip-licenses --format=csv --with-urls > license-report.csv
+
+          # Check for AGPL/GPL/LGPL licenses in direct dependencies
+          # NOTE: AGPL deps are acceptable as RUNTIME-ONLY (sidecar isolation).
+          # They are flagged as WARNINGS, not failures, because the HTTP boundary
+          # means AGPL does not propagate to EvidenceEU's AGPL-3.0 codebase.
+          # See ADR-008 and ADR-012 for the legal rationale.
+
+          echo "=== Checking for copyleft licenses ==="
+          COPYLEFT=$(grep -iE "AGPL|GPL|LGPL" license-report.csv || true)
+          if [ -n "$COPYLEFT" ]; then
+            echo "::warning::Copyleft licenses detected (non-blocking — sidecar isolation applies):"
+            echo "$COPYLEFT"
+            echo ""
+            echo "These are acceptable per ADR-008 (HTTP boundary isolation)."
+            echo "Review if any are imported directly (not via HTTP sidecar)."
+          else
+            echo "✅ No copyleft licenses found in direct dependencies."
+          fi
+
+          # Hard fail: licenses explicitly incompatible with redistribution
+          BLOCKED=$(grep -iE "SSPL|Commons Clause|Proprietary" license-report.csv || true)
+          if [ -n "$BLOCKED" ]; then
+            echo "::error::Blocked licenses detected — cannot redistribute:"
+            echo "$BLOCKED"
+            exit 1
+          fi
+
+          echo "✅ License audit passed."
+
+      - name: Upload license report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: license-report
+          path: backend/license-report.md
+          retention-days: 30

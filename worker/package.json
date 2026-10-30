@@ -1,0 +1,24 @@
+{
+  "name": "evidence-eu-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare Worker — proxies /api/v1/* to the FastAPI backend origin",
+  "scripts": {
+    "dev": "wrangler dev --env development",
+    "deploy:production": "wrangler deploy --env production",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.18.4",
+    "@cloudflare/workers-types": "^5.20260711.1",
+    "miniflare": "^4.20260708.1",
+    "typescript": "^5.4.5",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.0.0"
+  },
+  "dependencies": {
+    "@sentry/cloudflare": "^10.58.0"
+  },
+  "license": "AGPL-3.0-or-later"
+}

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>EvidenceEU - Document Upload</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#efeeed",
+                    "on-surface": "#1a1c1c",
+                    "on-secondary-fixed-variant": "#464747",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d2e4ff",
+                    "surface": "#faf9f8",
+                    "secondary-fixed": "#e4e2e1",
+                    "surface-container-high": "#e9e8e7",
+                    "background": "#faf9f8",
+                    "on-secondary-container": "#626262",
+                    "warning": "#F47738",
+                    "surface-container-low": "#f4f3f2",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "secondary": "#5e5e5e",
+                    "success": "#00703C",
+                    "primary-fixed-dim": "#a0caff",
+                    "inverse-surface": "#2f3130",
+                    "focus": "#FFDD00",
+                    "outline": "#717782",
+                    "on-primary": "#ffffff",
+                    "primary": "#005796",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#0061a6",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#1d70b8",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface-container-highest": "#e3e2e1",
+                    "secondary-container": "#e1dfdf",
+                    "tertiary": "#824600",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "error": "#D4351C",
+                    "border-subtle": "#B1B4B6",
+                    "surface-bright": "#faf9f8",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#a0caff",
+                    "on-surface-variant": "#414751",
+                    "surface-dim": "#dadad9",
+                    "on-primary-container": "#e9f1ff",
+                    "outline-variant": "#c1c7d2",
+                    "on-background": "#1a1c1c",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-tertiary-container": "#ffede2",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#a55a00",
+                    "on-primary-fixed-variant": "#00497e",
+                    "on-primary-fixed": "#001c37",
+                    "on-secondary": "#ffffff",
+                    "surface-variant": "#e3e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .upload-area-active {
+            box-shadow: inset 0 0 0 3px #FFDD00;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md text-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface border-b border-border-subtle flex items-center justify-between px-md py-sm h-14">
+<div class="flex items-center gap-md">
+<button class="p-xs text-primary transition-colors duration-200 active:bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold text-primary">EvidenceEU</h1>
+</div>
+<div class="flex items-center gap-sm">
+<div class="flex flex-col items-end mr-xs hidden xs:flex">
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Legal Counsel</span>
+<span class="text-[10px] uppercase tracking-wider text-success font-bold">Secure Node</span>
+</div>
+<button class="p-xs text-primary transition-colors duration-200 active:bg-surface-container-high rounded-full relative">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+<span class="absolute top-1 right-1 w-2.5 h-2.5 bg-success border-2 border-surface rounded-full"></span>
+</button>
+</div>
+</header>
+<main class="flex-grow p-md flex flex-col gap-lg max-w-md mx-auto w-full pb-24">
+<!-- Welcome Header -->
+<section class="flex flex-col gap-xs">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Secure Repository</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">Upload case documents for AI-assisted cross-border analysis.</p>
+</section>
+<!-- Large Tap to Upload Area -->
+<section class="w-full h-72 rounded-xl bg-surface-container-low border-2 border-dashed border-border-subtle flex flex-col items-center justify-center text-center p-lg cursor-pointer transition-all duration-200 active:scale-[0.98] active:bg-surface-container-high hover:border-primary-container" id="upload-zone">
+<div class="w-20 h-20 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container mb-md shadow-sm">
+<span class="material-symbols-outlined text-[40px]" data-icon="upload_file">upload_file</span>
+</div>
+<h3 class="font-headline-md-mobile text-headline-md-mobile text-primary mb-xs">Tap to Upload</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">PDF, DOCX, or JPEG up to 50MB</p>
+<div class="mt-lg flex items-center gap-sm text-on-primary-fixed-variant bg-primary-fixed px-md py-sm rounded-lg">
+<span class="material-symbols-outlined text-[18px]" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
+<span class="font-label-sm text-label-sm font-bold">End-to-End Encrypted</span>
+</div>
+</section>
+<!-- Recent Uploads Section -->
+<section class="flex flex-col gap-md">
+<div class="flex items-center justify-between">
+<h3 class="font-label-md text-label-md text-on-surface">Recent Uploads</h3>
+<button class="text-primary font-label-sm text-label-sm font-bold">View Archive</button>
+</div>
+<div class="flex flex-col gap-sm">
+<!-- Document Row 1 -->
+<div class="flex items-center gap-md p-md bg-surface-container-lowest border border-border-subtle rounded-lg shadow-sm active:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<div class="flex-grow min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">case_file_092_draft.pdf</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">2.4 MB • 12 mins ago</p>
+</div>
+<div class="text-success flex items-center">
+<span class="material-symbols-outlined" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<!-- Document Row 2 -->
+<div class="flex items-center gap-md p-md bg-surface-container-lowest border border-border-subtle rounded-lg shadow-sm active:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div class="flex-grow min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">evidence_log_v2.docx</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">845 KB • 2 hours ago</p>
+</div>
+<div class="text-success flex items-center">
+<span class="material-symbols-outlined" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<!-- Document Row 3 -->
+<div class="flex items-center gap-md p-md bg-surface-container-lowest border border-border-subtle rounded-lg shadow-sm active:bg-surface-container-high transition-colors">
+<div class="w-10 h-10 rounded bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="image">image</span>
+</div>
+<div class="flex-grow min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">scene_photo_001.jpg</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">4.1 MB • Yesterday</p>
+</div>
+<div class="text-success flex items-center">
+<span class="material-symbols-outlined" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Status Card -->
+<div class="bg-surface-container p-md rounded-xl flex items-start gap-md border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="info">info</span>
+<div class="flex flex-col gap-xs">
+<span class="font-label-md text-label-md text-on-surface">Matrix Node Sync</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">All uploads are automatically replicated to the EvidenceEU federated cluster for jurisdictional compliance.</p>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-container border-t border-border-subtle flex justify-around items-center h-16 pb-safe px-sm">
+<!-- Chat -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container active:scale-95 transition-transform duration-150 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-sm text-label-sm">Chat</span>
+</button>
+<!-- Documents (Active) -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-sm py-xs active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined" data-icon="description" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-label-sm text-label-sm">Documents</span>
+</button>
+<!-- Search -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container active:scale-95 transition-transform duration-150 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="manage_search">manage_search</span>
+<span class="font-label-sm text-label-sm">Search</span>
+</button>
+<!-- Translate -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container active:scale-95 transition-transform duration-150 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="g_translate">g_translate</span>
+<span class="font-label-sm text-label-sm">Translate</span>
+</button>
+<!-- Settings -->
+<button class="flex flex-col items-center justify-center text-on-secondary-container active:scale-95 transition-transform duration-150 hover:text-primary">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for the upload zone
+        const uploadZone = document.getElementById('upload-zone');
+        
+        uploadZone.addEventListener('click', () => {
+            // Simulate a haptic-like visual feedback or file picker opening
+            console.log('Upload triggered');
+        });
+
+        // Add visual state for dragging (if supported in browser mobile view)
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('bg-surface-container-high', 'border-primary');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('bg-surface-container-high', 'border-primary');
+        });
+    </script>
+</body></html>

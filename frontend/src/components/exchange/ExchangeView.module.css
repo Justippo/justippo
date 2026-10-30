@@ -1,0 +1,147 @@
+.container {
+}
+
+.heading {
+  font-size: var(--stitch-text-xl);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+  margin: 0;
+}
+
+.centerState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--stitch-spacing-md);
+  padding: var(--stitch-spacing-xl);
+  text-align: center;
+}
+
+.stateText {
+  color: var(--stitch-on-surface-variant);
+  max-width: 32rem;
+}
+
+.createForm {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--stitch-spacing-sm);
+  width: min(100%, 24rem);
+  margin-top: var(--stitch-spacing-md);
+}
+
+.fieldLabel {
+  font-size: var(--stitch-text-sm);
+  font-weight: var(--stitch-weight-medium);
+  color: var(--stitch-on-surface);
+  text-align: left;
+}
+
+.validationError {
+  margin: 0;
+  color: var(--color-error);
+  font-size: var(--text-label-sm);
+  line-height: var(--leading-label-sm);
+}
+
+.roomHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--stitch-spacing-md);
+  margin-bottom: var(--stitch-spacing-md);
+}
+
+.roomMeta {
+  margin: var(--stitch-spacing-xs) 0 0;
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface-variant);
+}
+
+.securityRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+  padding: var(--stitch-spacing-xs) var(--stitch-spacing-sm);
+  border-radius: var(--stitch-radius-md);
+  background: var(--stitch-surface-container);
+  margin-bottom: var(--stitch-spacing-md);
+}
+
+.securityIcon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--stitch-success);
+}
+
+.securityText {
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface);
+}
+
+.documentLine {
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface);
+  margin: 0 0 var(--stitch-spacing-xs);
+}
+
+.createdAt {
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface-variant);
+  margin: 0 0 var(--stitch-spacing-lg);
+}
+
+.participantsSection {
+  margin-top: var(--stitch-spacing-md);
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+  margin-bottom: var(--stitch-spacing-sm);
+}
+
+.sectionIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+  color: var(--stitch-primary);
+}
+
+.sectionTitle {
+  font-size: var(--stitch-text-lg);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+  margin: 0;
+}
+
+.participantList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-xs);
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--stitch-spacing-sm);
+  padding: var(--stitch-spacing-sm);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  background: var(--stitch-surface-container-lowest);
+}
+
+.participantName {
+  font-size: var(--stitch-text-sm);
+  font-weight: var(--stitch-weight-medium);
+  color: var(--stitch-on-surface);
+}
+
+.actions {
+  margin-top: var(--stitch-spacing-lg);
+}

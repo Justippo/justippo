@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--stitch-spacing-md);
+  padding: var(--stitch-spacing-xl);
+  text-align: center;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.iconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--stitch-radius-full);
+  background: var(--stitch-surface-container);
+}
+
+.icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--stitch-primary);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--stitch-text-xl);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface-variant);
+  line-height: 1.5;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--stitch-spacing-sm) var(--stitch-spacing-lg);
+  border-radius: var(--stitch-radius-xl);
+  background: var(--stitch-primary);
+  color: var(--stitch-on-primary);
+  font-size: var(--stitch-text-sm);
+  font-weight: var(--stitch-weight-medium);
+  text-decoration: none;
+}
+
+.primaryAction:focus-visible {
+  outline: 2px solid var(--stitch-focus);
+  outline-offset: 2px;
+}

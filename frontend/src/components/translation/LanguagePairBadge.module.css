@@ -1,0 +1,12 @@
+.pair {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+}
+
+.arrow {
+  width: 1rem;
+  height: 1rem;
+  color: var(--stitch-outline);
+  flex-shrink: 0;
+}

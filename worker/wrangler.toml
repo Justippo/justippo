@@ -1,0 +1,85 @@
+# EvidenceEU — Cloudflare Worker Deployment Config
+# Proxies all /api/v1/* traffic to the FastAPI backend origin.
+#
+# Local dev:
+#   wrangler dev --env development
+#
+# Deploy to production:
+#   wrangler deploy --env production
+
+name = "evidence-eu-worker"
+main = "index.ts"
+compatibility_date = "2024-05-02"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+account_id = "9f26393d5ba4186296b36e2af8714b1c"
+
+# ── Development environment ───────────────────────────────────────────────────
+[env.development]
+name = "evidence-eu-worker-dev"
+
+[env.development.vars]
+APP_ENV = "development"
+# FASTAPI_ORIGIN is set via: wrangler secret put FASTAPI_ORIGIN --env development
+# Typical value: http://localhost:8000
+
+[[env.development.d1_databases]]
+binding = "DB"
+database_name = "evidence-eu-db"
+database_id = "a06f6d9a-280f-45f7-b679-e5dc6c002001"
+
+# ── Production environment ────────────────────────────────────────────────────
+[env.production]
+name = "evidence-eu-worker"
+workers_dev = true
+
+[env.production.vars]
+APP_ENV = "production"
+ENABLE_MATRIX_EXCHANGE = "true"
+# FASTAPI_ORIGIN is set via: wrangler secret put FASTAPI_ORIGIN --env production
+# Typical value: https://evidence-eu-api.mc146.workers.dev
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "evidence-eu-db"
+database_id = "a06f6d9a-280f-45f7-b679-e5dc6c002001"
+
+[[env.production.services]]
+binding = "BACKEND"
+service = "evidence-eu-api"
+
+# ── D1 database binding (shared with backend worker) ─────────────────────────
+[[d1_databases]]
+binding = "DB"
+database_name = "evidence-eu-db"
+database_id = "a06f6d9a-280f-45f7-b679-e5dc6c002001"
+
+# ── Cron Triggers ─────────────────────────────────────────────────────────────
+# Hourly cleanup of expired Matrix OAuth states and sessions (ADR-019).
+# The scheduled() handler in index.ts runs this — no backend request needed.
+[triggers]
+crons = ["0 * * * *"]
+
+# ── Observability ──────────────────────────────────────────────────────────────
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+# ADD: Laminar OTel export — sends Worker traces to Laminar via OTLP/HTTP.
+# Cloudflare native OTel export (open beta) — no npm package needed in worker/.
+# Requires a dashboard destination named "laminar-traces" to be created first
+# (see docs/adal/laminar-instrumentation-research.md §5.2 for setup steps).
+# The Authorization header carries the Laminar project API key (Bearer token).
+# head_sampling_rate = 0.1 keeps trace volume within Laminar's 1GB free tier.
+[observability.traces]
+enabled = true
+destinations = ["laminar-traces"]
+head_sampling_rate = 0.1
+persist = false
+# END ADD
+
+# ── Routes ────────────────────────────────────────────────────────────────────
+# Uncomment and set your zone after custom domain is confirmed:
+# [[routes]]
+# pattern = "api.evidenceeu.eu/api/v1/*"
+# zone_name = "evidenceeu.eu"

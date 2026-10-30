@@ -1,0 +1,25 @@
+# Credentials are injected by GitHub Actions and never committed.
+userName: ${BROWSERSTACK_USERNAME}
+accessKey: ${BROWSERSTACK_ACCESS_KEY}
+
+framework: playwright
+projectName: EvidenceEU
+buildName: EvidenceEU cross-browser E2E
+
+# Keep the capstone run deliberately small: one Firefox and one WebKit session.
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: playwright-firefox
+    browserVersion: latest
+  - os: OS X
+    osVersion: Ventura
+    browserName: playwright-webkit
+    browserVersion: latest
+
+parallelsPerPlatform: 1
+browserstackLocal: false
+debug: true
+networkLogs: true
+consoleLogs: errors
+testReporting: true

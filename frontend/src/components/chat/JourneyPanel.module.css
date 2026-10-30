@@ -1,0 +1,168 @@
+.panel {
+  padding: var(--stitch-spacing-md);
+  background: var(--stitch-surface-container-lowest);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-md);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-xs);
+}
+
+.section + .section {
+  padding-top: var(--stitch-spacing-md);
+  border-top: 1px solid var(--stitch-outline-variant);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+  margin: 0;
+  font-size: var(--stitch-text-sm);
+  font-weight: var(--stitch-weight-semibold);
+  color: var(--stitch-on-surface);
+}
+
+.description {
+  margin: 0;
+  font-size: var(--stitch-text-xs);
+  color: var(--stitch-on-surface-variant);
+  line-height: 1.35;
+}
+
+.progress {
+  margin: 0;
+  font-size: var(--stitch-text-xs);
+  color: var(--stitch-primary);
+  font-weight: var(--stitch-weight-semibold);
+}
+
+/* ── Action plan steps ───────────────────────────────────────────────────── */
+
+.stepsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-xs);
+}
+
+.stepItem {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+  font-size: var(--stitch-text-xs);
+  color: var(--stitch-on-surface-variant);
+}
+
+.stepItem.completed {
+  color: var(--stitch-success);
+}
+
+.stepItem.current {
+  color: var(--stitch-primary);
+  font-weight: var(--stitch-weight-semibold);
+}
+
+.stepIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.stepLabel {
+  line-height: 1.3;
+}
+
+/* ── Clarification question ──────────────────────────────────────────────── */
+
+.question {
+  margin: 0;
+  font-size: var(--stitch-text-xs);
+  color: var(--stitch-on-surface);
+  line-height: 1.35;
+}
+
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-xs);
+  margin-top: var(--stitch-spacing-xs);
+}
+
+.optionButton {
+  display: block;
+  width: 100%;
+  padding: var(--stitch-spacing-xs) var(--stitch-spacing-sm);
+  font-size: var(--stitch-text-xs);
+  font-weight: var(--stitch-weight-medium);
+  color: var(--stitch-primary);
+  background: var(--stitch-surface-container-low);
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.optionButton:hover {
+  background: var(--stitch-surface-container);
+  border-color: var(--stitch-primary);
+}
+
+.optionButton:focus-visible {
+  outline: 2px solid var(--stitch-focus);
+  outline-offset: 1px;
+}
+
+/* ── Document checklist ──────────────────────────────────────────────────── */
+
+.docsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-xs);
+}
+
+.docItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.docName {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-xs);
+  font-size: var(--stitch-text-xs);
+  font-weight: var(--stitch-weight-medium);
+  color: var(--stitch-on-surface);
+}
+
+.requiredBadge {
+  display: inline-block;
+  padding: 1px 5px;
+  font-size: var(--stitch-text-xs);
+  font-weight: var(--stitch-weight-semibold);
+  color: var(--stitch-error);
+  border: 1px solid var(--stitch-error);
+  border-radius: var(--stitch-radius-full);
+  line-height: 1.2;
+}
+
+.docDescription {
+  font-size: var(--stitch-text-xs);
+  color: var(--stitch-on-surface-variant);
+}

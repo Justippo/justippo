@@ -1,0 +1,151 @@
+name: Update Notion Overview Page (Manual)
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: notion-overview-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: [self-hosted, macOS, ARM64]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure SSL certificates
+        run: |
+          python3 -m pip install --quiet --break-system-packages certifi
+          echo "SSL_CERT_FILE=$(python3 -c 'import certifi; print(certifi.where())')" >> $GITHUB_ENV
+
+      - name: Update overview page content
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import sys
+          import time
+          import urllib.request
+          import urllib.error
+
+          sys.path.insert(0, "scripts")
+          from notion_helpers import notion_request
+
+          OVERVIEW_PAGE_ID = "38cbf1cf330680aabda5e32554524599"
+
+          # ── Fetch all blocks on the overview page ──
+          def fetch_blocks(block_id):
+              """Fetch all child blocks, handling pagination."""
+              blocks = []
+              start_cursor = None
+              while True:
+                  path = f"/blocks/{block_id}/children?page_size=100"
+                  if start_cursor:
+                      path += f"&start_cursor={start_cursor}"
+                  _, resp = notion_request("GET", path)
+                  blocks.extend(resp.get("results", []))
+                  if not resp.get("has_more"):
+                      break
+                  start_cursor = resp.get("next_cursor")
+                  time.sleep(0.3)
+              return blocks
+
+          def get_text(block):
+              """Extract plain text from a block's rich_text."""
+              texts = block.get("paragraph", {}).get("rich_text", [])
+              if not texts:
+                  texts = block.get("heading_1", {}).get("rich_text", [])
+              if not texts:
+                  texts = block.get("heading_2", {}).get("rich_text", [])
+              if not texts:
+                  texts = block.get("heading_3", {}).get("rich_text", [])
+              if not texts:
+                  texts = block.get("bulleted_list_item", {}).get("rich_text", [])
+              if not texts:
+                  texts = block.get("numbered_list_item", {}).get("rich_text", [])
+              return "".join(t.get("plain_text", "") for t in texts)
+
+          def update_block_text(block_id, block_type, new_text):
+              """Update a block's text content."""
+              notion_request("PATCH", f"/blocks/{block_id}", {
+                  block_type: {
+                      "rich_text": [{"text": {"content": new_text}}]
+                  }
+              })
+
+          def append_block(parent_id, block_type, text):
+              """Append a new block to a parent."""
+              notion_request("POST", f"/blocks/{parent_id}/children", {
+                  "children": [{
+                      "object": "block",
+                      block_type: {
+                          "rich_text": [{"text": {"content": text}}]
+                      }
+                  }]
+              })
+
+          blocks = fetch_blocks(OVERVIEW_PAGE_ID)
+          print(f"Found {len(blocks)} blocks on overview page")
+
+          # ── Find and update blocks with stale content ──
+          updated = 0
+          for block in blocks:
+              bid = block["id"]
+              btype = block.get("type", "")
+              text = get_text(block)
+
+              if not text:
+                  continue
+
+              changed = False
+              new_text = text
+
+              # Team section — replace colleague names
+              if "Ahmed Hassan" in text or "Karen Mariano" in text or "Akira Dheena" in text:
+                  new_text = "**Mihai Chindriș** (PO/Dev — sole submitter)"
+                  changed = True
+
+              # Quality metrics — replace stale numbers
+              if "569 backend" in text:
+                  new_text = text.replace("569 backend tests (92% coverage)", "1132 backend tests (83% coverage)")
+                  changed = True
+              if "43 Vitest" in text:
+                  new_text = new_text.replace("43 Vitest unit tests", "382 Vitest tests")
+                  changed = True
+              if "30 Playwright" in text:
+                  new_text = new_text.replace("30 Playwright E2E tests", "70 Playwright E2E tests")
+                  changed = True
+              if "38 security" in text:
+                  new_text = new_text.replace("38 security tests", "33 security tests")
+                  changed = True
+
+              # Remove colleague names from any block
+              if "Karen" in new_text or "Ahmed" in new_text or "Akira" in new_text:
+                  new_text = new_text.replace("Karen Mariano", "")
+                  new_text = new_text.replace("Ahmed Hassan", "")
+                  new_text = new_text.replace("Akira Dheena", "")
+                  new_text = new_text.replace("Karen", "")
+                  new_text = new_text.replace("Ahmed", "")
+                  new_text = new_text.replace("Akira", "")
+                  new_text = new_text.strip()
+                  if new_text != text:
+                      changed = True
+
+              if changed and btype in ("paragraph", "heading_1", "heading_2", "heading_3", "bulleted_list_item", "numbered_list_item"):
+                  print(f"  Updating block {bid} ({btype}):")
+                  print(f"    Old: {text[:80]}")
+                  print(f"    New: {new_text[:80]}")
+                  try:
+                      update_block_text(bid, btype, new_text)
+                      updated += 1
+                      time.sleep(0.35)
+                  except Exception as e:
+                      print(f"    ❌ Failed: {e}")
+
+          print(f"\nUpdated {updated} blocks")
+          PY

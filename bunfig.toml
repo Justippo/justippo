@@ -1,0 +1,9 @@
+# Bun configuration for EvidenceEU workspace root
+# Controls workspace-wide install behavior for frontend/ + worker/
+
+[install]
+# Use hoisted (npm-style) node_modules layout instead of Bun's default isolated mode.
+# Storybook's webpack builder and Playwright expect a flat node_modules structure.
+# Without this, Storybook fails with: "Cannot read properties of undefined (reading 'tap')"
+# because builder-webpack5 (a transitive dep) can't be resolved through symlink chains.
+linker = "hoisted"

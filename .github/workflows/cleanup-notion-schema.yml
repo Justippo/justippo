@@ -1,0 +1,70 @@
+name: Cleanup Notion DB Schema (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      property:
+        description: "Property name to clean (e.g. Sprint, Assignees)"
+        required: true
+        default: "Sprint"
+      remove_option:
+        description: "Option name to remove (e.g. Backlog)"
+        required: true
+        default: "Backlog"
+
+concurrency:
+  group: notion-schema-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: [self-hosted, macOS, ARM64]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure SSL certificates
+        run: |
+          python3 -m pip install --quiet --break-system-packages certifi
+          echo "SSL_CERT_FILE=$(python3 -c 'import certifi; print(certifi.where())')" >> $GITHUB_ENV
+
+      - name: Remove option from Notion DB schema
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          PROP_NAME: ${{ inputs.property }}
+          REMOVE_NAME: ${{ inputs.remove_option }}
+        run: |
+          python3 <<'PY'
+          import os, sys
+          sys.path.insert(0, "scripts")
+          from notion_helpers import notion_request
+
+          DB_ID = os.environ.get("NOTION_DATABASE_ID", "38cbf1cf330681b484d0c68d7fc9505c")
+          PROP = os.environ["PROP_NAME"]
+          REMOVE = os.environ["REMOVE_NAME"]
+
+          _, db = notion_request("GET", f"/databases/{DB_ID}")
+          prop_schema = db.get("properties", {}).get(PROP, {})
+          prop_type = prop_schema.get("type", "")
+
+          if prop_type == "select":
+              all_options = prop_schema.get("select", {}).get("options", [])
+          elif prop_type == "multi_select":
+              all_options = prop_schema.get("multi_select", {}).get("options", [])
+          else:
+              print(f"Property '{PROP}' is type '{prop_type}' — only select/multi_select supported")
+              exit(1)
+
+          print(f"Current {PROP} options: {[o['name'] for o in all_options]}")
+          keep = [o for o in all_options if o.get("name") != REMOVE]
+          print(f"Removing '{REMOVE}', keeping: {[o['name'] for o in keep]}")
+
+          notion_request("PATCH", f"/databases/{DB_ID}", {
+              "properties": {
+                  PROP: {prop_type: {"options": keep}}
+              }
+          })
+          print(f"✅ '{REMOVE}' removed from {PROP}")
+          PY

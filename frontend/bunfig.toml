@@ -1,0 +1,10 @@
+# Bun configuration for EvidenceEU frontend
+# Bun is used for local dev + CI/CD speed. Cloudflare Pages runtime is V8 (workerd).
+# Build output (next build) is Node.js/V8-compatible regardless of which runtime runs the build.
+#
+# NOTE: node-linker = "hoisted" is set in the ROOT bunfig.toml (workspace root),
+# not here — Bun reads workspace config from the root, not subdirectories.
+
+[install]
+# Cache resolved packages globally for faster reinstalls (~/.bun/install/cache)
+cache = true

@@ -1,0 +1,90 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+  gap: var(--stitch-spacing-lg);
+}
+
+.sidebar {
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  background: var(--stitch-surface-container-lowest);
+  padding: var(--stitch-spacing-md);
+}
+
+.sidebarHeader {
+  margin-bottom: var(--stitch-spacing-md);
+  padding-bottom: var(--stitch-spacing-sm);
+  border-bottom: 1px solid var(--stitch-outline-variant);
+}
+
+.sidebarTitle {
+  margin: 0;
+  font-size: var(--stitch-text-lg);
+  font-weight: var(--stitch-weight-bold);
+  color: var(--stitch-on-surface);
+}
+
+.sidebarSubtitle {
+  margin: var(--stitch-spacing-xs) 0 0;
+  font-size: var(--stitch-text-sm);
+  color: var(--stitch-on-surface-variant);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stitch-spacing-xs);
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: var(--stitch-spacing-sm);
+  width: 100%;
+  padding: var(--stitch-spacing-sm) var(--stitch-spacing-md);
+  border: none;
+  border-radius: var(--stitch-radius-lg);
+  background: transparent;
+  color: var(--stitch-on-surface-variant);
+  font-size: var(--stitch-text-sm);
+  font-weight: var(--stitch-weight-medium);
+  font-family: var(--stitch-font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--stitch-transition-fast);
+}
+
+.navItem:hover {
+  background: var(--stitch-surface-container);
+}
+
+.navItem:focus-visible {
+  outline: 2px solid var(--stitch-focus);
+  outline-offset: 2px;
+}
+
+.navItemActive {
+  background: var(--stitch-primary-container);
+  color: var(--stitch-on-primary-container);
+  font-weight: var(--stitch-weight-bold);
+}
+
+.navIcon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.content {
+  border: 1px solid var(--stitch-outline-variant);
+  border-radius: var(--stitch-radius-xl);
+  background: var(--stitch-surface-container-lowest);
+  padding: var(--stitch-spacing-lg);
+  min-height: 24rem;
+}
+
+@media (max-width: 767px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU | Secure Matrix Node Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&amp;family=Courier+Prime&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb77b",
+                        "on-surface-variant": "#414751",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#faf9f8",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e9e8e7",
+                        "on-surface": "#1a1c1c",
+                        "focus": "#FFDD00",
+                        "surface-tint": "#0061a6",
+                        "primary-fixed": "#d2e4ff",
+                        "tertiary": "#824600",
+                        "on-background": "#1a1c1c",
+                        "surface-container-low": "#f4f3f2",
+                        "inverse-surface": "#2f3130",
+                        "on-tertiary-container": "#ffede2",
+                        "on-primary": "#ffffff",
+                        "warning": "#F47738",
+                        "surface-variant": "#e3e2e1",
+                        "surface-dim": "#dadad9",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "error": "#D4351C",
+                        "on-primary-fixed-variant": "#00497e",
+                        "secondary-fixed": "#e4e2e1",
+                        "tertiary-fixed": "#ffdcc2",
+                        "secondary-fixed-dim": "#c7c6c6",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#464747",
+                        "inverse-on-surface": "#f1f0ef",
+                        "surface-bright": "#faf9f8",
+                        "border-subtle": "#B1B4B6",
+                        "outline-variant": "#c1c7d2",
+                        "background": "#faf9f8",
+                        "success": "#00703C",
+                        "surface-container-highest": "#e3e2e1",
+                        "secondary": "#5e5e5e",
+                        "on-tertiary-fixed": "#2e1500",
+                        "primary": "#005796",
+                        "inverse-primary": "#a0caff",
+                        "on-secondary-container": "#626262",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#e9f1ff",
+                        "tertiary-container": "#a55a00",
+                        "secondary-container": "#e1dfdf",
+                        "outline": "#717782",
+                        "on-primary-fixed": "#001c37",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#1d70b8",
+                        "on-tertiary-fixed-variant": "#6d3a00",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#a0caff",
+                        "surface-container": "#efeeed"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "lg": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-xl-mobile": ["Public Sans"],
+                        "headline-xl": ["Public Sans"],
+                        "body-md": ["Public Sans"],
+                        "label-md": ["Public Sans"],
+                        "code": ["Courier Prime"],
+                        "headline-lg": ["Public Sans"],
+                        "body-lg": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "label-sm": ["Public Sans"]
+                    },
+                    "fontSize": {
+                        "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                        "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #F3F2F1;
+            font-family: 'Public Sans', sans-serif;
+        }
+        .focus-ring:focus {
+            outline: 3px solid #FFDD00;
+            outline-offset: 1px;
+        }
+        .tonal-layer-1 {
+            background-color: #FFFFFF;
+            border: 1px solid #B1B4B6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- Hero Background Animation Section -->
+<div class="fixed inset-0 z-0 overflow-hidden opacity-40 pointer-events-none">
+
+</div>
+<!-- Main Content Canvas -->
+<main class="relative z-10 flex-grow flex items-center justify-center px-md py-xl">
+<!-- Entry Modal Container -->
+<div class="w-full max-w-[480px] tonal-layer-1 p-xl flex flex-col gap-lg shadow-sm">
+<!-- Brand / Logo Area -->
+<div class="flex flex-col items-center gap-sm mb-md">
+<div class="w-16 h-16 bg-primary-container flex items-center justify-center rounded-lg mb-sm">
+<span class="material-symbols-outlined text-[40px] text-on-primary" data-icon="hub">hub</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">EvidenceEU</h1>
+<p class="font-label-md text-label-md text-secondary tracking-widest uppercase">Secure Identity Framework</p>
+</div>
+<!-- Header Text -->
+<div class="flex flex-col gap-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Choose your homeserver</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Matrix is a decentralized network. To continue, please enter the address of your preferred node. 
+                    <span class="font-bold text-on-surface">Enterprise users</span> should use their provided organizational node (e.g., evidence.eu).
+                </p>
+</div>
+<!-- Selection Form -->
+<div class="flex flex-col gap-lg">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface" for="homeserver">Homeserver</label>
+<div class="relative flex items-center">
+<span class="absolute left-md material-symbols-outlined text-outline" data-icon="dns">dns</span>
+<input class="w-full pl-[48px] pr-md py-md border border-border-subtle font-body-md text-body-md focus-ring focus:border-primary transition-all rounded-none" id="homeserver" name="homeserver" placeholder="e.g. matrix.org" type="text" value="evidence.eu"/>
+</div>
+<div class="flex items-start gap-sm mt-xs p-sm bg-surface-container-low border-l-4 border-primary">
+<span class="material-symbols-outlined text-primary text-sm mt-1" data-icon="info">info</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                            This node governs your data sovereignty and security protocols.
+                        </p>
+</div>
+</div>
+<!-- Action Group -->
+<div class="flex flex-col gap-md pt-sm">
+<button class="w-full bg-primary-container hover:bg-primary text-white font-label-md text-label-md py-md px-lg flex items-center justify-center gap-sm transition-colors focus-ring">
+                        Next
+                        <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<button class="w-full border-2 border-primary-container text-primary-container font-label-md text-label-md py-md px-lg hover:bg-surface-container-low transition-all focus-ring">
+                        Find my node
+                    </button>
+</div>
+</div>
+<!-- Divider -->
+<div class="flex items-center gap-md py-sm">
+<div class="flex-grow h-[1px] bg-border-subtle"></div>
+<span class="font-label-sm text-label-sm text-outline">OR</span>
+<div class="flex-grow h-[1px] bg-border-subtle"></div>
+</div>
+<!-- Secondary Path -->
+<div class="flex justify-center">
+<a class="font-label-md text-label-md text-primary underline hover:text-primary-container transition-colors focus-ring" href="#">
+                    Create a new Matrix account
+                </a>
+</div>
+</div>
+<!-- Decorative Info Cards (Bento Style) -->
+<div class="hidden lg:flex flex-col gap-lg ml-xl w-[320px]">
+<div class="tonal-layer-1 p-lg flex flex-col gap-sm">
+<div class="flex items-center gap-sm text-success">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span class="font-label-md text-label-md">Verified Node</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    EvidenceEU nodes are audited for GDPR compliance and E2EE integrity.
+                </p>
+</div>
+<div class="tonal-layer-1 overflow-hidden relative group">
+<div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-5 transition-opacity"></div>
+<div class="h-40 relative">
+<img class="w-full h-full object-cover" data-alt="A professional, high-end architectural visualization of a modern data center interior with sleek white servers and blue status lights. The lighting is bright and corporate, emphasizing cleanliness, security, and technological precision. The camera angle is low and dynamic, creating a sense of scale and institutional stability. The color palette is restricted to soft greys, icy blues, and pristine whites to match a light-mode enterprise UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCi9b47yYVaRmi-P6Vjr-sHOwIRrizJpslrNl5u4-zm6pJENxzKdicmxIcwm3gZuD83H37XrW7vHm4xAxZru4ET-9OVsMOg6XWrvi6uJ8NiEg8ParCYrXhwGF6VL_AHELd-BU45hn8VZxT75l4rvGr3fZiX9RqJD0yYOgnXIbSe7Vz_P4h1BG0SmDNK1FMAsssqfS5EDX3b8tH5euyBK_sTLm_WK_NYiVvxlmP_tRIiV9YLcyugkeM0AnTWXXGXY6hlkInSWfwgUWeD"/>
+</div>
+<div class="p-lg">
+<p class="font-label-md text-label-md text-on-surface mb-xs">Federated Infrastructure</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                        Join over 40M users on the Matrix network while keeping your data on-premise.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer from Shared Components -->
+<footer class="w-full py-lg mt-auto bg-surface-container-lowest border-t border-border-subtle relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-center px-gutter max-w-container-max mx-auto w-full">
+<div class="mb-md md:mb-0">
+<p class="font-label-md text-label-md font-bold text-on-surface">EvidenceEU</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 EvidenceEU Secure Identity Framework. All rights reserved.</p>
+</div>
+<div class="flex gap-lg flex-wrap justify-center">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors opacity-100 hover:opacity-80" href="#">GDPR Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors opacity-100 hover:opacity-80" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors opacity-100 hover:opacity-80" href="#">Matrix Protocol</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors opacity-100 hover:opacity-80" href="#">Security Audit</a>
+</div>
+</div>
+</footer>
+<script>
+        // Simple interactive focus states for the input
+        const hsInput = document.getElementById('homeserver');
+        const nextBtn = document.querySelector('button.bg-primary-container');
+
+        hsInput.addEventListener('input', (e) => {
+            if (e.target.value.trim().length > 3) {
+                nextBtn.classList.remove('opacity-50');
+                nextBtn.disabled = false;
+            } else {
+                nextBtn.classList.add('opacity-50');
+                nextBtn.disabled = true;
+            }
+        });
+
+        // Background subtle parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const shader = document.querySelector('webgl-shader');
+            if (shader) {
+                const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+                const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+                shader.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.05)`;
+            }
+        });
+    </script>
+</body></html>

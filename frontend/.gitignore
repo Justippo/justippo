@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Bun
+.bun/
+
+# Turborepo
+.turbo/
+
+# Vercel
+.vercel/
+
+# macOS
+.DS_Store
+
+# Coverage
+coverage/
+
+# Storybook
+storybook-static/
+build-storybook.log
+
+# Playwright
+playwright-report/
+test-results/
+playwright-live-report/
+test-results-live/
+
+# BrowserStack SDK runtime artifacts
+.browserstack/
+log/
+.next/
+.next/

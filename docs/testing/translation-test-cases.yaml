@@ -1,0 +1,651 @@
+# ============================================================================
+# EvidenceEU — Translation Accuracy Test Cases (ADR-005, Sprint 2)
+# ============================================================================
+# DRY: All cases inherit from the `defaults` anchor via YAML merge key (<<).
+# Only case-specific fields are overridden. Glossary terms reference the
+# ADR-005 seed data (EUR-Lex public domain, ~50 terms for EN↔DE/FR).
+#
+# ß / Unicode constraint:
+#   Python's re.IGNORECASE does NOT handle ß → ss case folding. All expected
+#   terms therefore use "ss" instead of "ß". See AGENTS.md Translation Accuracy
+#   Test Suite section for the str.casefold() workaround.
+#
+# Quality thresholds (tunable per case):
+#   term_accuracy   — fraction of expected glossary terms correctly translated
+#   structural_pres — fraction of structural markers (tables, lists) preserved
+#   completeness    — fraction of input text blocks present in output
+#   consistency     — same term translated identically across pages (0–1)
+#
+# Usage:
+#   pytest backend/tests/integration/test_translation_accuracy.py -v
+# ============================================================================
+
+defaults: &defaults
+  enabled: true
+  category: ""
+  description: ""
+  source_lang: "en"
+  target_lang: "de"
+  input_pages: []
+  expected_terms: []
+  forbidden_terms: []
+  quality_thresholds:
+    term_accuracy: 0.80
+    structural_pres: 0.90
+    completeness: 0.95
+    consistency: 0.90
+  checks:
+    - terminology
+    - completeness
+    - no_forbidden_terms
+
+# ============================================================================
+# CATEGORY 1: Legal Terminology (6 cases)
+# ============================================================================
+
+test_cases:
+  - <<: *defaults
+    id: TC-001
+    category: legal_terminology
+    description: "DE→EN: Aufenthaltstitel must translate to 'residence permit', not 'stay title'"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Der Antragsteller muss einen gültigen Aufenthaltstitel vorlegen, um in der Bundesrepublik Deutschland zu arbeiten."
+    expected_terms:
+      - source: "Aufenthaltstitel"
+        target: "residence permit"
+    forbidden_terms: ["stay title", "residence card", "dwelling title"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-002
+    category: legal_terminology
+    description: "FR→EN: 'acte authentique' must translate to 'notarial deed', not 'authentic act'"
+    source_lang: "fr"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "L'acte authentique est dressé par un notaire et constitue un titre exécutoire conformément à la loi française."
+    expected_terms:
+      - source: "acte authentique"
+        target: "notarial deed"
+    forbidden_terms: ["authentic act", "genuine act"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-003
+    category: legal_terminology
+    description: "EN→DE: 'power of attorney' must translate to 'Vollmacht', not 'Proxy' or 'Autorisierung'"
+    source_lang: "en"
+    target_lang: "de"
+    input_pages:
+      - page: 1
+        text: "The applicant must provide a power of attorney authorizing the legal representative to act on their behalf."
+    expected_terms:
+      - source: "power of attorney"
+        target: "Vollmacht"
+    forbidden_terms: ["Proxy", "Autorisierung", "Bevollmächtigungserklärung"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-004
+    category: legal_terminology
+    description: "EN→FR: 'residence permit' must translate to 'titre de séjour', not 'permis de résidence'"
+    source_lang: "en"
+    target_lang: "fr"
+    input_pages:
+      - page: 1
+        text: "All foreign nationals must hold a valid residence permit to reside in France for more than three months."
+    expected_terms:
+      - source: "residence permit"
+        target: "titre de séjour"
+    forbidden_terms: ["permis de résidence", "carte de séjour"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-005
+    category: legal_terminology
+    description: "DE→EN: Multiple legal terms in one document — Aufenthaltstitel, Vollmacht, Arbeitserlaubnis"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Der Antragsteller benötigt einen Aufenthaltstitel, eine Vollmacht für den Vertreter und eine Arbeitserlaubnis für die Beschäftigung."
+    expected_terms:
+      - source: "Aufenthaltstitel"
+        target: "residence permit"
+      - source: "Vollmacht"
+        target: "power of attorney"
+      - source: "Arbeitserlaubnis"
+        target: "work permit"
+    forbidden_terms: ["stay title", "Proxy", "authorization"]
+    quality_thresholds:
+      term_accuracy: 0.67
+
+  - <<: *defaults
+    id: TC-006
+    category: legal_terminology
+    description: "FR→EN: 'directive' vs 'règlement' — must preserve EU legislative distinction"
+    source_lang: "fr"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "La directive 2003/109/CE et le règlement (CE) n° 261/2004 ont des portées juridiques différentes dans le droit de l'UE."
+    expected_terms:
+      - source: "directive"
+        target: "directive"
+      - source: "règlement"
+        target: "regulation"
+    forbidden_terms: []
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  # ===========================================================================
+  # CATEGORY 2: Administrative Documents (3 cases)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-007
+    category: administrative
+    description: "EN→DE: Administrative form with field labels — must preserve form structure"
+    source_lang: "en"
+    target_lang: "de"
+    input_pages:
+      - page: 1
+        text: |
+          Application for Residence Permit
+          Full Name: ___________
+          Date of Birth: ___________
+          Nationality: ___________
+          Purpose of Stay: ___________
+          Duration: ___________
+    expected_terms:
+      - source: "Residence Permit"
+        target: "Aufenthaltstitel"
+      - source: "Nationality"
+        target: "Staatsangehörigkeit"
+    checks:
+      - terminology
+      - completeness
+      - structural_preservation
+      - no_forbidden_terms
+    quality_thresholds:
+      term_accuracy: 1.0
+      structural_pres: 1.0
+
+  - <<: *defaults
+    id: TC-008
+    category: administrative
+    description: "DE→FR: German administrative letter — official salutation and closing formulas"
+    source_lang: "de"
+    target_lang: "fr"
+    input_pages:
+      - page: 1
+        text: |
+          Sehr geehrte Damen und Herren,
+          hiermit bestätigen wir den Eingang Ihres Antrags auf Erteilung eines Aufenthaltstitels.
+          Mit freundlichen Grüßen
+          Ausländerbehörde
+    expected_terms:
+      - source: "Aufenthaltstitel"
+        target: "titre de séjour"
+      - source: "Ausländerbehörde"
+        target: "office des étrangers"
+    checks:
+      - terminology
+      - completeness
+      - no_forbidden_terms
+
+  - <<: *defaults
+    id: TC-009
+    category: administrative
+    description: "FR→EN: French certificate of residence — legal/admin hybrid"
+    source_lang: "fr"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Certificat de domicile: Le soussigné certifie que Madame Dupont réside à l'adresse susmentionnée depuis le 1er janvier 2024. Fait à Paris, le 15 juin 2026."
+    expected_terms:
+      - source: "Certificat de domicile"
+        target: "Certificate of Residence"
+    forbidden_terms: ["domicile certificate", "home certificate"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  # ===========================================================================
+  # CATEGORY 3: Table Formatting Preservation (3 cases)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-010
+    category: table_formatting
+    description: "EN→DE: Table with legal requirements — structure must survive translation"
+    source_lang: "en"
+    target_lang: "de"
+    input_pages:
+      - page: 1
+        text: |
+          | Requirement | Document | Authority |
+          |------------|----------|-----------|
+          | Residence permit | Valid passport | Immigration office |
+          | Work permit | Employment contract | Labour agency |
+          | Tax registration | Proof of address | Finance office |
+    expected_terms:
+      - source: "Residence permit"
+        target: "Aufenthaltstitel"
+      - source: "Work permit"
+        target: "Arbeitserlaubnis"
+    checks:
+      - terminology
+      - structural_preservation
+      - table_integrity
+    quality_thresholds:
+      term_accuracy: 1.0
+      structural_pres: 1.0
+
+  - <<: *defaults
+    id: TC-011
+    category: table_formatting
+    description: "DE→EN: German legal table with compound-word headers"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: |
+          | Aufenthaltstiteltyp | Gültigkeitsdauer | ZuständigeBehörde |
+          |--------------------|-----------------|-------------------|
+          | Daueraufenthaltstitel | Unbefristet | Ausländerbehörde |
+          | BefristeterAufenthaltstitel | 1–3 Jahre | Ausländerbehörde |
+    expected_terms:
+      - source: "Aufenthaltstiteltyp"
+        target: "residence permit type"
+      - source: "Ausländerbehörde"
+        target: "immigration office"
+    checks:
+      - terminology
+      - structural_preservation
+      - table_integrity
+    quality_thresholds:
+      structural_pres: 1.0
+
+  - <<: *defaults
+    id: TC-012
+    category: table_formatting
+    description: "FR→EN: French fiscal table — numeric data must not be altered"
+    source_lang: "fr"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: |
+          | Revenu annuel | Taux d'imposition | Montant dû |
+          |--------------|------------------|------------|
+          | 25 000 € | 11 % | 2 750 € |
+          | 50 000 € | 30 % | 15 000 € |
+    checks:
+      - numeric_preservation
+      - structural_preservation
+    quality_thresholds:
+      structural_pres: 1.0
+      completeness: 1.0
+
+  # ===========================================================================
+  # CATEGORY 4: German Compound Words (3 cases)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-013
+    category: compound_words
+    description: "DE→EN: Long compound nouns must be correctly decomposed and translated"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Die Steuernummer muss bei der Steuererklärung angegeben werden. Das Finanzamt prüft die Angaben."
+    expected_terms:
+      - source: "Steuernummer"
+        target: "tax number"
+      - source: "Steuererklärung"
+        target: "tax return"
+      - source: "Finanzamt"
+        target: "tax office"
+    quality_thresholds:
+      term_accuracy: 0.67
+
+  - <<: *defaults
+    id: TC-014
+    category: compound_words
+    description: "DE→EN: Compound nouns with legal nuance — Aufenthaltsbeendigung vs Aufenthaltsbeendigungsverfahren"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Das Aufenthaltsbeendigungsverfahren wird eingeleitet, wenn der Aufenthaltstitel abgelehnt wurde."
+    expected_terms:
+      - source: "Aufenthaltsbeendigungsverfahren"
+        target: "termination of residence procedure"
+      - source: "Aufenthaltstitel"
+        target: "residence permit"
+    quality_thresholds:
+      term_accuracy: 0.50
+
+  - <<: *defaults
+    id: TC-015
+    category: compound_words
+    description: "DE→FR: Compound nouns cross-language — Gesellschaft mit beschränkter Haftung"
+    source_lang: "de"
+    target_lang: "fr"
+    input_pages:
+      - page: 1
+        text: "Die Gesellschaft mit beschränkter Haftung (GmbH) ist die häufigste Rechtsform in Deutschland."
+    expected_terms:
+      - source: "Gesellschaft mit beschränkter Haftung"
+        target: "société à responsabilité limitée"
+    forbidden_terms: ["société limitée", "LLC"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  # ===========================================================================
+  # CATEGORY 5: Cognates and False Friends (2 cases)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-016
+    category: false_friends
+    description: "FR→EN: 'actuelle' (current) must not translate to 'actual' — classic false friend"
+    source_lang: "fr"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Le titulaire doit fournir une copie actuelle de son titre de séjour."
+    expected_terms:
+      - source: "actuelle"
+        target: "current"
+    forbidden_terms: ["actual"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-017
+    category: false_friends
+    description: "DE→EN: 'Aktie' (share/stock) must not translate to 'action' — false friend"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Die Aktie der Gesellschaft ist an der Börse notiert. Der Aktionär hat Stimmrecht."
+    expected_terms:
+      - source: "Aktie"
+        target: "share"
+    forbidden_terms: ["action"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  # ===========================================================================
+  # CATEGORY 6: Multi-Page Consistency (2 cases)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-018
+    category: multi_page_consistency
+    description: "EN→DE: Same term 'residence permit' on 3 pages must translate consistently"
+    source_lang: "en"
+    target_lang: "de"
+    input_pages:
+      - page: 1
+        text: "The residence permit must be valid for at least six months."
+      - page: 2
+        text: "Renewal of the residence permit requires proof of employment."
+      - page: 3
+        text: "The residence permit may be revoked if conditions are no longer met."
+    expected_terms:
+      - source: "residence permit"
+        target: "Aufenthaltstitel"
+    checks:
+      - terminology
+      - consistency
+    quality_thresholds:
+      consistency: 1.0
+
+  - <<: *defaults
+    id: TC-019
+    category: multi_page_consistency
+    description: "FR→EN: 'titre de séjour' on multiple pages — consistent EN rendering"
+    source_lang: "fr"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Le titre de séjour est délivré par la préfecture."
+      - page: 2
+        text: "Le renouvellement du titre de séjour doit être demandé deux mois avant l'expiration."
+      - page: 3
+        text: "En cas de perte du titre de séjour, une déclaration doit être faite au commissariat."
+    expected_terms:
+      - source: "titre de séjour"
+        target: "residence permit"
+    checks:
+      - terminology
+      - consistency
+    quality_thresholds:
+      consistency: 1.0
+
+  # ===========================================================================
+  # CATEGORY 7: Glossary Enforcement (1 case)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-020
+    category: glossary_enforcement
+    description: "EN→DE+FR: Glossary-enforced pipeline — all ADR-005 seed terms must be respected"
+    source_lang: "en"
+    target_lang: "de"
+    input_pages:
+      - page: 1
+        text: "The applicant requires a residence permit, a power of attorney, and a work permit for cross-border employment."
+    expected_terms:
+      - source: "residence permit"
+        target: "Aufenthaltstitel"
+      - source: "power of attorney"
+        target: "Vollmacht"
+      - source: "work permit"
+        target: "Arbeitserlaubnis"
+    forbidden_terms: ["Aufenthaltserlaubnis", "Proxy", "Autorisierung", "Arbeitsgenehmigung"]
+    checks:
+      - terminology
+      - glossary_enforcement
+      - no_forbidden_terms
+      - consistency
+    quality_thresholds:
+      term_accuracy: 1.0
+      consistency: 1.0
+
+  # ===========================================================================
+  # CATEGORY 8: Real-Model Stress Cases (3 cases)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-021
+    category: false_friends
+    description: "DE→EN: 'Kündigung' must translate to 'termination', not 'cancellation'"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Der Arbeitgeber hat die Kündigung des Arbeitsverhältnisses erklärt."
+    expected_terms:
+      - source: "Kündigung"
+        target: "termination"
+    forbidden_terms: ["cancellation"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-022
+    category: compound_words
+    description: "DE→EN: Compound 'Gehaltsabrechnung' must render as 'payslip'"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Die Gehaltsabrechnung für Juni 2026 liegt vor."
+    expected_terms:
+      - source: "Gehaltsabrechnung"
+        target: "payslip"
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-023
+    category: administrative
+    description: "FR→EN: 'attestation d'assurance maladie' must translate to 'health insurance certificate'"
+    source_lang: "fr"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Veuillez joindre une attestation d'assurance maladie valide."
+    expected_terms:
+      - source: "attestation d'assurance maladie"
+        target: "health insurance certificate"
+    forbidden_terms: ["certificate of insurance"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  # ===========================================================================
+  # CATEGORY 9: Edge Cases (3 cases)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-024
+    category: multi_page_consistency
+    description: "EN→DE: Consistency check must only inspect pages where the source term appears"
+    source_lang: "en"
+    target_lang: "de"
+    input_pages:
+      - page: 1
+        text: "The residence permit is valid."
+      - page: 2
+        text: "This page contains unrelated administrative information."
+      - page: 3
+        text: "Renewal of the residence permit is required."
+    expected_terms:
+      - source: "residence permit"
+        target: "Aufenthaltstitel"
+    checks:
+      - terminology
+      - consistency
+    quality_thresholds:
+      consistency: 1.0
+
+  - <<: *defaults
+    id: TC-025
+    category: compound_words
+    description: "DE→EN: Hyphenated compound 'Arbeits-Vertrag' must normalize and translate to 'employment contract'"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Der Arbeits-Vertrag wurde am 1. Juni 2026 unterzeichnet."
+    expected_terms:
+      - source: "Arbeits-Vertrag"
+        target: "employment contract"
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-026
+    category: false_friends
+    description: "DE→EN: 'bald' (soon) must not translate to English 'bald' (hairless)"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Die Entscheidung erfolgt bald."
+    expected_terms:
+      - source: "bald"
+        target: "soon"
+    forbidden_terms: ["bald"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  # ===========================================================================
+  # CATEGORY 10: domain-review additions (4 cases)
+  # ===========================================================================
+
+  - <<: *defaults
+    id: TC-027
+    category: administrative
+    description: "DE→EN: 'Meldebescheinigung' must translate to 'certificate of residence'"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Bitte legen Sie eine aktuelle Meldebescheinigung sowie Ihren gültigen Personalausweis vor."
+    expected_terms:
+      - source: "Meldebescheinigung"
+        target: "certificate of residence"
+      - source: "Personalausweis"
+        target: "identity card"
+    forbidden_terms: ["registration certificate", "message certificate", "personal card"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-028
+    category: administrative
+    description: "DE→EN: Commercial register extract and certificate of good conduct"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Für den Antrag sind ein Handelsregisterauszug und ein Führungszeugnis einzureichen."
+    expected_terms:
+      - source: "Handelsregisterauszug"
+        target: "commercial register extract"
+      - source: "Führungszeugnis"
+        target: "certificate of good conduct"
+    forbidden_terms: ["leadership certificate", "management certificate", "commercial register pullout"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-029
+    category: false_friends
+    description: "DE→EN: 'Protokoll' in an administrative meeting means 'minutes', not network protocol"
+    source_lang: "de"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "Das Protokoll der Anhörung wird der Akte beigefügt."
+    expected_terms:
+      - source: "Protokoll"
+        target: "minutes"
+      - source: "Akte"
+        target: "file"
+    forbidden_terms: ["protocol"]
+    quality_thresholds:
+      term_accuracy: 1.0
+
+  - <<: *defaults
+    id: TC-030
+    category: false_friends
+    description: "FR→EN: 'demande' in administrative context means 'application/request', not 'demand'"
+    source_lang: "fr"
+    target_lang: "en"
+    input_pages:
+      - page: 1
+        text: "La demande de regroupement familial doit être déposée auprès de la préfecture compétente."
+    expected_terms:
+      - source: "demande"
+        target: "application"
+      - source: "regroupement familial"
+        target: "family reunification"
+      - source: "préfecture"
+        target: "prefecture"
+    forbidden_terms: ["demand"]
+    quality_thresholds:
+      term_accuracy: 0.67

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - Document Upload</title>
+<!-- Google Fonts: Public Sans for corporate/modern feel -->
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#a0caff",
+                    "on-background": "#1a1c1c",
+                    "secondary": "#5e5e5e",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f1f0ef",
+                    "tertiary-fixed": "#ffdcc2",
+                    "border-subtle": "#B1B4B6",
+                    "surface-container-low": "#f4f3f2",
+                    "primary-container": "#1d70b8",
+                    "surface-container": "#efeeed",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-secondary-container": "#626262",
+                    "on-tertiary-container": "#ffede2",
+                    "on-primary-container": "#e9f1ff",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "inverse-primary": "#a0caff",
+                    "on-surface-variant": "#414751",
+                    "outline-variant": "#c1c7d2",
+                    "on-tertiary": "#ffffff",
+                    "success": "#00703C",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-bright": "#faf9f8",
+                    "warning": "#F47738",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#e1dfdf",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#464747",
+                    "tertiary-container": "#a55a00",
+                    "surface-container-highest": "#e3e2e1",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-primary-fixed": "#001c37",
+                    "tertiary": "#824600",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-primary-fixed-variant": "#00497e",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#2f3130",
+                    "surface-tint": "#0061a6",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "background": "#faf9f8",
+                    "surface-container-high": "#e9e8e7",
+                    "error": "#D4351C",
+                    "primary": "#005796",
+                    "on-surface": "#1a1c1c",
+                    "surface-dim": "#dadad9",
+                    "surface-variant": "#e3e2e1",
+                    "focus": "#FFDD00",
+                    "surface": "#faf9f8",
+                    "outline": "#717782",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "sm": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "code": ["Courier Prime"]
+            },
+            "fontSize": {
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #F3F2F1;
+            font-family: 'Public Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #B1B4B6; border-radius: 10px; }
+        .dropzone-active { border-color: #1D70B8; background-color: #e9f1ff; }
+        
+        /* Subtle transition for interactive elements */
+        .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .hover-lift:hover { transform: translateY(-1px); }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-on-surface">
+<!-- Predicted Component: SideNavBar -->
+<aside class="hidden md:flex flex-col h-screen p-md space-y-sm bg-surface-container-low border-r border-border-subtle w-64 shrink-0">
+<div class="flex items-center space-x-sm px-sm py-md">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">gavel</span>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">EvidenceEU</h1>
+<p class="text-xs text-on-surface-variant uppercase tracking-wider font-bold">Legal Workspace</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center space-x-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-body-md text-body-md">Home</span>
+</a>
+<a class="flex items-center space-x-md p-md bg-primary-container text-on-primary-container font-bold rounded-lg scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span class="font-body-md text-body-md">Chat</span>
+</a>
+<a class="flex items-center space-x-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span class="font-body-md text-body-md">Library</span>
+</a>
+<a class="flex items-center space-x-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-body-md text-body-md">Cases</span>
+</a>
+<a class="flex items-center space-x-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="pt-md border-t border-border-subtle space-y-1">
+<a class="flex items-center space-x-md p-md text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span class="font-body-md text-body-md">Support</span>
+</a>
+<div class="p-md mt-sm bg-surface-container-highest rounded-xl border border-border-subtle">
+<div class="flex items-center space-x-sm mb-xs">
+<div class="w-2 h-2 rounded-full bg-success"></div>
+<span class="text-[10px] font-bold uppercase text-on-surface-variant">System Status</span>
+</div>
+<p class="text-[12px] leading-tight text-on-surface">Logged in: personal corpus enabled</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col relative bg-background">
+<!-- Predicted Component: TopNavBar (Contextual) -->
+<header class="flex justify-between items-center w-full px-gutter h-16 bg-surface border-b border-border-subtle shrink-0">
+<div class="flex items-center space-x-md">
+<button class="md:hidden p-sm">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex items-center space-x-sm">
+<span class="font-label-md text-label-md text-on-surface-variant">Active Case:</span>
+<span class="font-label-md text-label-md text-primary bg-primary-fixed px-sm py-0.5 rounded">EU-772-B Case Review</span>
+</div>
+</div>
+<div class="flex items-center space-x-lg">
+<div class="hidden lg:flex items-center bg-surface-container-low border border-border-subtle rounded-lg px-md py-1 w-64 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full ml-sm" placeholder="Search evidence..." type="text"/>
+</div>
+<div class="flex items-center space-x-md text-on-surface-variant">
+<button class="p-xs hover:bg-surface-container-high rounded-full transition-colors"><span class="material-symbols-outlined">translate</span></button>
+<button class="p-xs hover:bg-surface-container-high rounded-full transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="flex items-center space-x-sm ml-sm cursor-pointer border-l border-border-subtle pl-md">
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold text-xs">JD</div>
+<span class="font-label-md text-label-md hidden sm:inline">John Doe</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Chat Workspace -->
+<section class="flex-1 overflow-y-auto custom-scrollbar p-gutter flex flex-col space-y-xl pb-32">
+<!-- Message: AI Assistant -->
+<div class="flex max-w-4xl mr-auto space-x-md">
+<div class="w-10 h-10 rounded-lg bg-inverse-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-surface" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="bg-white border border-border-subtle p-lg rounded-xl shadow-sm space-y-md">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                        Good afternoon, John. I'm connected to your <strong>personal corpus</strong>. I can analyze case files, draft legal summaries, or check for cross-jurisdictional compliance. How can I assist you today?
+                    </p>
+<div class="flex flex-wrap gap-sm">
+<button class="px-md py-sm border border-border-subtle rounded-lg text-sm font-label-md hover:bg-surface-container-low transition-colors">Summarize EU-772-B</button>
+<button class="px-md py-sm border border-border-subtle rounded-lg text-sm font-label-md hover:bg-surface-container-low transition-colors">Check GDPR compliance</button>
+</div>
+</div>
+</div>
+<!-- Message: User Intent -->
+<div class="flex max-w-4xl ml-auto space-x-md flex-row-reverse">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center shrink-0 ml-md">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="bg-primary text-white p-lg rounded-xl shadow-sm">
+<p class="font-body-md text-body-md">Let me upload a document to ask about.</p>
+</div>
+</div>
+<!-- Inline Upload Component -->
+<div class="flex max-w-4xl mr-auto space-x-md w-full">
+<div class="w-10 h-10 rounded-lg bg-inverse-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-surface" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="bg-white border border-border-subtle rounded-xl shadow-sm overflow-hidden flex-1 max-w-2xl">
+<div class="bg-surface-container-low px-lg py-md border-b border-border-subtle flex items-center justify-between">
+<div class="flex items-center space-x-sm">
+<span class="material-symbols-outlined text-primary">upload_file</span>
+<span class="font-label-md text-label-md">Document Ingestion</span>
+</div>
+<span class="text-[10px] font-bold text-outline uppercase tracking-widest">Step 4 of 6</span>
+</div>
+<div class="p-lg">
+<p class="font-body-md text-body-md text-on-surface mb-lg">Please upload the PDF or DOCX file. I will index it into your session context for immediate querying.</p>
+<!-- Dropzone Area -->
+<div class="border-2 border-dashed border-border-subtle rounded-xl p-xl flex flex-col items-center justify-center text-center space-y-md cursor-pointer hover:border-primary hover:bg-surface-container-low transition-all group" id="dropzone">
+<div class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl">add_circle</span>
+</div>
+<div>
+<p class="font-headline-md text-headline-md text-on-surface">Click to upload or drag &amp; drop</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Support for PDF, DOCX, TXT (Max 50MB)</p>
+</div>
+<input class="hidden" id="fileInput" type="file"/>
+</div>
+<!-- Progress Bar (Hidden by default) -->
+<div class="hidden mt-lg space-y-sm" id="uploadProgress">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-primary">Uploading: compliance_brief_2024.pdf</span>
+<span class="text-sm font-bold">75%</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-3/4 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="px-lg py-md bg-surface-container-lowest border-t border-border-subtle flex justify-end space-x-md">
+<button class="px-lg py-sm text-sm font-bold text-on-surface-variant hover:text-on-surface transition-colors">Cancel</button>
+<button class="px-lg py-sm bg-primary text-white text-sm font-bold rounded shadow-sm hover:bg-primary-container focus:ring-4 focus:ring-focus transition-all">Process Files</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Chat Input Fixed Bottom -->
+<div class="absolute bottom-0 left-0 w-full p-gutter bg-gradient-to-t from-background via-background to-transparent pointer-events-none">
+<div class="max-w-4xl mx-auto w-full pointer-events-auto">
+<div class="bg-white border border-border-subtle rounded-xl shadow-lg p-sm flex items-end space-x-sm">
+<button class="p-md text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 font-body-md text-body-md resize-none py-md placeholder:text-outline" placeholder="Type your question about uploaded documents..." rows="1" style="max-height: 200px;"></textarea>
+<button class="w-12 h-12 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary-container transition-all active:scale-95">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+<div class="mt-sm flex justify-center space-x-lg text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">
+<span>Model: EvidenceAI-L4</span>
+<span>Status: Personal Corpus Active</span>
+<span class="flex items-center"><span class="w-1.5 h-1.5 bg-success rounded-full mr-1"></span>Secure Encryption</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Predicted Component: BottomNavBar (Hidden on Desktop) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 pb-safe bg-surface border-t border-border-subtle shadow-md z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container scale-90 duration-100">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-sm text-[12px]">Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary active:bg-surface-container scale-90 duration-100">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-label-sm text-[12px]">Docs</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container scale-90 duration-100">
+<span class="material-symbols-outlined">language</span>
+<span class="font-label-sm text-[12px]">Translate</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container scale-90 duration-100">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-[12px]">Me</span>
+</button>
+</nav>
+<script>
+        // Micro-interactions for the dropzone
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+        const progress = document.getElementById('uploadProgress');
+
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dropzone-active');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('dropzone-active');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dropzone-active');
+            simulateUpload();
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                simulateUpload();
+            }
+        });
+
+        function simulateUpload() {
+            progress.classList.remove('hidden');
+            dropzone.classList.add('opacity-50', 'pointer-events-none');
+            
+            // Dummy logic to simulate completion
+            setTimeout(() => {
+                const btn = document.querySelector('button.bg-primary');
+                btn.innerHTML = 'Index & Analyze';
+                btn.classList.replace('bg-primary', 'bg-success');
+            }, 2000);
+        }
+
+        // Auto-resize textarea
+        const tx = document.getElementsByTagName("textarea");
+        for (let i = 0; i < tx.length; i++) {
+            tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+            tx[i].addEventListener("input", OnInput, false);
+        }
+
+        function OnInput() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + "px";
+        }
+    </script>
+</body></html>

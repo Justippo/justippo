@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU - File Upload</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#ffede2",
+                    "inverse-surface": "#2f3130",
+                    "surface-dim": "#dadad9",
+                    "on-surface-variant": "#414751",
+                    "primary-container": "#1d70b8",
+                    "surface-container-low": "#f4f3f2",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f1f0ef",
+                    "primary": "#005796",
+                    "error": "#D4351C",
+                    "focus": "#FFDD00",
+                    "outline-variant": "#c1c7d2",
+                    "on-tertiary-fixed": "#2e1500",
+                    "on-primary-fixed": "#001c37",
+                    "warning": "#F47738",
+                    "surface-container": "#efeeed",
+                    "on-surface": "#1a1c1c",
+                    "surface-variant": "#e3e2e1",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "surface-container-high": "#e9e8e7",
+                    "tertiary": "#824600",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "tertiary-fixed": "#ffdcc2",
+                    "secondary-fixed": "#e4e2e1",
+                    "primary-fixed": "#d2e4ff",
+                    "inverse-primary": "#a0caff",
+                    "surface-bright": "#faf9f8",
+                    "on-primary-fixed-variant": "#00497e",
+                    "background": "#faf9f8",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#626262",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "secondary": "#5e5e5e",
+                    "success": "#00703C",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface": "#faf9f8",
+                    "tertiary-container": "#a55a00",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "border-subtle": "#B1B4B6",
+                    "on-secondary-fixed-variant": "#464747",
+                    "error-container": "#ffdad6",
+                    "surface-container-highest": "#e3e2e1",
+                    "surface-tint": "#0061a6",
+                    "secondary-container": "#e1dfdf",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "outline": "#717782",
+                    "on-background": "#1a1c1c",
+                    "on-primary-container": "#e9f1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "sm": "8px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "xs": "4px",
+                    "unit": "4px",
+                    "md": "16px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-lg": ["Public Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .focus-ring:focus {
+            outline: 3px solid #FFDD00 !important;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="flex flex-col h-screen w-64 bg-surface-container-low border-r border-border-subtle p-md gap-sm fixed left-0 top-0 z-40">
+<div class="flex items-center gap-sm px-sm py-md">
+<div class="w-8 h-8 bg-primary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary" data-icon="gavel">gavel</span>
+</div>
+<div>
+<h1 class="text-headline-md font-headline-md text-primary leading-tight">EvidenceEU</h1>
+<p class="text-label-sm text-secondary">Legal Workspace</p>
+</div>
+</div>
+<button class="mt-md mb-lg bg-primary text-on-primary font-label-md py-sm px-md rounded flex items-center justify-center gap-sm transition-transform active:scale-95 focus-ring">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+            New Case
+        </button>
+<nav class="flex flex-col gap-xs">
+<a class="flex items-center gap-md p-md bg-primary-container text-on-primary-container font-bold rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-label-md">Home</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="text-label-md">Chat</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="library_books">library_books</span>
+<span class="text-label-md">Library</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+<span class="text-label-md">Cases</span>
+</a>
+<a class="flex items-center gap-md p-md text-secondary hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-sm border-t border-border-subtle pt-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center border border-border-subtle overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a legal expert in a bright, modern corporate office environment. The subject is wearing business formal attire, with a neutral and trustworthy expression. The lighting is soft and professional, emphasizing a clean government-tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNb73ysBImdyMe5MFNM5ElY1N9W9EA2t7YD4ayHfnCRCebogRZ38Pg_eC4_agcsKqjzK4E4gB_zQLehGHlor6tA4Z9Y9XMmtLpsGvy4i8-6mWjJ1G8lnKOao30SoTeWizwF7EmMwzfB2N_JH5IiN78msh-A4CP1Ind7lz6PFg9gIaDLiW0eCG3CFgcugSLBeuV2URfuLGA6xTN16maRnh83JiJRGgDCzRP7d0m6tfSh9_FyylfSOtHbgGByq0O3hV04ecamc5jyOja"/>
+</div>
+<div class="overflow-hidden">
+<p class="text-label-md truncate">A. Schiffer</p>
+<p class="text-label-sm text-secondary truncate">Lead Analyst</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-1 flex flex-col min-h-screen">
+<!-- TopNavBar (Shared Component) -->
+<header class="flex justify-between items-center w-full px-lg h-16 bg-surface border-b border-border-subtle z-50 sticky top-0">
+<div class="flex items-center gap-xl">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-xl pr-md py-xs bg-surface-container-low border border-border-subtle rounded focus:outline-none focus-ring text-body-md" placeholder="Search documents..." type="text"/>
+</div>
+<nav class="hidden md:flex gap-lg">
+<a class="text-secondary hover:text-on-surface font-label-md transition-colors" href="#">Dashboard</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md" href="#">Documents</a>
+<a class="text-secondary hover:text-on-surface font-label-md transition-colors" href="#">Workflows</a>
+<a class="text-secondary hover:text-on-surface font-label-md transition-colors" href="#">Analytics</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="w-10 h-10 flex items-center justify-center text-secondary hover:bg-surface-container transition-colors rounded focus-ring">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-secondary hover:bg-surface-container transition-colors rounded focus-ring">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-lg max-w-5xl mx-auto w-full flex flex-col gap-lg">
+<!-- Breadcrumbs -->
+<nav class="flex gap-xs text-label-sm text-secondary">
+<a class="hover:underline" href="#">Documents</a>
+<span>/</span>
+<span class="text-on-surface">Upload Case Files</span>
+</nav>
+<!-- Header Section -->
+<div class="flex flex-col gap-sm">
+<h2 class="text-headline-xl font-headline-xl">Upload Documents</h2>
+<div class="flex flex-wrap gap-sm">
+<span class="inline-flex items-center gap-xs px-md py-xs bg-primary-fixed text-on-primary-fixed rounded-full text-label-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="info">info</span>
+                        Let me upload a document to ask about
+                    </span>
+<span class="inline-flex items-center gap-xs px-md py-xs bg-success/10 text-success rounded-full text-label-sm border border-success/20">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
+                        Logged in: personal corpus enabled
+                    </span>
+</div>
+</div>
+<!-- Central Content: File Card State -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-xl p-xl flex flex-col items-center justify-center min-h-[400px] relative overflow-hidden">
+<!-- Subtle background pattern -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#005796 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="relative z-10 w-full max-w-md">
+<!-- File Card -->
+<div class="bg-surface border border-border-subtle rounded-lg p-md shadow-sm flex items-center gap-md animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div class="w-16 h-16 bg-error/10 text-error rounded-lg flex items-center justify-center border border-error/20">
+<span class="material-symbols-outlined text-[40px]" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<h3 class="text-label-md text-on-surface truncate">Aufenthaltstitel.pdf</h3>
+<p class="text-body-md text-secondary">1.2 MB</p>
+<div class="mt-sm w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-success h-1.5 rounded-full w-full"></div>
+</div>
+<p class="text-label-sm text-success mt-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span>
+                                File ready for processing
+                            </p>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="mt-xl flex flex-col sm:flex-row gap-md justify-center">
+<button class="px-xl py-md border-2 border-primary text-primary font-label-md rounded hover:bg-primary/5 transition-colors focus-ring flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+                            Remove
+                        </button>
+<button class="px-xl py-md bg-primary-container text-on-primary-container font-label-md rounded hover:opacity-90 transition-opacity focus-ring flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined" data-icon="cloud_upload">cloud_upload</span>
+                            Upload
+                        </button>
+</div>
+<p class="text-center mt-md text-label-sm text-secondary">
+                        By uploading, you agree to the EvidenceEU <a class="text-primary hover:underline" href="#">Data Processing Agreement</a>.
+                    </p>
+</div>
+</div>
+<!-- Supporting Information / Bento Grid elements -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg mt-md">
+<div class="bg-surface border border-border-subtle p-md rounded-lg flex flex-col gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+<h4 class="text-label-md">Secure Storage</h4>
+<p class="text-body-md text-secondary text-sm">Files are encrypted end-to-end and stored in EU-based data centers (GDPR compliant).</p>
+</div>
+<div class="bg-surface border border-border-subtle p-md rounded-lg flex flex-col gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+<h4 class="text-label-md">OCR Extraction</h4>
+<p class="text-body-md text-secondary text-sm">Automated text extraction for handwritten notes and scanned administrative documents.</p>
+</div>
+<div class="bg-surface border border-border-subtle p-md rounded-lg flex flex-col gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="translate">translate</span>
+<h4 class="text-label-md">Multi-Language</h4>
+<p class="text-body-md text-secondary text-sm">Instant translation and summarization for documents in all 24 official EU languages.</p>
+</div>
+</div>
+</div>
+<!-- Footer Meta -->
+<footer class="mt-auto border-t border-border-subtle py-md px-lg flex justify-between items-center text-label-sm text-secondary bg-surface-container-low">
+<div class="flex gap-md">
+<span>© 2024 EvidenceEU</span>
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+</div>
+<div class="flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+                System Operational: v2.4.1-stable
+            </div>
+</footer>
+</main>
+<!-- Floating Action Button (FAB) - Suppressed per design logic for Transactional screens -->
+<!-- The FAB is not rendered here because this is a focused Task screen (Upload) -->
+<script>
+        // Micro-interaction for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.98)';
+            });
+            button.addEventListener('mouseup', () => {
+                button.style.transform = 'scale(1)';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+
+        // Search bar focus effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput?.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+        });
+        searchInput?.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    </script>
+</body></html>

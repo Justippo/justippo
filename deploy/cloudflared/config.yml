@@ -1,0 +1,29 @@
+# Cloudflare Tunnel Configuration for EvidenceEU
+# 
+# This file documents the tunnel setup for local Hindsight and BabelDOC services.
+# Replace YOURDOMAIN.com and TUNNEL_UUID with your actual values.
+
+# Tunnel UUID (from: cloudflared tunnel create evidenceeu)
+tunnel: <TUNNEL_UUID>
+
+# Path to credentials file (automatically created by cloudflared)
+credentials-file: /home/<user>/.cloudflared/<TUNNEL_UUID>.json
+
+# Ingress rules - route traffic to local services
+# Hindsight RAG service (port 8600)
+# BabelDOC translation service (port 8750)
+# Catch-all 404 rule (REQUIRED - cloudflared won't start without it)
+ingress:
+  - hostname: hindsight.YOURDOMAIN.com
+    service: http://localhost:8600
+  - hostname: babeldoc.YOURDOMAIN.com
+    service: http://localhost:8750
+  - service: http_status:404
+
+# Example with actual domain (evidenceeu.eu):
+# ingress:
+#   - hostname: hindsight.evidenceeu.eu
+#     service: http://localhost:8600
+#   - hostname: babeldoc.evidenceeu.eu
+#     service: http://localhost:8750
+#   - service: http_status:404

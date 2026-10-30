@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Enterprise Settings - Accessibility &amp; UI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-dim": "#dadad9",
+                    "on-primary-container": "#e9f1ff",
+                    "success": "#00703C",
+                    "warning": "#F47738",
+                    "on-background": "#1a1c1c",
+                    "primary-container": "#1d70b8",
+                    "error-container": "#ffdad6",
+                    "background": "#faf9f8",
+                    "surface": "#faf9f8",
+                    "tertiary-fixed": "#ffdcc2",
+                    "on-primary-fixed-variant": "#00497e",
+                    "surface-tint": "#0061a6",
+                    "on-primary-fixed": "#001c37",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-error": "#ffffff",
+                    "focus": "#FFDD00",
+                    "surface-container-low": "#f4f3f2",
+                    "primary-fixed-dim": "#a0caff",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "inverse-surface": "#2f3130",
+                    "on-surface": "#1a1c1c",
+                    "on-secondary-container": "#626262",
+                    "outline-variant": "#c1c7d2",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#efeeed",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "outline": "#717782",
+                    "inverse-primary": "#a0caff",
+                    "surface-container-high": "#e9e8e7",
+                    "error": "#D4351C",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-surface-variant": "#414751",
+                    "tertiary-container": "#a55a00",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e3e2e1",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#ffede2",
+                    "border-subtle": "#B1B4B6",
+                    "surface-variant": "#e3e2e1",
+                    "primary": "#005796",
+                    "on-tertiary-fixed": "#2e1500",
+                    "secondary": "#5e5e5e",
+                    "secondary-fixed": "#e4e2e1",
+                    "secondary-container": "#e1dfdf",
+                    "tertiary": "#824600",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-bright": "#faf9f8",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "lg": "24px",
+                    "container-max": "1280px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Public Sans"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "body-lg": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* High Contrast Focus State for A11Y */
+        .focus-visible:focus {
+            outline: 3px solid #FFDD00 !important;
+            outline-offset: 2px;
+        }
+
+        /* Type Scale Preview Logic */
+        #preview-canvas {
+            transition: font-size 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom Slider Styling */
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 12px;
+            background: #1D70B8;
+            border-radius: 2px;
+            cursor: pointer;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #1D70B8;
+        }
+
+        /* Toggle Component */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #B1B4B6;
+            transition: .4s;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .toggle-slider { background-color: #00703C; }
+        input:checked + .toggle-slider:before { transform: translateX(20px); }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-x-hidden">
+<!-- Sidebar Navigation -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 py-lg border-r bg-surface-container-low dark:bg-inverse-surface border-border-subtle dark:border-outline w-64 z-50">
+<div class="px-md mb-xl">
+<div class="flex items-center gap-md mb-sm">
+<div class="w-10 h-10 bg-primary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-on-primary">corporate_fare</span>
+</div>
+<div>
+<h1 class="font-headline-md text-on-surface dark:text-inverse-on-surface">Enterprise Settings</h1>
+<p class="font-body-sm text-body-sm opacity-70">Admin Console</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1 px-sm">
+<!-- Labels and Icons strictly from JSON -->
+<a class="flex items-center gap-md px-md py-sm rounded-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">shield_person</span>
+<span class="font-label-md text-label-md">Profile &amp; Security</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-md text-label-md">Data Mapping</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-md text-label-md">Compliance</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-sm bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary font-bold scale-95 active:scale-100 duration-150" href="#">
+<span class="material-symbols-outlined">accessibility_new</span>
+<span class="font-label-md text-label-md">Accessibility</span>
+</a>
+</nav>
+<div class="mt-auto px-sm border-t border-border-subtle pt-md">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-container-high text-error" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+<div class="px-md mt-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-success/10 text-success text-xs font-bold border border-success">
+                    System Status: Active
+                </span>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen p-lg max-w-[1000px] mx-auto">
+<!-- Header -->
+<header class="mb-xl">
+<h2 class="font-headline-xl text-headline-xl text-primary mb-xs">Accessibility &amp; UI Configuration</h2>
+<p class="font-body-lg text-body-lg text-secondary">Manage regional EAA requirements and personalize the interface for maximum clarity and cognitive ease.</p>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-lg">
+<!-- Section 1: EAA Compliance Status (Full Width Top) -->
+<section aria-labelledby="eaa-heading" class="col-span-12 lg:col-span-12 bg-white border border-border-subtle p-lg" role="region">
+<div class="flex justify-between items-start mb-md">
+<div>
+<h3 class="font-headline-lg text-headline-lg mb-xs" id="eaa-heading">EAA Compliance</h3>
+<p class="text-on-surface-variant font-body-md text-body-md">European Accessibility Act Progress</p>
+</div>
+<div class="bg-surface-container-highest px-md py-sm border border-border-subtle rounded-sm">
+<span class="font-code text-code">ISO/IEC 30071-1:2019</span>
+</div>
+</div>
+<div class="space-y-md" role="status">
+<div class="flex justify-between items-end mb-xs">
+<span class="font-label-md text-label-md">WCAG 2.2 Level AA</span>
+<span class="font-label-md text-label-md text-success">84% Conformance</span>
+</div>
+<div class="w-full bg-surface-container-high h-6 overflow-hidden">
+<div class="bg-success h-full" style="width: 84%"></div>
+</div>
+<ul class="grid grid-cols-1 md:grid-cols-3 gap-md mt-md">
+<li class="flex items-center gap-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-success">check_circle</span> Contrast (4.5:1)
+                        </li>
+<li class="flex items-center gap-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-success">check_circle</span> Screen Reader Optimized
+                        </li>
+<li class="flex items-center gap-sm font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-warning">pending</span> Complex Interaction Triggers
+                        </li>
+</ul>
+</div>
+</section>
+<!-- Section 2: Cognitive Clarity -->
+<section class="col-span-12 md:col-span-6 bg-white border border-border-subtle p-lg">
+<div class="flex items-center gap-md mb-md">
+<span class="material-symbols-outlined text-primary-container">psychology</span>
+<h3 class="font-headline-md text-headline-md">Cognitive Clarity</h3>
+</div>
+<div class="flex items-center justify-between py-md border-t border-surface-variant">
+<div class="max-w-[70%]">
+<label class="font-label-md text-label-md block" for="readability-assist">Readability Assistance</label>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Enhanced tooltips and simplified terminology for complex data fields.</p>
+</div>
+<label class="toggle-switch">
+<input checked="" id="readability-assist" type="checkbox"/>
+<span class="toggle-slider"></span>
+</label>
+</div>
+</section>
+<!-- Section 3: Visual Preferences -->
+<section class="col-span-12 md:col-span-6 bg-white border border-border-subtle p-lg">
+<div class="flex items-center gap-md mb-md">
+<span class="material-symbols-outlined text-primary-container">visibility</span>
+<h3 class="font-headline-md text-headline-md">Visual Preferences</h3>
+</div>
+<div class="space-y-md border-t border-surface-variant pt-md">
+<div class="flex items-center justify-between">
+<div>
+<label class="font-label-md text-label-md block" for="reduced-motion">Reduced Motion</label>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Minimize UI transitions and animations.</p>
+</div>
+<label class="toggle-switch">
+<input id="reduced-motion" type="checkbox"/>
+<span class="toggle-slider"></span>
+</label>
+</div>
+<div class="flex items-center justify-between pt-sm">
+<div>
+<label class="font-label-md text-label-md block" for="high-contrast">High Contrast Mode</label>
+<p class="font-body-sm text-body-sm text-on-surface-variant">System-wide UI override for clarity.</p>
+</div>
+<label class="toggle-switch">
+<input id="high-contrast" type="checkbox"/>
+<span class="toggle-slider"></span>
+</label>
+</div>
+</div>
+</section>
+<!-- Section 4: Text Size & Live Preview (Large Bottom Section) -->
+<section class="col-span-12 bg-white border border-border-subtle p-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+<div class="space-y-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary-container">format_size</span>
+<h3 class="font-headline-md text-headline-md">Type Scale Slider</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl">
+                            Adjust the global font size for better legibility. This setting persists across all dashboard views.
+                        </p>
+<div class="pt-md">
+<div class="flex justify-between mb-sm">
+<span class="font-label-sm text-label-sm">Standard (100%)</span>
+<span class="font-label-sm text-label-sm">Max (400%)</span>
+</div>
+<input class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer focus-visible" id="size-slider" max="400" min="100" type="range" value="100"/>
+<div class="mt-md flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">info</span>
+<span class="font-label-sm text-label-sm">Current Scaling: <span id="scaling-value">100%</span></span>
+</div>
+</div>
+</div>
+<!-- Live Preview Panel -->
+<div class="bg-surface-container-low border border-border-subtle p-lg flex flex-col justify-center">
+<div class="space-y-sm" id="preview-canvas">
+<p class="font-headline-md text-headline-md text-primary">Live Preview Header</p>
+<p class="font-body-md text-body-md">
+                                This is a sample of how the dashboard text will appear. As you move the slider, the type scale will respond instantly to provide a visual anchor for your comfort.
+                            </p>
+<div class="mt-md pt-md border-t border-border-subtle">
+<button class="bg-primary text-on-primary px-lg py-sm font-label-md text-label-md hover:bg-primary-container transition-colors focus-visible">
+                                    Sample Action
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Compliance Info -->
+<div class="col-span-12 flex items-center justify-between text-on-surface-variant border-t border-border-subtle pt-md mt-md">
+<p class="font-label-sm text-label-sm">Last audited: October 2023</p>
+<div class="flex gap-md">
+<button class="flex items-center gap-xs font-label-sm text-label-sm hover:underline">
+<span class="material-symbols-outlined text-[18px]">download</span> VPAT® Report
+                    </button>
+<button class="flex items-center gap-xs font-label-sm text-label-sm hover:underline">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span> Accessibility Statement
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Visual Identity Background Element -->
+<div class="fixed bottom-0 right-0 p-lg pointer-events-none opacity-20">
+<div class="text-right">
+<h4 class="font-headline-xl text-headline-xl text-primary-container leading-tight">EvidenceEU</h4>
+<p class="font-code text-code">Ver: 4.2.1-stable</p>
+</div>
+</div>
+<script>
+        // Interactive Logic for Zoom Slider
+        const slider = document.getElementById('size-slider');
+        const preview = document.getElementById('preview-canvas');
+        const scalingValue = document.getElementById('scaling-value');
+        const bodyElement = document.body;
+
+        slider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            scalingValue.innerText = val + '%';
+            
+            // Adjust the preview font size
+            const scaleFactor = val / 100;
+            preview.style.fontSize = `${16 * scaleFactor}px`;
+            
+            // Update line heights to maintain readability
+            const headers = preview.querySelectorAll('p:first-child');
+            headers.forEach(h => {
+                h.style.fontSize = `${19 * scaleFactor}px`;
+                h.style.lineHeight = `${28 * scaleFactor}px`;
+            });
+        });
+
+        // High Contrast Override Logic
+        const highContrastToggle = document.getElementById('high-contrast');
+        highContrastToggle.addEventListener('change', (e) => {
+            if(e.target.checked) {
+                document.documentElement.classList.add('contrast-more');
+                // Simulate system override colors
+                bodyElement.style.backgroundColor = '#000000';
+                bodyElement.style.color = '#FFFFFF';
+                document.querySelectorAll('.bg-white').forEach(el => {
+                    el.style.backgroundColor = '#000000';
+                    el.style.borderColor = '#FFDD00';
+                    el.style.color = '#FFFFFF';
+                });
+                document.querySelectorAll('.text-primary').forEach(el => el.style.color = '#FFDD00');
+            } else {
+                document.documentElement.classList.remove('contrast-more');
+                bodyElement.style.backgroundColor = '';
+                bodyElement.style.color = '';
+                document.querySelectorAll('.bg-white').forEach(el => {
+                    el.style.backgroundColor = '';
+                    el.style.borderColor = '';
+                    el.style.color = '';
+                });
+                document.querySelectorAll('.text-primary').forEach(el => el.style.color = '');
+            }
+        });
+
+        // Reduced Motion Logic
+        const reducedMotionToggle = document.getElementById('reduced-motion');
+        reducedMotionToggle.addEventListener('change', (e) => {
+            if(e.target.checked) {
+                document.documentElement.classList.add('motion-reduce');
+                // Force transitions off
+                const style = document.createElement('style');
+                style.id = 'motion-styles';
+                style.innerHTML = '* { transition: none !important; animation: none !important; }';
+                document.head.appendChild(style);
+            } else {
+                document.documentElement.classList.remove('motion-reduce');
+                const style = document.getElementById('motion-styles');
+                if(style) style.remove();
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LegalIntel AI | Search Error</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;800&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#a55a00",
+                    "primary-fixed": "#d2e4ff",
+                    "surface-container": "#efeeed",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#a0caff",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "primary-fixed-dim": "#a0caff",
+                    "surface-bright": "#faf9f8",
+                    "border-subtle": "#B1B4B6",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-surface": "#2f3130",
+                    "primary": "#005796",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c7d2",
+                    "surface-container-low": "#f4f3f2",
+                    "on-background": "#1a1c1c",
+                    "secondary-container": "#e1dfdf",
+                    "on-primary-fixed": "#001c37",
+                    "surface-tint": "#0061a6",
+                    "on-surface": "#1a1c1c",
+                    "warning": "#F47738",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "surface-container-highest": "#e3e2e1",
+                    "error": "#D4351C",
+                    "on-surface-variant": "#414751",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#626262",
+                    "outline": "#717782",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dadad9",
+                    "on-error": "#ffffff",
+                    "surface-variant": "#e3e2e1",
+                    "surface-container-high": "#e9e8e7",
+                    "on-primary-container": "#e9f1ff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "on-tertiary-container": "#ffede2",
+                    "focus": "#FFDD00",
+                    "background": "#faf9f8",
+                    "secondary": "#5e5e5e",
+                    "tertiary": "#824600",
+                    "primary-container": "#1d70b8",
+                    "on-primary-fixed-variant": "#00497e",
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "success": "#00703C",
+                    "surface": "#faf9f8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "container-max": "1280px",
+                    "xl": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"],
+                    "headline-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl-mobile": ["Public Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .error-shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-inverse-surface border-b border-border-subtle dark:border-outline flex justify-between items-center w-full px-lg h-16 z-50 fixed top-0">
+<div class="flex items-center gap-md">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">LegalIntel AI</span>
+</div>
+<div class="hidden md:flex items-center gap-lg">
+<nav class="flex gap-md">
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-sm py-xs font-body-md text-body-md" href="#">Solutions</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-sm py-xs font-body-md text-body-md" href="#">Resources</a>
+<a class="text-on-surface-variant dark:text-on-secondary-fixed-variant hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors px-sm py-xs font-body-md text-body-md" href="#">Pricing</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="material-symbols-outlined text-primary dark:text-inverse-primary p-xs hover:bg-surface-container-low rounded-full transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-primary dark:text-inverse-primary p-xs hover:bg-surface-container-low rounded-full transition-colors" data-icon="settings">settings</button>
+<button class="material-symbols-outlined text-primary dark:text-inverse-primary p-xs hover:bg-surface-container-low rounded-full transition-colors" data-icon="help">help</button>
+<div class="h-8 w-px bg-border-subtle mx-xs"></div>
+<button class="bg-primary-container text-on-primary-fixed-variant px-md py-xs rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Sign In</button>
+</div>
+</div>
+</header>
+<div class="flex h-screen pt-16">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-low dark:bg-inverse-surface border-r border-border-subtle dark:border-outline flex flex-col h-full py-md px-sm gap-unit w-64 hidden md:flex">
+<div class="px-sm mb-lg">
+<h2 class="font-headline-md text-headline-md font-bold text-primary">Enterprise Suite</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Legal Intelligence</p>
+</div>
+<nav class="flex-grow flex flex-col gap-xs">
+<button class="flex items-center gap-md px-md py-sm hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </button>
+<button class="flex items-center gap-md px-md py-sm bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary font-bold rounded-lg transition-all text-label-md">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                    Search History
+                </button>
+<button class="flex items-center gap-md px-md py-sm hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="bookmarks">bookmarks</span>
+                    Saved Research
+                </button>
+<button class="flex items-center gap-md px-md py-sm hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+                    Legal Corpus
+                </button>
+<button class="flex items-center gap-md px-md py-sm hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+                    Analytics
+                </button>
+</nav>
+<div class="mt-auto flex flex-col gap-xs">
+<button class="bg-primary text-on-primary py-sm rounded-lg font-label-md text-label-md mb-md hover:brightness-110 active:scale-95 transition-all">New Search</button>
+<button class="flex items-center gap-md px-md py-sm hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </button>
+<button class="flex items-center gap-md px-md py-sm hover:bg-surface-container-high transition-all rounded-lg text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+                    Support
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-grow overflow-y-auto bg-background p-lg relative">
+<div class="max-w-4xl mx-auto space-y-lg">
+<!-- Search Query & Status Badge -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-xl">
+<div class="flex items-center gap-md">
+<div class="bg-surface-container-highest p-sm rounded-lg border border-border-subtle flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" data-icon="search">search</span>
+<span class="font-headline-md text-headline-md">Aufenthaltstitel verlängern</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-sm">
+<span class="bg-success/10 text-success px-md py-sm rounded-full font-label-md text-label-md flex items-center gap-xs border border-success/20">
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
+                            Logged in: Personal corpus plus public corpus
+                        </span>
+</div>
+</div>
+<!-- Error State Container (Enterprise Modern) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg min-h-[500px]">
+<!-- Main Error Card -->
+<div class="md:col-span-8 bg-surface-container-lowest border border-border-subtle rounded-lg p-xl flex flex-col items-center justify-center text-center error-shake">
+<div class="mb-lg">
+<div class="w-24 h-24 rounded-full bg-error-container flex items-center justify-center text-error mb-md mx-auto">
+<span class="material-symbols-outlined text-5xl" data-icon="wifi_off">wifi_off</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm">Connection lost</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">We couldn't complete your search for "Aufenthaltstitel verlängern". Please check your network connection and try again.</p>
+</div>
+<div class="flex gap-md">
+<button class="bg-primary text-on-primary px-xl py-md rounded-lg font-label-md text-label-md flex items-center gap-sm hover:brightness-110 active:scale-95 transition-all outline-none focus:ring-4 focus:ring-focus" id="retryBtn">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+                                Retry Search
+                            </button>
+<button class="border-2 border-primary text-primary px-xl py-md rounded-lg font-label-md text-label-md hover:bg-primary-fixed transition-colors">
+                                Search Documentation
+                            </button>
+</div>
+<div class="mt-xl pt-lg border-t border-border-subtle w-full text-left">
+<h4 class="font-label-md text-label-md mb-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-warning" data-icon="warning">warning</span>
+                                Diagnostic Information
+                            </h4>
+<div class="bg-surface-container font-code text-code p-md rounded border border-outline-variant text-on-surface-variant overflow-x-auto">
+                                Error Code: ERR_CONNECTION_TIMEOUT<br/>
+                                Request ID: LGL-77293-XPQ<br/>
+                                Timestamp: 2023-10-27T14:22:01.442Z<br/>
+                                Endpoint: /api/v1/corpus/query/de_immigration
+                            </div>
+</div>
+</div>
+<!-- Side Info Bento Grid -->
+<div class="md:col-span-4 flex flex-col gap-lg">
+<!-- Resource Card -->
+<div class="bg-surface border border-border-subtle p-lg rounded-lg">
+<h3 class="font-headline-md text-headline-md mb-md">Offline Resources</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">While waiting, you can access these cached local statutes:</p>
+<ul class="space-y-sm">
+<li class="flex items-center gap-sm p-sm hover:bg-surface-container transition-colors rounded cursor-pointer">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+<span class="font-label-sm text-label-sm">AufenthG § 8 (Verlängerung)</span>
+</li>
+<li class="flex items-center gap-sm p-sm hover:bg-surface-container transition-colors rounded cursor-pointer">
+<span class="material-symbols-outlined text-primary" data-icon="description">description</span>
+<span class="font-label-sm text-label-sm">AufenthV Regulation Guide</span>
+</li>
+</ul>
+</div>
+<!-- Visual Context/Placeholder -->
+<div class="relative flex-grow min-h-[200px] rounded-lg overflow-hidden border border-border-subtle group">
+<div class="bg-cover bg-center absolute inset-0 group-hover:scale-105 transition-transform duration-700" data-alt="A sophisticated, high-end professional workspace with a minimalist design. A sleek silver laptop sits on a light oak desk next to a legal gavel. Soft, morning light filters through a large window, creating a serene, authoritative environment. The color palette consists of cool greys, warm wood tones, and clean whites, embodying a modern legal technology firm's aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBT7FL0sFTWukdBQehh1U1hAH1j3tUYH6C8aAV7fJ7u_o92c4sy10LizNxBNB9eARMqyOXIBo4VCZ4QC6N24r85G6fIj6knk2ysn8BnZF7a5gKOmB0L_LN3GddRMG0g9zvECwkzvCCvQwR2HOnMcgIsFfcPqo--jW2iwXCuptIKGPitCO2lvUMcDgHaEoBZiDL0dhT-YlDE-tbuiBSNRR16SPpx4-mdQXEu0rciozwmv-clFQNfVYLkEImj2p25LhYJPjjMJ_DtOyyn')"></div>
+<div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+<div class="absolute bottom-md left-md right-md bg-white/90 backdrop-blur p-md rounded border border-border-subtle">
+<p class="font-label-sm text-label-sm text-on-surface">LegalIntel Cloud Status: <span class="text-error font-bold">Interrupted</span></p>
+</div>
+</div>
+</div>
+</div>
+<!-- Suggested Actions -->
+<div class="bg-surface-container-low border border-border-subtle rounded-lg p-lg">
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-md uppercase tracking-wider">Suggested Actions</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<div class="p-md border border-border-subtle rounded bg-surface hover:shadow-md transition-shadow cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-sm" data-icon="vpn_key">vpn_key</span>
+<h4 class="font-label-md text-label-md">Re-authenticate</h4>
+<p class="font-label-sm text-label-sm opacity-70">Refresh your corpus access token.</p>
+</div>
+<div class="p-md border border-border-subtle rounded bg-surface hover:shadow-md transition-shadow cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-sm" data-icon="dns">dns</span>
+<h4 class="font-label-md text-label-md">Switch Server</h4>
+<p class="font-label-sm text-label-sm opacity-70">Connect to secondary EU-West node.</p>
+</div>
+<div class="p-md border border-border-subtle rounded bg-surface hover:shadow-md transition-shadow cursor-pointer">
+<span class="material-symbols-outlined text-primary mb-sm" data-icon="cloud_download">cloud_download</span>
+<h4 class="font-label-md text-label-md">Download Log</h4>
+<p class="font-label-sm text-label-sm opacity-70">Save diagnostic data for IT support.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Status Bar -->
+<footer class="mt-xl border-t border-border-subtle pt-lg flex flex-col md:flex-row justify-between items-center text-on-surface-variant font-label-sm text-label-sm gap-md pb-lg">
+<div class="flex gap-lg">
+<span>© 2023 LegalIntel AI Enterprise</span>
+<a class="hover:text-primary underline" href="#">Privacy Policy</a>
+<a class="hover:text-primary underline" href="#">Terms of Service</a>
+</div>
+<div class="flex items-center gap-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                    Partial System Outage
+                </div>
+</footer>
+</main>
+</div>
+<script>
+        document.getElementById('retryBtn').addEventListener('click', function() {
+            const btn = this;
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span> Attempting...';
+            btn.disabled = true;
+            btn.classList.add('opacity-80');
+
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                btn.classList.remove('opacity-80');
+                
+                // Trigger shake animation again to simulate fail
+                const card = document.querySelector('.error-shake');
+                card.classList.remove('error-shake');
+                void card.offsetWidth; // trigger reflow
+                card.classList.add('error-shake');
+            }, 1500);
+        });
+
+        // Hover effect for diagnostic info
+        const diagnosticBox = document.querySelector('.bg-surface-container.font-code');
+        diagnosticBox.addEventListener('mouseenter', () => {
+            diagnosticBox.classList.add('border-primary');
+        });
+        diagnosticBox.addEventListener('mouseleave', () => {
+            diagnosticBox.classList.remove('border-primary');
+        });
+    </script>
+</body></html>

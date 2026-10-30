@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU | Chat &amp; Data Workspace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;900&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#c7c6c6",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#faf9f8",
+                    "success": "#00703C",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#00497e",
+                    "tertiary": "#824600",
+                    "primary-container": "#1d70b8",
+                    "secondary": "#5e5e5e",
+                    "background": "#faf9f8",
+                    "on-tertiary-container": "#ffede2",
+                    "focus": "#FFDD00",
+                    "on-primary-container": "#e9f1ff",
+                    "tertiary-fixed": "#ffdcc2",
+                    "surface-container-high": "#e9e8e7",
+                    "surface-variant": "#e3e2e1",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#dadad9",
+                    "on-secondary-fixed-variant": "#464747",
+                    "on-error-container": "#93000a",
+                    "outline": "#717782",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#414751",
+                    "on-secondary-container": "#626262",
+                    "error": "#D4351C",
+                    "surface-container-highest": "#e3e2e1",
+                    "inverse-on-surface": "#f1f0ef",
+                    "on-secondary-fixed": "#1b1c1c",
+                    "warning": "#F47738",
+                    "surface-tint": "#0061a6",
+                    "on-surface": "#1a1c1c",
+                    "secondary-container": "#e1dfdf",
+                    "on-primary-fixed": "#001c37",
+                    "on-background": "#1a1c1c",
+                    "surface-container-low": "#f4f3f2",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c1c7d2",
+                    "primary": "#005796",
+                    "tertiary-fixed-dim": "#ffb77b",
+                    "on-tertiary-fixed": "#2e1500",
+                    "inverse-surface": "#2f3130",
+                    "border-subtle": "#B1B4B6",
+                    "surface-bright": "#faf9f8",
+                    "inverse-primary": "#a0caff",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#a0caff",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-tertiary-fixed-variant": "#6d3a00",
+                    "surface-container": "#efeeed",
+                    "primary-fixed": "#d2e4ff",
+                    "tertiary-container": "#a55a00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Public Sans"],
+                    "body-lg": ["Public Sans"],
+                    "code": ["Courier Prime"],
+                    "headline-xl-mobile": ["Public Sans"],
+                    "body-md": ["Public Sans"],
+                    "headline-xl": ["Public Sans"],
+                    "label-sm": ["Public Sans"],
+                    "label-md": ["Public Sans"],
+                    "headline-lg": ["Public Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                    "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "700"}],
+                    "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #B1B4B6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #717782; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #B1B4B6;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-hidden">
+<!-- Sidebar Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low border-r border-border-subtle flex flex-col hidden md:flex z-40">
+<div class="p-md space-y-sm flex-1">
+<div class="flex items-center gap-sm mb-lg px-xs">
+<span class="font-headline-md text-headline-md font-bold text-primary">EvidenceEU</span>
+</div>
+<button class="w-full bg-primary text-on-primary py-sm px-md font-label-md rounded-lg flex items-center justify-center gap-sm hover:opacity-90 transition-all active:scale-95 duration-150 mb-lg">
+<span class="material-symbols-outlined">add</span>
+                Upload Document
+            </button>
+<nav class="space-y-xs">
+<a class="flex items-center gap-md p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span>Home</span>
+</a>
+<a class="flex items-center gap-md p-sm bg-primary-container text-on-primary-container font-bold rounded-lg transition-all active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span>Chat</span>
+</a>
+<a class="flex items-center gap-md p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span>Library</span>
+</a>
+<a class="flex items-center gap-md p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span>Cases</span>
+</a>
+<a class="flex items-center gap-md p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+</div>
+<div class="p-md border-t border-border-subtle space-y-xs">
+<a class="flex items-center gap-md p-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Support</span>
+</a>
+<div class="flex items-center gap-md p-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up professional portrait of a legal analyst in a modern, brightly lit office environment. The person is wearing a sharp charcoal grey suit. High-key lighting emphasizes clarity and professionalism. The background is a soft-focus blur of white shelves and architectural lines, adhering to a clean light-mode corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdv45L2yf5t0BkRt6OFrYUhUicgV2nWx45qLABPV16tMyU2PNN_WB89O2kpFuMRPUIVETQNZ92EUo90owN4qtHnLGK6iId9l8A54yZ_QpT6n12k3oW7H04s0g8PSTFQVKkp1Uq-3G1G4550r_ykafsjPSotJKRxpIsgRxQH-1Pw2TD2t_j1BbA6vokmWL1clNeUxE8T3DDoMvlt7gDO4NWuSe84U-Yz8rZo6Qfqegk7hbqMwCvXqXCb_UUCzsXDKCh7gL5mk5UjRkc"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm font-bold">A. Sterling</span>
+<span class="text-xs text-on-surface-variant">Senior Counsel</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 h-screen flex flex-col bg-background relative">
+<!-- Header -->
+<header class="h-16 flex justify-between items-center px-gutter bg-surface border-b border-border-subtle z-30">
+<h1 class="font-headline-md text-headline-md text-primary">Chat &amp; Workspace</h1>
+<div class="flex items-center gap-md">
+<div class="relative group">
+<input class="bg-surface-container-low border border-border-subtle rounded-lg px-md py-xs text-body-md w-64 focus:ring-2 focus:ring-focus outline-none" placeholder="Search evidence..." type="text"/>
+<span class="material-symbols-outlined absolute right-2 top-2 text-on-surface-variant">search</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">translate</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary">notifications</span>
+</div>
+</header>
+<!-- Dynamic Layout: Chat + Document Viewer -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Chat Panel (Left) -->
+<section class="flex-1 flex flex-col border-r border-border-subtle">
+<div class="flex-1 overflow-y-auto p-gutter space-y-lg bg-surface-container-lowest">
+<!-- AI Message with Citation & Results -->
+<div class="max-w-3xl space-y-md">
+<div class="flex gap-md">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary text-sm">precision_manufacturing</span>
+</div>
+<div class="space-y-md">
+<div class="bg-surface-container-low p-md rounded-xl rounded-tl-none border border-border-subtle">
+<p class="font-body-md text-on-surface">Analysis of the provided contract reveals three potential compliance risks regarding EU data sovereignty. Specifically, Section 4.2 contradicts the residency requirements outlined in the 2023 Framework.</p>
+<div class="mt-xs text-xs text-on-surface-variant">10:42 AM • AI Analysis Engine</div>
+</div>
+<!-- Citation Snippet -->
+<div class="bg-surface border-l-4 border-primary p-md flex flex-col gap-xs rounded shadow-sm">
+<div class="flex items-center gap-xs text-primary font-label-md uppercase tracking-wider text-[11px]">
+<span class="material-symbols-outlined text-sm">description</span>
+                                        Referenced: Data_Policy_v4.pdf • Page 12
+                                    </div>
+<p class="font-body-md italic text-on-surface-variant text-sm line-clamp-2">"...all biometric identifiers must be processed locally within the member state's jurisdiction unless a bilateral exception is granted by the Commission..."</p>
+</div>
+<!-- Result Card -->
+<div class="border border-border-subtle rounded-lg bg-white overflow-hidden hover:border-primary transition-colors cursor-pointer group">
+<div class="p-md flex gap-md">
+<div class="w-12 h-12 bg-error-container rounded flex items-center justify-center text-error shrink-0">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-md text-on-surface">Conflict Detected: Residency Clause</h4>
+<span class="bg-error-container text-error text-[10px] px-sm py-[2px] rounded font-bold uppercase">High Risk</span>
+</div>
+<p class="text-sm text-on-surface-variant mt-xs">Section 4.2 states AWS Oregon (US-West-2) as the primary backup cluster, which violates the EU Sovereignty Pact.</p>
+</div>
+</div>
+<div class="bg-surface-container-high px-md py-xs flex justify-end gap-md">
+<button class="text-primary font-label-sm hover:underline">Apply Fix</button>
+<button class="text-on-surface-variant font-label-sm hover:underline">Ignore</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- User Message with Attachment -->
+<div class="flex justify-end">
+<div class="max-w-xl space-y-md">
+<div class="flex flex-row-reverse gap-md">
+<div class="w-8 h-8 rounded bg-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-secondary text-sm">person</span>
+</div>
+<div class="space-y-sm flex flex-col items-end">
+<div class="bg-primary text-on-primary p-md rounded-xl rounded-tr-none">
+<p class="font-body-md">Can you check if the updated annex I just uploaded addresses this? I've moved the processing to Dublin.</p>
+</div>
+<!-- Attachment Preview -->
+<div class="flex items-center gap-md bg-white border border-border-subtle p-sm rounded-lg w-64 shadow-sm hover:shadow-md transition-shadow">
+<div class="w-10 h-10 bg-surface-container-high rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">attachment</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-sm truncate">Annex_B_Residency.docx</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Word Doc • 4.2 MB</p>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">download</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Input Area -->
+<div class="p-md bg-surface border-t border-border-subtle">
+<div class="max-w-3xl mx-auto relative">
+<textarea class="w-full bg-white border border-border-subtle rounded-xl pl-md pr-12 py-md focus:ring-2 focus:ring-focus outline-none resize-none min-h-[56px]" placeholder="Ask about the evidence or upload more documents..." rows="1"></textarea>
+<div class="absolute right-3 bottom-3 flex gap-sm">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined">attach_file</span></button>
+<button class="text-primary hover:opacity-80 transition-opacity"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Document Side Panel (Right) -->
+<section class="w-[450px] bg-surface-container-low border-l border-border-subtle flex flex-col hidden xl:flex">
+<div class="p-md border-b border-border-subtle flex justify-between items-center bg-white">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">description</span>
+<h2 class="font-headline-md text-headline-md">Document Viewer</h2>
+</div>
+<div class="flex gap-xs">
+<button class="p-xs hover:bg-surface-variant rounded"><span class="material-symbols-outlined text-sm">zoom_in</span></button>
+<button class="p-xs hover:bg-surface-variant rounded"><span class="material-symbols-outlined text-sm">print</span></button>
+<button class="p-xs hover:bg-surface-variant rounded"><span class="material-symbols-outlined text-sm">close</span></button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-lg bg-surface-dim">
+<!-- Fake Document Render -->
+<div class="bg-white shadow-xl min-h-full p-xl border border-border-subtle mx-auto max-w-[380px] space-y-lg">
+<div class="h-8 w-1/2 bg-surface-variant"></div>
+<div class="space-y-sm">
+<div class="h-4 w-full bg-surface-container"></div>
+<div class="h-4 w-full bg-surface-container"></div>
+<div class="h-4 w-3/4 bg-surface-container"></div>
+</div>
+<div class="relative group cursor-text">
+<div class="absolute -left-4 top-0 w-1 h-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<p class="font-body-md text-on-surface leading-relaxed">
+<mark class="bg-primary-fixed text-on-primary-fixed px-1">4.2. Data Residency and Cloud Operations</mark>. The Service Provider shall ensure that all metadata and primary data streams originating from EU Citizens are maintained in a secure environment. The current architecture leverages low-latency nodes situated in North America to optimize processing speeds for high-volume transactions.
+                            </p>
+</div>
+<div class="space-y-sm">
+<div class="h-4 w-full bg-surface-container"></div>
+<div class="h-4 w-5/6 bg-surface-container"></div>
+</div>
+</div>
+</div>
+<!-- Document Context / Metadata Panel -->
+<div class="h-48 bg-white border-t border-border-subtle p-md overflow-y-auto">
+<h3 class="font-label-md mb-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">info</span>
+                        Contextual Metadata
+                    </h3>
+<div class="grid grid-cols-2 gap-md">
+<div>
+<p class="text-[10px] uppercase text-on-surface-variant font-bold">Document ID</p>
+<p class="font-code text-xs">EUEV-2024-0012</p>
+</div>
+<div>
+<p class="text-[10px] uppercase text-on-surface-variant font-bold">Confidentiality</p>
+<p class="font-label-sm text-error">Restricted</p>
+</div>
+<div class="col-span-2">
+<p class="text-[10px] uppercase text-on-surface-variant font-bold">Tags</p>
+<div class="flex gap-xs mt-1">
+<span class="bg-surface-variant px-sm py-[2px] rounded text-[10px]">GDPR</span>
+<span class="bg-surface-variant px-sm py-[2px] rounded text-[10px]">Contract</span>
+<span class="bg-surface-variant px-sm py-[2px] rounded text-[10px]">Residency</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Mobile Navigation Shell -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 pb-safe bg-surface border-t border-border-subtle shadow-md z-50">
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">forum</span>
+<span class="text-[10px] font-label-sm">Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-[10px] font-label-sm">Docs</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary active:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">language</span>
+<span class="text-[10px] font-label-sm">Translate</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-label-sm">Me</span>
+</a>
+</nav>
+</main>
+<!-- Modal / Matrix Login Overlay (Hidden by Default, can be toggled) -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-[60] items-center justify-center hidden" id="loginModal">
+<div class="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-300">
+<div class="bg-primary p-lg text-center">
+<div class="font-headline-lg text-headline-lg font-black text-on-primary">EvidenceEU</div>
+<p class="text-on-primary-container text-sm opacity-80">Secure Enterprise Portal Access</p>
+</div>
+<div class="p-xl space-y-lg">
+<div class="space-y-sm">
+<label class="block font-label-md text-on-surface">Employee ID / Email</label>
+<input class="w-full border-border-subtle border p-md rounded-lg focus:ring-2 focus:ring-focus outline-none" placeholder="e.g. sterling.a@gov.eu" type="text"/>
+</div>
+<div class="space-y-sm">
+<label class="block font-label-md text-on-surface">Security Token (Matrix Key)</label>
+<div class="relative">
+<input class="w-full border-border-subtle border p-md rounded-lg focus:ring-2 focus:ring-focus outline-none font-code" placeholder="•••• •••• ••••" type="password"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-on-surface-variant cursor-pointer">visibility</span>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<input class="rounded border-border-subtle text-primary focus:ring-focus" id="mfa" type="checkbox"/>
+<label class="text-sm text-on-surface-variant" for="mfa">Remember device for 24 hours</label>
+</div>
+<button class="w-full bg-primary text-on-primary py-md font-label-md rounded-lg hover:opacity-90 transition-all focus:ring-4 focus:ring-focus">
+                    Authenticate Securely
+                </button>
+<div class="text-center">
+<a class="text-xs text-primary hover:underline" href="#">Forgot access credentials? Contact IT Support</a>
+</div>
+</div>
+<div class="bg-surface-container-low p-md text-center border-t border-border-subtle">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Authorized Government Access Only</p>
+</div>
+</div>
+</div>
+<!-- Background Decoration / Atmospheric Shader -->
+<div class="fixed inset-0 pointer-events-none -z-10 opacity-30">
+<div class="absolute inset-0 bg-gradient-to-tr from-surface-container-low to-background"></div>
+<!-- Using a placeholder for subtle visual movement if available -->
+<div class="w-full h-full bg-cover bg-center" data-alt="A subtle, high-key abstract background featuring soft, overlapping semi-transparent geometric grids and architectural lines in light grey and white. The lighting is bright and airy, suggesting a modern high-tech office. The overall feel is professional, minimal, and stable, characteristic of an enterprise software dashboard environment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6nriNbutgsMQGSZS0jwrSWzPpwoXNynOZLuRkq6hhd2o2uVMoD9SjGHMVhN1uvrA8VAjrO6cTv7Ry8g-qhObl7YrLMnhxpSqc8CUlaNtbW_9Uii02i7vI4svhP5NqgMnC_NNY2cBaE5YZB_qHXztKe1_djQ36edtH6-TZ5-2imz2Vs3FFm2P0Dufje9u2Gq1Yf7_xgwBKj5r7Y38OIBhP7Re6c-df-DrvBN-TbNJC0Xz7ew67V8dalbx44pqKoIPDpd6JDgjhXvhn')"></div>
+</div>
+<script>
+        // Simple Interaction logic
+        const toggleLogin = (show) => {
+            const modal = document.getElementById('loginModal');
+            if (show) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        // Auto-show login as a demo if requested
+        // setTimeout(() => toggleLogin(true), 1000);
+
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') toggleLogin(false);
+        });
+
+        // Simple button active state simulation
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+    </script>
+</body></html>

@@ -1,0 +1,72 @@
+name = "evidence-eu-api"
+main = "app/worker.py"
+compatibility_date = "2024-05-02"
+compatibility_flags = ["python_workers"]
+account_id = "9f26393d5ba4186296b36e2af8714b1c"
+
+# CPU time limit per invocation. The Pyodide/FastAPI SSE generator exceeds the
+# free-tier 10ms CPU ceiling under concurrent load (Error 1102 freezes the
+# stream mid-flight). The deployed bundle is 4.86 MB gzip (> free's 3 MB cap),
+# so this Worker is already on the Standard plan, whose default CPU limit is
+# 30s. Setting it explicitly removes the 10ms wall and lets NFR-01/NFR-02 pass
+# at 50 VUs with Apertus answer generation retained. No change to the latency
+# path itself — only the platform CPU budget.
+[limits]
+cpu_ms = 30000
+
+[vars]
+APP_ENV = "production"
+APP_VERSION = "0.1.0"
+CLOUDFLARE_ACCOUNT_ID = "9f26393d5ba4186296b36e2af8714b1c"
+CF_ACCOUNT_ID = "9f26393d5ba4186296b36e2af8714b1c"
+CLOUDFLARE_GATEWAY_ID = "evidence-eu-gateway"
+MATRIX_HOMESERVER_URL = "https://synapse-eu.mihai.codes"
+MATRIX_OAUTH_CALLBACK_URL = "https://evidence-eu-worker.mc146.workers.dev/api/v1/auth/matrix/callback"
+MATRIX_OAUTH_POST_LOGIN_URL = "https://evidence-eu-frontend.pages.dev/dashboard"
+ENABLE_MATRIX_AUTH = "true"
+ENABLE_MATRIX_EXCHANGE = "true"
+HINDSIGHT_URL = "https://hindsight-eu.mihai.codes"
+HINDSIGHT_API_URL = "https://hindsight-eu.mihai.codes"
+BABELDOC_URL = "https://babeldoc-eu.mihai.codes"
+AZURE_DOCUMENT_INTELLIGENCE_ENABLED = "true"
+AZURE_DOCUMENT_INTELLIGENCE_TIER = "F0"
+AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT = "https://evidenceeu-docintel-km-2026.cognitiveservices.azure.com"
+# BabelDOC EU sidecar deployed locally via Docker (migrated from Modal).
+# MIGRATION: Services now run locally with Cloudflare Tunnel exposure.
+# Tunnel URLs: hindsight.evidenceeu.eu.mihai.codes, babeldoc.evidenceeu.eu.mihai.codes
+BABELDOC_ENABLED = "true"
+EUROSTAT_API_URL = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/migr_pop1ctz"
+# APP_SECRET_KEY is injected as a wrangler secret (not a plain var) via CI.
+# AZURE_DOCUMENT_INTELLIGENCE_KEY is injected as a wrangler secret via CI.
+
+# Daily 6am UTC Eurostat cache refresh (issue #232 Phase 3).
+# The scheduled handler in worker.py fetches fresh migration stats and
+# caches in D1 so the first user request each day is an instant cache hit.
+[triggers]
+crons = ["0 6 * * *"]
+
+
+
+[[d1_databases]]
+binding = "DB"
+database_name = "evidence-eu-db"
+database_id = "a06f6d9a-280f-45f7-b679-e5dc6c002001"
+
+# ── Neuron budget KV (10K free/day) ──────────────────────────────────────────
+# Create with: npx wrangler kv namespace create NEURON_BUDGET
+# Then copy the id into the binding below and uncomment:
+# [[kv_namespaces]]
+# binding = "NEURON_BUDGET"
+# id = "YOUR_KV_NAMESPACE_ID"
+
+# ── Neuron budget KV (10K free/day) ──────────────────────────────────────────
+# Create with: wrangler kv namespace create NEURON_BUDGET
+# Then copy the id into the binding below and uncomment:
+# [[kv_namespaces]]
+# binding = "NEURON_BUDGET"
+# id = "YOUR_KV_NAMESPACE_ID"
+
+# Pages project binding placeholder (Pages binds to Worker, not vice-versa)
+# [[services]]
+# binding = "FRONTEND"
+# service = "evidence-eu-frontend"

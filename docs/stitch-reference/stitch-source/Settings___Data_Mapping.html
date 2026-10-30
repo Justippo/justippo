@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EvidenceEU Enterprise Settings - Data Mapping & Residency</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700;800&family=Courier+Prime&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#dadad9",
+                      "on-primary-container": "#e9f1ff",
+                      "success": "#00703C",
+                      "warning": "#F47738",
+                      "on-background": "#1a1c1c",
+                      "primary-container": "#1d70b8",
+                      "error-container": "#ffdad6",
+                      "background": "#faf9f8",
+                      "surface": "#faf9f8",
+                      "tertiary-fixed": "#ffdcc2",
+                      "on-primary-fixed-variant": "#00497e",
+                      "surface-tint": "#0061a6",
+                      "on-primary-fixed": "#001c37",
+                      "on-primary": "#ffffff",
+                      "inverse-on-surface": "#f1f0ef",
+                      "on-error": "#ffffff",
+                      "focus": "#FFDD00",
+                      "surface-container-low": "#f4f3f2",
+                      "primary-fixed-dim": "#a0caff",
+                      "tertiary-fixed-dim": "#ffb77b",
+                      "inverse-surface": "#2f3130",
+                      "on-surface": "#1a1c1c",
+                      "on-secondary-container": "#626262",
+                      "outline-variant": "#c1c7d2",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container": "#efeeed",
+                      "secondary-fixed-dim": "#c7c6c6",
+                      "outline": "#717782",
+                      "inverse-primary": "#a0caff",
+                      "surface-container-high": "#e9e8e7",
+                      "error": "#D4351C",
+                      "on-tertiary-fixed-variant": "#6d3a00",
+                      "on-secondary-fixed-variant": "#464747",
+                      "on-surface-variant": "#414751",
+                      "tertiary-container": "#a55a00",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#e3e2e1",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-container": "#ffede2",
+                      "border-subtle": "#B1B4B6",
+                      "surface-variant": "#e3e2e1",
+                      "primary": "#005796",
+                      "on-tertiary-fixed": "#2e1500",
+                      "secondary": "#5e5e5e",
+                      "secondary-fixed": "#e4e2e1",
+                      "secondary-container": "#e1dfdf",
+                      "tertiary": "#824600",
+                      "primary-fixed": "#d2e4ff",
+                      "surface-bright": "#faf9f8",
+                      "on-secondary-fixed": "#1b1c1c",
+                      "on-error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "md": "16px",
+                      "lg": "24px",
+                      "container-max": "1280px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Public Sans"],
+                      "label-md": ["Public Sans"],
+                      "label-sm": ["Public Sans"],
+                      "body-md": ["Public Sans"],
+                      "headline-xl": ["Public Sans"],
+                      "headline-md": ["Public Sans"],
+                      "code": ["Courier Prime"],
+                      "body-lg": ["Public Sans"]
+              },
+              "fontSize": {
+                      "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "label-md": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                      "label-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-xl": ["36px", {"lineHeight": "44px", "fontWeight": "800"}],
+                      "headline-md": ["19px", {"lineHeight": "28px", "fontWeight": "700"}],
+                      "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-lg": ["19px", {"lineHeight": "28px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .focus-visible:focus {
+            outline: 3px solid #FFDD00 !important;
+            outline-offset: 2px;
+        }
+        .tooltip-trigger:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid #B1B4B6;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-border-subtle flex justify-between items-center w-full px-lg h-16 max-w-container-max mx-auto fixed top-0 left-0 right-0 z-50">
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-xl text-primary">EvidenceEU</span>
+<nav class="hidden md:flex gap-lg ml-xl">
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Workspaces</a>
+<a class="font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Directory</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<input class="bg-surface-container-low border border-border-subtle px-md py-xs rounded text-label-sm w-64 focus-visible" placeholder="Search infrastructure..." type="text"/>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container transition-all rounded focus-visible">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container transition-all rounded focus-visible">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container transition-all rounded focus-visible">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container font-bold overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a government technology administrator with a clean-cut appearance, wearing a dark blazer, set against a neutral, softly blurred office background in high-key daylight lighting. The image style is sharp, authoritative, and corporate, emphasizing reliability and professional expertise in an enterprise environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSW_W171RUtsUBfxyH7hQvRW60Z8iVR42vJTusGOSrZ__U4QVChHAN5bWdZZ0XmUZwapOfRr8CjU-GJbGQreQfzScuM_YQcB8e5DuZgRxzKXIlMWyNi0ULvRWOFnKH9b64Rn020AnOBneVpOgfizlAZmpMdQP-dLccGX9nDTaOZPM8WYJQARnmVGwFmQnQNGtELfexLoukHTcaULcnAiYBPiC237a5k7Z3sGS4jd4ggHglSrga3VpERA"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 py-lg border-r border-border-subtle bg-surface-container-low w-64 pt-20">
+<div class="px-md mb-xl">
+<h2 class="font-headline-md text-on-surface">Enterprise Settings</h2>
+<p class="font-body-sm text-on-surface-variant">Admin Console</p>
+</div>
+<nav class="flex-grow space-y-xs px-sm">
+<a class="flex items-center gap-md p-md rounded text-on-surface-variant hover:bg-surface-container-high transition-all focus-visible" href="#">
+<span class="material-symbols-outlined">shield_person</span>
+<span class="font-label-md">Profile & Security</span>
+</a>
+<a class="flex items-center gap-md p-md rounded bg-primary-container text-on-primary-container font-bold transition-all focus-visible" href="#">
+<span class="material-symbols-outlined">database</span>
+<span class="font-label-md">Data Mapping</span>
+</a>
+<a class="flex items-center gap-md p-md rounded text-on-surface-variant hover:bg-surface-container-high transition-all focus-visible" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-md">Compliance</span>
+</a>
+<a class="flex items-center gap-md p-md rounded text-on-surface-variant hover:bg-surface-container-high transition-all focus-visible" href="#">
+<span class="material-symbols-outlined">accessibility_new</span>
+<span class="font-label-md">Accessibility</span>
+</a>
+</nav>
+<div class="p-md mt-auto border-t border-border-subtle space-y-sm">
+<div class="flex items-center gap-xs px-xs py-1 bg-success/10 text-success rounded text-label-sm mb-md">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>System Status: Active</span>
+</div>
+<a class="flex items-center gap-md p-md rounded text-on-surface-variant hover:bg-surface-container-high transition-all focus-visible" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-md p-md rounded text-on-surface-variant hover:bg-surface-container-high transition-all focus-visible" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-64 pt-20 p-lg max-w-container-max mx-auto">
+<div class="mb-xl flex justify-between items-end">
+<div>
+<nav class="flex text-label-sm text-on-surface-variant mb-xs gap-xs">
+<span>Admin</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span>Infrastructure</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Data Mapping</span>
+</nav>
+<h1 class="font-headline-xl text-on-surface">Data Mapping & Residency</h1>
+</div>
+<div class="flex items-center gap-md">
+<div class="flex flex-col items-end">
+<span class="font-label-sm text-on-surface-variant uppercase tracking-wider">E-Codex Sync Status</span>
+<div class="flex items-center gap-xs text-success">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">sync</span>
+<span class="font-bold">Connected & Synced</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-lg py-md rounded-lg font-label-md hover:opacity-90 transition-all focus-visible">
+                    Manual Sync Trigger
+                </button>
+</div>
+</div>
+<div class="bento-grid">
+<!-- 1. Jurisdictional Data Mapping -->
+<section class="col-span-12 lg:col-span-8 glass-panel rounded-xl p-lg relative overflow-hidden shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<div>
+<h3 class="font-headline-md text-on-surface">Jurisdictional Data Mapping</h3>
+<p class="font-body-md text-on-surface-variant">Live visual of active storage nodes across the European Union.</p>
+</div>
+<div class="flex items-center gap-md bg-surface-container p-sm rounded-lg border border-border-subtle">
+<span class="font-label-md text-on-surface">EU Sovereignty Mode</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="h-[400px] w-full bg-surface-container-lowest rounded-lg border border-border-subtle relative">
+<!-- Map Visualization Placeholder -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#005796 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="w-full h-full flex items-center justify-center relative">
+<!-- Simple SVG representation of EU map pins -->
+<div class="relative w-full h-full max-w-2xl">
+<!-- Pin Dublin -->
+<div class="absolute top-[35%] left-[25%] group cursor-help">
+<div class="w-3 h-3 bg-primary rounded-full animate-ping absolute opacity-75"></div>
+<div class="w-3 h-3 bg-primary rounded-full relative border-2 border-white"></div>
+<div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                    Dublin (IE-1) - GDPR Active
+                                </div>
+</div>
+<!-- Pin Frankfurt -->
+<div class="absolute top-[48%] left-[48%] group cursor-help">
+<div class="w-3 h-3 bg-primary rounded-full animate-ping absolute opacity-75"></div>
+<div class="w-3 h-3 bg-primary rounded-full relative border-2 border-white"></div>
+<div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                    Frankfurt (DE-Central) - High Sovereignty
+                                </div>
+</div>
+<!-- Pin Paris -->
+<div class="absolute top-[52%] left-[40%] group cursor-help">
+<div class="w-3 h-3 bg-primary rounded-full animate-ping absolute opacity-75"></div>
+<div class="w-3 h-3 bg-primary rounded-full relative border-2 border-white"></div>
+<div class="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-inverse-surface text-inverse-on-surface text-[10px] px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                    Paris (FR-West) - Redundant
+                                </div>
+</div>
+<!-- Static Graphic Placeholder -->
+<div class="absolute inset-0 flex items-center justify-center -z-10">
+<span class="font-headline-xl text-surface-dim opacity-40 uppercase tracking-widest pointer-events-none">EU Data Fabric</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-md left-md flex gap-md">
+<div class="bg-surface-container-highest/90 p-md rounded border border-border-subtle backdrop-blur">
+<span class="font-label-sm block text-on-surface-variant">Active Nodes</span>
+<span class="font-headline-md">03 Nodes</span>
+</div>
+<div class="bg-surface-container-highest/90 p-md rounded border border-border-subtle backdrop-blur">
+<span class="font-label-sm block text-on-surface-variant">Avg Latency</span>
+<span class="font-headline-md">14ms</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. E-Codex Gateway -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-lg">
+<div class="glass-panel rounded-xl p-lg flex-1 shadow-sm">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-md text-on-surface">E-Codex Gateway</h3>
+<span class="material-symbols-outlined text-primary">lan</span>
+</div>
+<div class="p-md bg-surface-container rounded-lg border border-border-subtle mb-md">
+<div class="flex items-center gap-sm mb-xs">
+<span class="w-3 h-3 rounded-full bg-success"></span>
+<span class="font-label-md text-on-surface">Status: Active</span>
+</div>
+<p class="font-body-md text-on-surface-variant">Protocol: e-Delivery AS4</p>
+</div>
+<div class="space-y-md">
+<div class="flex justify-between items-center border-b border-border-subtle pb-sm">
+<span class="font-body-md text-on-surface-variant">Last Sync</span>
+<span class="font-code text-on-surface">2023-10-27 14:32:01</span>
+</div>
+<div class="flex justify-between items-center border-b border-border-subtle pb-sm">
+<span class="font-body-md text-on-surface-variant">Latency</span>
+<span class="font-code text-on-surface">82ms</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-on-surface-variant">Gateway ID</span>
+<span class="font-code text-on-surface">ECX-EU-PROD-922</span>
+</div>
+</div>
+</div>
+<div class="bg-primary text-on-primary rounded-xl p-lg shadow-sm">
+<h4 class="font-label-md mb-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[20px]">info</span>
+                        Residency Compliance
+                    </h4>
+<p class="font-body-md mb-md leading-relaxed">
+                        Your data is currently mapped strictly within the European Economic Area under the Sovereign-First architecture.
+                    </p>
+<div class="tooltip-trigger relative cursor-help inline-flex items-center gap-xs bg-white/20 px-md py-xs rounded hover:bg-white/30 transition-all focus-visible">
+<span class="font-label-sm">Compliance Readability Score</span>
+<span class="font-bold">A+</span>
+<div class="tooltip-content absolute bottom-full left-0 mb-2 w-64 p-md bg-inverse-surface text-inverse-on-surface text-label-sm rounded shadow-lg opacity-0 invisible transition-all z-20">
+                            Flesch-Kincaid Grade Level: 8.2. This ensures legal residency terms are understandable by non-legal staff.
+                        </div>
+</div>
+</div>
+</section>
+<!-- 3. Node Governance -->
+<section class="col-span-12 glass-panel rounded-xl shadow-sm overflow-hidden">
+<div class="p-lg border-b border-border-subtle bg-surface-container-low flex justify-between items-center">
+<h3 class="font-headline-md text-on-surface">Node Governance & Infrastructure</h3>
+<div class="flex gap-sm">
+<button class="px-md py-xs border border-border-subtle rounded font-label-sm hover:bg-surface-container-high focus-visible">Export Manifest</button>
+<button class="px-md py-xs bg-primary text-on-primary rounded font-label-sm focus-visible">+ Add Node</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-highest border-b border-border-subtle">
+<th class="p-md font-label-md text-on-surface-variant">Node Identifier</th>
+<th class="p-md font-label-md text-on-surface-variant">Jurisdiction</th>
+<th class="p-md font-label-md text-on-surface-variant">Storage Provider</th>
+<th class="p-md font-label-md text-on-surface-variant">Status</th>
+<th class="p-md font-label-md text-on-surface-variant text-right">Capacity</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">dns</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">NODE-IE-DUB-01</div>
+<div class="font-body-sm text-on-surface-variant">Dublin Central Prime</div>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="bg-primary/10 text-primary border border-primary/20 px-md py-xs rounded-full font-label-sm">Ireland - GDPR Compliant</span>
+</td>
+<td class="p-md font-body-md">Self-Hosted (EvidenceEU)</td>
+<td class="p-md">
+<div class="flex items-center gap-xs text-success">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-sm">Operational</span>
+</div>
+</td>
+<td class="p-md text-right font-code">2.4 / 10 TB</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="p-md">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">dns</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">NODE-DE-FRA-02</div>
+<div class="font-body-sm text-on-surface-variant">Frankfurt Sovereign Node</div>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="bg-primary/10 text-primary border border-primary/20 px-md py-xs rounded-full font-label-sm">Germany - BDSG Verified</span>
+</td>
+<td class="p-md font-body-md">T-Systems Cloud</td>
+<td class="p-md">
+<div class="flex items-center gap-xs text-success">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-sm">Operational</span>
+</div>
+</td>
+<td class="p-md text-right font-code">6.8 / 12 TB</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md">
+<div class="flex items-center gap-md">
+<div class="w-8 h-8 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">dns</span>
+</div>
+<div>
+<div class="font-label-md text-on-surface">NODE-FR-PAR-01</div>
+<div class="font-body-sm text-on-surface-variant">Paris Backup Cluster</div>
+</div>
+</div>
+</td>
+<td class="p-md">
+<span class="bg-primary/10 text-primary border border-primary/20 px-md py-xs rounded-full font-label-sm">France - CNIL Compliant</span>
+</td>
+<td class="p-md font-body-md">Self-Hosted (EvidenceEU)</td>
+<td class="p-md">
+<div class="flex items-center gap-xs text-warning">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-sm">Maintenance (Scheduled)</span>
+</div>
+</td>
+<td class="p-md text-right font-code">1.1 / 10 TB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface-container-low text-center border-t border-border-subtle">
+<button class="text-primary font-label-md hover:underline focus-visible">View All 12 Storage Nodes</button>
+</div>
+</section>
+</div>
+</main>
+<!-- FAB (Suppressed on settings as per instructions) -->
+<script>
+        // Micro-interaction for toggle
+        document.querySelector('input[type="checkbox"]').addEventListener('change', (e) => {
+            const statusLabel = e.target.closest('div').previousElementSibling;
+            if (e.target.checked) {
+                console.log('EU Sovereignty Mode: Active');
+            } else {
+                console.log('EU Sovereignty Mode: Disabled');
+            }
+        });
+
+        // Tooltip logic for mobile touch
+        document.querySelectorAll('.tooltip-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const content = trigger.querySelector('.tooltip-content');
+                content.classList.toggle('opacity-100');
+                content.classList.toggle('visible');
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,77 @@
+name: Publish Knowledge Graph Dashboard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".ua/knowledge-graph.json"
+      - ".github/workflows/understand-dashboard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repo (graph data)
+        uses: actions/checkout@v4
+
+      - name: Checkout Understand-Anything dashboard
+        uses: actions/checkout@v4
+        with:
+          repository: chindris-mihai-alexandru/Understand-Anything
+          ref: main
+          path: .ua-dashboard
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: .ua-dashboard/understand-anything-plugin/pnpm-lock.yaml
+
+      - name: Install deps
+        working-directory: .ua-dashboard/understand-anything-plugin
+        run: pnpm install --frozen-lockfile
+
+      - name: Build core
+        working-directory: .ua-dashboard/understand-anything-plugin
+        run: pnpm --filter @understand-anything/core build
+
+      - name: Build static dashboard
+        working-directory: .ua-dashboard/understand-anything-plugin/packages/dashboard
+        env:
+          VITE_GRAPH_URL: ./knowledge-graph.json
+          VITE_CONFIG_URL: ./config.json
+        run: npx vite build --config vite.config.demo.ts --base=./ --outDir dist --emptyOutDir
+
+      - name: Inject graph data
+        run: |
+          cp .ua/knowledge-graph.json .ua-dashboard/understand-anything-plugin/packages/dashboard/dist/knowledge-graph.json
+          cp .ua/config.json .ua-dashboard/understand-anything-plugin/packages/dashboard/dist/config.json
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .ua-dashboard/understand-anything-plugin/packages/dashboard/dist
+
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
