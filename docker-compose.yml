@@ -12,6 +12,7 @@ x-logging: &default-logging
 
 services:
   backend:
+    image: justippo/backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -31,7 +32,7 @@ services:
       - PYTHONPATH=/repo:/app
       - REPO_ROOT=/repo
       - DATABASE_URL=sqlite+aiosqlite:///./evidence_eu.db
-      - HINDSIGHT_API_URL=http://hindsight:8888
+      - HINDSIGHT_API_URL=http://hindsight-dev:8888
     depends_on:
       - chromadb
     develop:
@@ -74,10 +75,10 @@ services:
       - CHROMA_SERVER_AUTH_PROVIDER=none
     logging: *default-logging
 
-  hindsight:
+  hindsight-dev:
     image: ghcr.io/vectorize-io/hindsight:latest
     ports:
-      - "8600:8888"   # API  (host:8600 → container:8888)
+      - "127.0.0.1:8601:8888"   # API for the development stack; local deployment uses 8600
       - "9999:9999"   # Control-plane UI
     volumes:
       - hindsight_data:/home/hindsight/.pg0
@@ -151,5 +152,7 @@ services:
 
 volumes:
   chromadb_data:
+    external: true
+    name: evidence-eu_chromadb_data
   hindsight_data:
   propella_model_cache:

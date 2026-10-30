@@ -1,6 +1,6 @@
-# Without `name:` Compose derives the project from this folder, which produced
-# a project literally called `local`. Containers keep a stable justippo identity.
-name: justippo-local
+# Use the main Justippo Compose project label so Docker Desktop groups the
+# local services with the rest of the Justippo stack.
+name: justippo
 
 # Docker's default json-file driver never rotates; cap each service at 3 x 10 MB.
 x-logging: &default-logging
@@ -10,7 +10,7 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
-  hindsight:
+  hindsight-local:
     image: ghcr.io/vectorize-io/hindsight:latest
     container_name: justippo-hindsight
     restart: unless-stopped
