@@ -153,6 +153,6 @@ services:
 volumes:
   chromadb_data:
     external: true
-    name: evidence-eu_chromadb_data
+    name: justippo_chromadb_data
   hindsight_data:
   propella_model_cache:

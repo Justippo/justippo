@@ -1,21 +1,8 @@
 import type { Metadata } from "next";
-import Script from "next/script";
+import Image from "next/image";
 import localFont from "next/font/local";
 import "./globals.css";
-import { DatadogInit } from "@/components/DatadogInit";
-import { NEW_RELIC_AGENT_URL, getNewRelicScript, isNewRelicEnabled } from "@/lib/newrelic-config";
-import { TolgeeClientProvider } from "@/components/TolgeeClientProvider";
-import { AuthProvider } from "@/context/AuthContext";
-import { GDPRConsentProvider } from "@/context/GDPRConsentContext";
-import { DemoProviderWrapper } from "@/components/DemoProviderWrapper";
-import { AppShell } from "@/components/shell";
 
-// Font files are committed locally so production and CI builds require no
-// external Google Fonts access. These variables are consumed by
-// --stitch-font-sans / --stitch-font-mono in tokens.css.
-// preload: false — the sans/mono stacks prefer system fonts first, so these
-// are fallbacks; preloading them would delay the (text) LCP element while it
-// waits on the webfont. display: swap paints with the system fallback first.
 const inter = localFont({
   src: "../assets/fonts/InterVariable.woff2",
   variable: "--font-inter",
@@ -24,6 +11,7 @@ const inter = localFont({
   weight: "100 900",
   style: "normal",
 });
+
 const jetbrainsMono = localFont({
   src: "../assets/fonts/JetBrainsMonoVariable.woff2",
   variable: "--font-jetbrains-mono",
@@ -34,73 +22,73 @@ const jetbrainsMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "justippo",
-  description:
-    "Search, translate, and exchange cross-border documents across EU languages with formatting preserved.",
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "32x32" },
-      { url: "/favicon.png", type: "image/png", sizes: "64x64" },
-    ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-  },
-  openGraph: {
-    title: "justippo",
-    description:
-      "Search, translate, and exchange cross-border documents across EU languages with formatting preserved.",
-    images: ["https://justippo.tech/opengraph-image.jpg"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "justippo",
-    description:
-      "Search, translate, and exchange cross-border documents across EU languages with formatting preserved.",
-    images: ["https://justippo.tech/opengraph-image.jpg"],
-  },
+  metadataBase: new URL("https://justippo.tech"),
+  title: "Justippo is being reworked",
+  description: "A new Justippo is taking shape. We’ll be back soon.",
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  void children;
+
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
-      suppressHydrationWarning
-    >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{var s=JSON.parse(localStorage.getItem("evidenceeu_settings")||"{}");var t=s.theme||"system";var d=t==="dark"||(t==="system"&&matchMedia("(prefers-color-scheme:dark)").matches);if(d)document.documentElement.classList.add("dark")}catch(e){}`,
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="min-h-screen antialiased">
+        <main
+          aria-labelledby="maintenance-title"
+          style={{
+            minHeight: "100svh",
+            display: "grid",
+            placeItems: "center",
+            padding: "clamp(1.25rem, 5vw, 4rem)",
+            background: "#f5efdf",
+            color: "#17304a",
+            textAlign: "center",
           }}
-        />
-      </head>
-      <body className="min-h-screen bg-surface font-sans antialiased">
-        <TolgeeClientProvider>
-          <AuthProvider>
-            <GDPRConsentProvider>
-              <DemoProviderWrapper>
-                <AppShell>{children}</AppShell>
-              </DemoProviderWrapper>
-            </GDPRConsentProvider>
-          </AuthProvider>
-          <DatadogInit />
-        </TolgeeClientProvider>
-        {/*
-         * New Relic browser agent — deferred to afterInteractive so the RUM
-         * loader no longer render-blocks FCP/LCP (it previously fetched before
-         * CSS in <head>). Trade-off: RUM initialises slightly later; Core Web
-         * Vitals are still captured via buffered PerformanceObserver entries,
-         * and Datadog RUM remains the primary NFR-09 source.
-         */}
-        {isNewRelicEnabled() && (
-          <>
-            <Script
-              id="newrelic-inline"
-              strategy="afterInteractive"
-              dangerouslySetInnerHTML={{ __html: getNewRelicScript() }}
+        >
+          <section style={{ width: "min(100%, 38rem)", display: "grid", justifyItems: "center", gap: "1rem" }}>
+            <p
+              style={{
+                margin: 0,
+                fontFamily: "var(--font-jetbrains-mono), ui-monospace, monospace",
+                fontSize: "0.75rem",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "#53726e",
+              }}
+            >
+              Justippo · cross-border documents
+            </p>
+            <h1
+              id="maintenance-title"
+              style={{
+                margin: 0,
+                fontFamily: "var(--font-inter), system-ui, sans-serif",
+                fontSize: "clamp(1.7rem, 4vw, 2.5rem)",
+                lineHeight: 1.15,
+                fontWeight: 700,
+                letterSpacing: "-0.04em",
+              }}
+            >
+              We’re reworking Justippo.
+            </h1>
+            <p style={{ maxWidth: "31rem", margin: 0, fontSize: "1rem", lineHeight: 1.65, color: "#52616a" }}>
+              A clearer way to search, translate, and share cross-border documents is taking shape.
+            </p>
+            <Image
+              src="/justippo-wip-sticker.png"
+              alt="Retro compass-and-document sticker reading Work in Progress"
+              width={1024}
+              height={1024}
+              priority
+              sizes="(max-width: 640px) 88vw, 34rem"
+              style={{ width: "min(88vw, 34rem)", height: "auto", marginTop: "0.5rem" }}
             />
-            <Script id="newrelic-agent" strategy="afterInteractive" src={NEW_RELIC_AGENT_URL} />
-          </>
-        )}
+            <p style={{ margin: 0, fontSize: "0.875rem", color: "#61736f" }}>
+              Thanks for your patience.
+            </p>
+          </section>
+        </main>
       </body>
     </html>
   );
