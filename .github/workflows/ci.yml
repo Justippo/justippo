@@ -210,7 +210,9 @@ jobs:
 
       - name: Run sidecar contract tests
         if: steps.docker.outputs.available == 'true'
-        run: docker run --rm evidence-eu-pii-redactor python -m pytest tests/ -v
+        # Go through the compose service: the built image's name follows the compose
+        # project (folder) name, which changed with the repo, so never hard-code it.
+        run: docker compose --profile pii-redaction run --rm --no-deps pii-redactor python -m pytest tests/ -v
 
   # ── Backend ──────────────────────────────────────────────────────────────────
   backend:
