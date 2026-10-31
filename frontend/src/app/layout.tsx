@@ -44,8 +44,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             justifyContent: "center",
             gap: "clamp(0.75rem, 2.5vh, 1.5rem)",
             padding: "1.25rem",
-            background: "#ffffff",
-            color: "#17304a",
+            background: "var(--color-on-primary)",
+            color: "var(--color-on-surface)",
             textAlign: "center",
           }}
         >
@@ -70,7 +70,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               fontVariant: "small-caps",
               letterSpacing: "0.1em",
               lineHeight: 1.4,
-              color: "#263f57",
+              color: "var(--color-on-surface-variant)",
             }}
           >
             Justippo is under reconstruction
