@@ -65,11 +65,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               margin: 0,
               whiteSpace: "nowrap",
               fontFamily: "Georgia, 'Times New Roman', serif",
-              fontSize: "clamp(0.62rem, 2.2vw, 0.78rem)",
+              fontSize: "clamp(0.88rem, 2.8vw, 1.15rem)",
+              fontWeight: 700,
               fontVariant: "small-caps",
-              letterSpacing: "0.12em",
-              lineHeight: 1.5,
-              color: "#52616a",
+              letterSpacing: "0.1em",
+              lineHeight: 1.4,
+              color: "#263f57",
             }}
           >
             Justippo is under reconstruction
