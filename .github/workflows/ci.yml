@@ -173,6 +173,18 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # The runner is a launchd job, so Docker's `desktop` credential helper cannot
+      # reach the login keychain ("session does not allow user interaction") and even
+      # public pulls fail. This job only needs public base images, so use an empty
+      # config and keep Compose/Buildx by linking the user's CLI plugins.
+      - name: Use credential-free Docker config
+        run: |
+          cfg="$RUNNER_TEMP/docker-config"
+          mkdir -p "$cfg"
+          echo '{}' > "$cfg/config.json"
+          ln -sfn "$HOME/.docker/cli-plugins" "$cfg/cli-plugins"
+          echo "DOCKER_CONFIG=$cfg" >> "$GITHUB_ENV"
+
       - name: Check Docker availability
         id: docker
         run: |
