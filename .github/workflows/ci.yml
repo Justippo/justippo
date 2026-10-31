@@ -410,12 +410,16 @@ jobs:
   # matching the existing pattern already used for Storybook/Chromatic/BrowserStack.
   # Saves ~25s off the frontend job's critical path (E2E ~15s + PW install ~12s
   # no longer serialize behind lint/test/build/Storybook).
+  # Holding-page mode: while the site only shows the "under reconstruction" page,
+  # the specs have nothing to exercise. Set the repo variable SITE_WIP=true to skip
+  # this job; delete the variable (or set it to anything else) to run it again.
   e2e:
     name: E2E (Playwright — Chromium)
     needs: [changes, frontend]
     if: |
       needs.frontend.result == 'success' &&
-      needs.changes.outputs.frontend == 'true'
+      needs.changes.outputs.frontend == 'true' &&
+      vars.SITE_WIP != 'true'
     runs-on: [self-hosted, macOS, ARM64]
     timeout-minutes: 15
     permissions:
@@ -659,6 +663,10 @@ jobs:
           CI_OK: ${{ needs.ci-ok.result }}
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
         run: |
+          if [ -z "$GIST_TOKEN" ]; then
+            echo "::notice title=Badge skipped::GIST_TOKEN is not configured"
+            exit 0
+          fi
           python3 << 'PYEOF'
           import urllib.request, json, os
           ci_ok = os.environ['CI_OK']
@@ -698,6 +706,30 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+
+      # "Push secrets to backend Worker" below overwrites production Worker secrets
+      # with whatever the repo secrets hold, so an unset secret would blank a live
+      # one. Fail here, before anything is deployed, and list every missing name.
+      - name: Verify required secrets are configured
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          APP_SECRET_KEY: ${{ secrets.APP_SECRET_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          CF_AIG_AUTHORIZATION: ${{ secrets.CF_AIG_AUTHORIZATION }}
+          AZURE_DOCUMENT_INTELLIGENCE_KEY: ${{ secrets.AZURE_DOCUMENT_INTELLIGENCE_KEY }}
+          FASTAPI_ORIGIN: ${{ secrets.FASTAPI_ORIGIN }}
+        run: |
+          missing=""
+          for name in CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID APP_SECRET_KEY MISTRAL_API_KEY \
+                      CF_AIG_AUTHORIZATION AZURE_DOCUMENT_INTELLIGENCE_KEY FASTAPI_ORIGIN; do
+            [ -n "${!name}" ] || missing="$missing $name"
+          done
+          if [ -n "$missing" ]; then
+            echo "::error title=Missing deploy secrets::Not configured:$missing"
+            exit 1
+          fi
+          echo "  [✓] all required deploy secrets are set"
 
       - name: Verify Cloudflare API token is active
         run: |
